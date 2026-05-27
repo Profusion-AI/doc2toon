@@ -1,0 +1,5 @@
+Converter Operating Notes
+
+doc2toon profiles a document before converting it. This matters because TOON is useful when repeated structure can be represented once and streamed as rows.
+
+Lossless prose may not shrink. If the target budget is smaller than the retained semantic text, budget mode must either refuse or clearly mark semantic compression as lossy.

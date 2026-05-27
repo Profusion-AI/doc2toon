@@ -1,0 +1,5 @@
+defs[4	]{id	term	type	def	ex	tags}:
+  d001	Canonical JSON	concept	The normalized JSON structure produced before TOON encoding.	A glossary becomes repeated `defs` records with stable fields.	schema,intermediate,validation
+  d002	Lossless Mode	concept	Conversion mode that keeps the source meaning and text content inside the selected compact schema.	Prose sections keep their paragraph text instead of summarizing it.	mode,preservation
+  d003	Record Mode	concept	Conversion mode that prefers typed repeated records for definitions, requirements, and table-like content.	"A set of terms becomes `defs[N]{id,term,type,def,ex,tags}`."	mode,structured
+  d004	Budget Refusal	concept	The safety behavior that stops a budget conversion when the requested target cannot be reached losslessly.	A ten-character target fails unless `--allow-lossy` is explicitly passed.	budget,safety

@@ -1,0 +1,5 @@
+Plain Text Sample
+
+This fixture demonstrates paragraph splitting for pasted or .txt input.
+
+The converter should preserve commas, quotes, and "quoted text" without hand-written TOON escaping.
