@@ -4,20 +4,15 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, extname, resolve } from "node:path";
 import { inspect } from "node:util";
-import {
-  buildBudgetCanonical,
-  buildCanonical,
-  buildLosslessCanonical,
-  profileDocument,
-} from "./parser.js";
+import { convertTextToToon, decodeToJsonText, profileText, validateToonText } from "./core.js";
+import { estimateNodeTokenCount } from "./node-token-estimator.js";
 import { prettyJson } from "./normalize.js";
-import { calculateStats, decodeToJson, selectEncoding, targetReached } from "./toon.js";
+import { targetReached } from "./toon.js";
 import type {
-  CanonicalDocument,
   ConversionStats,
+  ConversionResult,
   DelimiterOption,
   DocumentProfile,
-  EncodingSelection,
   OutputMode,
   ParseFlavor,
   SourceType,
@@ -53,7 +48,7 @@ const program = new Command();
 program
   .name("doc2toon")
   .description("Profile text documents, choose compact canonical schemas, and encode valid TOON with official tooling.")
-  .version("0.1.0");
+  .version("0.1.1");
 
 program
   .command("profile")
@@ -64,7 +59,7 @@ program
   .action(async (input: string | undefined, options: ProfileOptions) => {
     try {
       const { text, sourceType, flavor } = await ingestInput(input, options);
-      const profile = profileDocument(text, { sourceType, flavor });
+      const profile = profileText(text, { sourceType, flavor });
       printProfileReport(profile, parseCharsPerTokenRatios(options.charsPerToken));
     } catch (error) {
       fail(error);
@@ -99,7 +94,10 @@ program
   .action(async (input: string) => {
     try {
       const toon = await readFile(resolve(input), "utf8");
-      decodeToJson(toon);
+      const validation = validateToonText(toon);
+      if (!validation.valid) {
+        throw new Error(validation.error ?? "TOON validation failed.");
+      }
       console.log(`Valid TOON: ${input}`);
     } catch (error) {
       fail(error);
@@ -113,7 +111,7 @@ program
   .action(async (input: string, options: DecodeOptions) => {
     try {
       const toon = await readFile(resolve(input), "utf8");
-      const decoded = decodeToJson(toon);
+      const decoded = decodeToJsonText(toon);
       if (options.out) {
         await writeOutput(resolve(options.out), prettyJson(decoded));
         console.log(`Decoded JSON written: ${options.out}`);
@@ -134,30 +132,33 @@ async function convertCommand(input: string | undefined, options: ConvertOptions
   const targetTokens = parsePositiveInteger(options.targetTokens, "--target-tokens");
   const charsPerTokenRatios = parseCharsPerTokenRatios(options.charsPerToken);
   const { text, sourceType, flavor } = await ingestInput(input, options);
-  const profile = profileDocument(text, { sourceType, flavor });
   const outPath = resolveRequiredOut(options.out);
 
-  const { canonicalJson, encoding, stats, lossless } = buildConversion(profile, {
+  const result = convertTextToToon({
+    text,
+    sourceType,
+    flavor,
     mode,
     delimiter,
     targetChars,
     targetTokens,
     allowLossy: Boolean(options.allowLossy),
     charsPerTokenRatios,
+    estimateTokenCount: estimateNodeTokenCount,
   });
 
-  if (!encoding.valid) {
-    await writeDebugFiles(outPath, canonicalJson, encoding.toon);
+  if (!result.valid) {
+    await writeDebugFiles(outPath, result.canonicalJson, result.toon);
     throw new Error(`Round-trip validation failed. Debug files written beside ${outPath}.`);
   }
 
-  await writeOutput(outPath, `${encoding.toon.trimEnd()}\n`);
+  await writeOutput(outPath, `${result.toon.trimEnd()}\n`);
 
   if (options.jsonSidecar) {
-    await writeOutput(jsonSidecarPath(outPath), prettyJson(canonicalJson));
+    await writeOutput(jsonSidecarPath(outPath), prettyJson(result.canonicalJson));
   }
 
-  printConversionReport(profile, mode, lossless, encoding.delimiter, stats, {
+  printConversionReport(result, {
     targetChars,
     targetTokens,
     charsPerTokenRatios,
@@ -165,102 +166,6 @@ async function convertCommand(input: string | undefined, options: ConvertOptions
   });
 
   console.log(`TOON written: ${outPath}`);
-}
-
-function buildConversion(
-  profile: DocumentProfile,
-  options: {
-    mode: OutputMode;
-    delimiter: DelimiterOption;
-    targetChars?: number;
-    targetTokens?: number;
-    allowLossy: boolean;
-    charsPerTokenRatios: number[];
-  },
-): {
-  canonicalJson: CanonicalDocument;
-  encoding: EncodingSelection;
-  stats: ConversionStats;
-  lossless: boolean;
-} {
-  if (options.mode !== "budget") {
-    const canonicalJson = buildCanonical(profile, { mode: options.mode });
-    const encoding = selectEncoding(canonicalJson, options.delimiter);
-    const stats = calculateStats(profile.sourceText, canonicalJson, encoding.toon, options.charsPerTokenRatios);
-    return { canonicalJson, encoding, stats, lossless: true };
-  }
-
-  if (options.targetChars === undefined && options.targetTokens === undefined) {
-    throw new Error("Budget mode requires --target-chars or --target-tokens.");
-  }
-
-  const losslessCanonical = buildLosslessCanonical(profile);
-  const losslessEncoding = selectEncoding(losslessCanonical, options.delimiter);
-  const losslessStats = calculateStats(profile.sourceText, losslessCanonical, losslessEncoding.toon, options.charsPerTokenRatios);
-
-  if (targetReached(losslessStats, options.targetChars, options.targetTokens)) {
-    return {
-      canonicalJson: losslessCanonical,
-      encoding: losslessEncoding,
-      stats: losslessStats,
-      lossless: true,
-    };
-  }
-
-  if (!options.allowLossy) {
-    throw new Error(
-      `Target cannot be reached losslessly. Source is ${profile.sourceChars} chars; shortest lossless TOON is ${losslessStats.toonChars} chars / ~${losslessStats.toonTokens} tokens. Use --mode budget --allow-lossy to produce semantic compression.`,
-    );
-  }
-
-  return buildLossyBudgetConversion(profile, options);
-}
-
-function buildLossyBudgetConversion(
-  profile: DocumentProfile,
-  options: {
-    delimiter: DelimiterOption;
-    targetChars?: number;
-    targetTokens?: number;
-    charsPerTokenRatios: number[];
-  },
-): {
-  canonicalJson: CanonicalDocument;
-  encoding: EncodingSelection;
-  stats: ConversionStats;
-  lossless: boolean;
-} {
-  const maxSnippetAttempts = [720, 480, 320, 220, 140, 90, 55];
-  let best:
-    | {
-        canonicalJson: CanonicalDocument;
-        encoding: EncodingSelection;
-        stats: ConversionStats;
-        lossless: boolean;
-      }
-    | undefined;
-
-  for (const maxSnippetChars of maxSnippetAttempts) {
-    const canonicalJson = buildBudgetCanonical(profile, {
-      targetChars: options.targetChars ?? null,
-      targetTokens: options.targetTokens ?? null,
-      maxSnippetChars,
-    });
-    const encoding = selectEncoding(canonicalJson, options.delimiter);
-    const stats = calculateStats(profile.sourceText, canonicalJson, encoding.toon, options.charsPerTokenRatios);
-    const candidate = { canonicalJson, encoding, stats, lossless: false };
-    best = candidate;
-
-    if (targetReached(stats, options.targetChars, options.targetTokens)) {
-      return candidate;
-    }
-  }
-
-  if (!best) {
-    throw new Error("Budget conversion failed before a candidate could be generated.");
-  }
-
-  return best;
 }
 
 async function ingestInput(
@@ -409,11 +314,7 @@ function printProfileReport(profile: DocumentProfile, charsPerTokenRatios: numbe
 }
 
 function printConversionReport(
-  profile: DocumentProfile,
-  mode: OutputMode,
-  lossless: boolean,
-  delimiter: ToonDelimiter,
-  stats: ConversionStats,
+  result: ConversionResult,
   options: {
     targetChars?: number;
     targetTokens?: number;
@@ -423,21 +324,21 @@ function printConversionReport(
 ): void {
   const reached =
     options.targetChars !== undefined || options.targetTokens !== undefined
-      ? targetReached(stats, options.targetChars, options.targetTokens)
+      ? targetReached(result.stats, options.targetChars, options.targetTokens)
       : undefined;
 
   console.log("Metrics:");
-  console.log(`  detected profile: ${profile.name}`);
-  console.log(`  mode: ${mode}`);
-  console.log(`  lossless: ${lossless ? "true" : "false"}`);
-  console.log(`  delimiter: ${formatDelimiter(delimiter)}`);
-  console.log(`  source chars: ${stats.sourceChars}`);
-  console.log(`  TOON chars: ${stats.toonChars}`);
-  console.log(`  character savings: ${stats.charSavings} (${stats.charSavingsPercent.toFixed(1)}%)`);
-  console.log(`  source tokens: ~${stats.sourceTokens}`);
-  console.log(`  TOON tokens: ~${stats.toonTokens}`);
-  console.log(`  token savings: ~${stats.tokenSavings} (${stats.tokenSavingsPercent.toFixed(1)}%)`);
-  console.log(`  chars/token estimates: ${stats.ratioEstimates.map(formatRatioEstimate).join("; ")}`);
+  console.log(`  detected profile: ${result.profile.name}`);
+  console.log(`  mode: ${result.mode}`);
+  console.log(`  lossless: ${result.lossless ? "true" : "false"}`);
+  console.log(`  delimiter: ${formatDelimiter(result.delimiter)}`);
+  console.log(`  source chars: ${result.stats.sourceChars}`);
+  console.log(`  TOON chars: ${result.stats.toonChars}`);
+  console.log(`  character savings: ${result.stats.charSavings} (${result.stats.charSavingsPercent.toFixed(1)}%)`);
+  console.log(`  source tokens: ~${result.stats.sourceTokens}`);
+  console.log(`  TOON tokens: ~${result.stats.toonTokens}`);
+  console.log(`  token savings: ~${result.stats.tokenSavings} (${result.stats.tokenSavingsPercent.toFixed(1)}%)`);
+  console.log(`  chars/token estimates: ${result.stats.ratioEstimates.map(formatRatioEstimate).join("; ")}`);
 
   if (options.targetChars !== undefined) {
     console.log(`  target chars: ${options.targetChars}`);
@@ -453,11 +354,17 @@ function printConversionReport(
   }
 
   if (options.includeJsonStats) {
-    console.log(`  canonical JSON chars: ${stats.jsonChars}`);
-    console.log(`  canonical JSON tokens: ~${stats.jsonTokens}`);
+    console.log(`  canonical JSON chars: ${result.stats.jsonChars}`);
+    console.log(`  canonical JSON tokens: ~${result.stats.jsonTokens}`);
     console.log(
-      `  JSON -> TOON token savings: ~${stats.jsonToonTokenSavings} (${stats.jsonToonTokenSavingsPercent.toFixed(1)}%)`,
+      `  JSON -> TOON token savings: ~${result.stats.jsonToonTokenSavings} (${result.stats.jsonToonTokenSavingsPercent.toFixed(1)}%)`,
     );
+  }
+
+  for (const warning of result.warnings) {
+    if (warning !== "Target was not reached; the budget is probably below the retained semantic payload.") {
+      console.log(`  warning: ${warning}`);
+    }
   }
 }
 

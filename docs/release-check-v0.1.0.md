@@ -59,7 +59,7 @@ npm pack --dry-run --json
 - Official `@toon-format/cli` decode passed.
 - README commands were run in order; the documented budget refusal was the only expected nonzero command.
 - `npm pack --dry-run --json` included only package docs, `dist`, examples, release notes, and package metadata.
-- Public roadmap docs now identify 2026-05-27 as the `doc2toon` v0.1.0 CLI release and 2026-05-28 as the opening of `https://cheapagent.ai` for branded follow-through.
+- Public roadmap docs now identify 2026-05-27 as the `doc2toon` v0.1.0 CLI release and frame CheapAgent / `cheapagent.ai` as planned follow-through until domain ownership is confirmed.
 - Internal CheapAgent strategy notes are kept under ignored private paths and are not tracked or packed.
 
 ## Package Contents
@@ -86,7 +86,7 @@ Internal business strategy belongs under ignored paths such as `data/private/`, 
 Public docs should stay limited to release-safe positioning:
 
 - `doc2toon` is the v0.1.0 CLI artifact.
-- CheapAgent is the branded follow-through for agent-context optimization.
+- CheapAgent is the working brand for planned agent-context optimization follow-through.
 - TOON is one useful output target, not the whole product thesis.
 - Savings claims remain measured, not assumed.
 

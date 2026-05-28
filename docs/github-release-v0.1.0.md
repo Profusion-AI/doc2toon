@@ -48,8 +48,8 @@ doc2toon decode tmp/defs.toon --out tmp/defs.json
 ## Roadmap
 
 - 2026-05-27: `doc2toon` v0.1.0 public CLI release.
-- 2026-05-28: `https://cheapagent.ai` opens as the branded follow-through for agent-context optimization.
-- `v0.1.x`: parser coverage, fixtures, docs, packaging hardening.
+- 2026-05-28: CheapAgent is the working brand for planned agent-context optimization follow-through; `cheapagent.ai` is a tentative planned domain until ownership is confirmed.
+- `v0.1.x`: reusable core extraction, browser-safe entrypoints, parser coverage, fixtures, docs, packaging hardening.
 - `v0.2.0`: static-first CheapAgent web interface for paste, `.txt`, `.md`, `AGENTS.md`, `CLAUDE.md`, and `SKILL.md`; anonymous 1000 character limit; signed-in 15000 characters per day; browser-side conversion where possible.
 - `v0.3.0`: agent-context compiler direction with multi-upload, target-aware outputs for agent instruction files, additional formats, and paid hosted convenience while keeping the CLI open source.
 

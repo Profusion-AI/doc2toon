@@ -41,3 +41,5 @@ Out of scope:
 - issues in third-party packages that do not affect this project in practice
 
 `doc2toon` is a local developer tool. Do not process secrets or private documents unless you are comfortable with the local machine and dependency environment.
+
+Future hosted or browser-based tools should keep the same caution. Do not paste secrets, credentials, customer data, or private legal/security material into a hosted conversion surface unless that surface explicitly documents its storage, processing, and deletion behavior. The planned CheapAgent web path should process document bodies in the browser when possible and should not store source document bodies by default.

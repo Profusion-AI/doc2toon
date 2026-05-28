@@ -43,6 +43,21 @@ Pull requests should include:
 
 Keep documentation examples copy-pasteable. Prefer small fixtures and exact commands over vague descriptions.
 
+## Fixture guidance
+
+Parser and optimizer fixtures should be small, focused, and honest about the document shape they represent.
+
+Good fixture additions include:
+
+- prose-heavy Markdown that should stay section-oriented
+- definition or glossary documents that should become `defs`
+- requirements or rules documents that should become `rules`
+- Markdown tables with stable columns
+- agent instruction files such as `AGENTS.md`, `CLAUDE.md`, and `SKILL.md`
+- duplicate, vague, conflicting, or overlong instruction examples for future CheapAgent optimizer work
+
+When behavior changes, add a test that calls the core API directly where possible. CLI tests should cover command wiring, not duplicate the whole parser suite.
+
 ## Documentation rules
 
 - Credit TOON, Johann Schopplich, and `@toon-format/toon` when describing the foundation.

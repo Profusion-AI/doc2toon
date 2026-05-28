@@ -1,4 +1,4 @@
-export type SourceType = "markdown" | "text" | "stdin";
+export type SourceType = "markdown" | "text" | "stdin" | "paste";
 
 export type ParseFlavor = "markdown" | "text";
 
@@ -186,4 +186,53 @@ export interface ConversionStats {
   jsonTokens: number;
   jsonToonTokenSavings: number;
   jsonToonTokenSavingsPercent: number;
+}
+
+export type EstimateTokenCount = (text: string) => number;
+
+export interface CoreConvertOptions {
+  text: string;
+  flavor?: ParseFlavor;
+  sourceType?: SourceType;
+  mode?: OutputMode;
+  delimiter?: DelimiterOption;
+  targetChars?: number;
+  targetTokens?: number;
+  allowLossy?: boolean;
+  charsPerTokenRatios?: number[];
+  estimateTokenCount?: EstimateTokenCount;
+}
+
+export interface CoreBuildOptions {
+  mode: OutputMode;
+  delimiter: DelimiterOption;
+  targetChars?: number;
+  targetTokens?: number;
+  allowLossy: boolean;
+  charsPerTokenRatios: number[];
+  estimateTokenCount: EstimateTokenCount;
+}
+
+export interface ConversionResult {
+  toon: string;
+  canonicalJson: CanonicalDocument;
+  decodedJson: unknown;
+  profile: DocumentProfile;
+  stats: ConversionStats;
+  delimiter: ToonDelimiter;
+  mode: OutputMode;
+  lossless: boolean;
+  valid: boolean;
+  warnings: string[];
+  targetReached: boolean | null;
+  sourceChars: number;
+  toonChars: number;
+  sourceTokens: number;
+  toonTokens: number;
+}
+
+export interface ToonValidationResult {
+  valid: boolean;
+  decodedJson?: unknown;
+  error?: string;
 }

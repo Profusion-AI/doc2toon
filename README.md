@@ -36,7 +36,7 @@ TOON tends to help when the source can become arrays of repeated records:
 - Markdown tables with stable columns
 - mixed documents where structured sections matter more than original Markdown formatting
 
-The strongest use case for v0.1.0 is compact LLM context preparation for definitions, glossaries, requirements, and tables.
+The strongest current use case is compact LLM context preparation for definitions, glossaries, requirements, and tables.
 
 ## When TOON does not help
 
@@ -111,7 +111,41 @@ Decode TOON back to JSON:
 doc2toon decode /tmp/prose.toon --out /tmp/prose.json
 ```
 
-The older `toon-doc` binary remains available as an alias, but `doc2toon` is the v0.1.0 package and CLI name.
+The older `toon-doc` binary remains available as an alias, but `doc2toon` is the primary package and CLI name.
+
+## Library API
+
+The CLI is a thin wrapper around the reusable conversion core. Node code can import the same pipeline directly:
+
+```ts
+import { convertTextToToon } from "doc2toon";
+
+const result = convertTextToToon({
+  text: "# Terms\n\n## Evidence Receipt\n\nDefinition: A reviewable workflow record.",
+  flavor: "markdown",
+  sourceType: "paste",
+  mode: "record",
+  delimiter: "auto",
+});
+
+console.log(result.toon);
+console.log(result.stats);
+```
+
+Browser builds should use the browser entrypoint. It accepts raw strings, returns structured results, and does not depend on CLI file handling:
+
+```ts
+import { convertTextToToon } from "doc2toon/browser";
+
+const result = convertTextToToon({
+  text: textarea.value,
+  flavor: "markdown",
+  sourceType: "paste",
+  mode: "lossless",
+});
+```
+
+The core returns data instead of printing to stdout: canonical JSON, encoded TOON, decoded JSON, detected profile, selected delimiter, stats, warnings, lossless status, validation status, and target status.
 
 ## Modes
 
@@ -240,11 +274,21 @@ You can also validate a file directly:
 doc2toon validate /tmp/definitions.toon
 ```
 
+## Agent Context Optimizer Preview
+
+The CheapAgent direction is broader than document conversion: agent-context optimization for files such as `CLAUDE.md`, `AGENTS.md`, and `SKILL.md`.
+
+The intended product rule is the same as the CLI rule: measure before claiming savings. Future optimizer work should flag duplicate instructions, vague rules, overlong sections, and split candidates before recommending TOON or compact Markdown.
+
+TOON remains one output target, not the whole product. Some agent instruction files will be better served by a tighter Markdown rewrite or a split into lazy-loaded skills.
+
 ## Roadmap
 
 May 27, 2026: `doc2toon` v0.1.0 is the first public release. It is the local, open-source CLI artifact: profile documents, convert `.md`, `.txt`, and stdin, validate TOON, and report measured savings.
 
-May 28, 2026: `https://cheapagent.ai` opens as the branded follow-through for agent-context optimization. The public wedge is broader than document conversion: help developers reduce wasted agent context while keeping the measurement-first rule.
+May 28, 2026: CheapAgent is the working brand for the planned follow-through into agent-context optimization. `cheapagent.ai` is a tentative planned domain until ownership is confirmed.
+
+v0.1.x is the hardening lane: reusable core extraction, browser-safe package entrypoints, parser coverage, fixtures, docs, packaging, and CI cleanup.
 
 v0.2 is planned as a static-first CheapAgent web interface for pasted text, `.txt`, `.md`, `AGENTS.md`, `CLAUDE.md`, and `SKILL.md` files. The default deployment target is Netlify on a free or low-cost plan. The intended limit shape is conservative: anonymous users get 1000 characters per conversion, signed-in users get up to 15000 characters per day, and conversion should stay browser-side where possible so document bodies are not uploaded by default.
 

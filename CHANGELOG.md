@@ -4,6 +4,24 @@ All notable changes to `doc2toon` will be documented in this file.
 
 This project follows practical release notes rather than strict format ceremony.
 
+## 0.1.1 - 2026-05-27
+
+Library-boundary hardening release.
+
+### Added
+
+- Reusable conversion core for text-to-TOON conversion without CLI file handling.
+- Browser-safe entrypoint at `doc2toon/browser`.
+- Package exports for Node and browser consumers.
+- Core tests for direct conversion, validation, decoding, budget refusal, and lossy budget output.
+- Public roadmap language that treats CheapAgent and `cheapagent.ai` as planned/tentative until confirmed.
+
+### Changed
+
+- CLI now delegates conversion orchestration to the shared core and keeps responsibility for Commander, stdin, file paths, output files, and report printing.
+- Token estimation now has a browser-safe fallback, with `tokenx` isolated behind the Node-only estimator used by the CLI.
+- Stats byte counting now uses `TextEncoder` instead of Node `Buffer`.
+
 ## 0.1.0 - 2026-05-27
 
 Initial public release.
