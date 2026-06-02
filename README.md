@@ -290,7 +290,12 @@ doc2toon validate /tmp/definitions.toon
 
 The CheapAgent direction is broader than document conversion: practical context compression, token utilization, and LLM-ready document preparation for files such as `CLAUDE.md`, `AGENTS.md`, and `SKILL.md`.
 
-The intended product rule is the same as the CLI rule: measure before claiming savings. Future optimizer work should flag duplicate instructions, vague rules, overlong sections, and split candidates before recommending TOON or compact Markdown.
+The intended product rule is the same as the CLI rule: measure before claiming savings. Optimizer warnings are advisory signals, not silent rewrites:
+
+- Possible duplicate rule: repeated instructions may waste working memory or introduce contradiction.
+- Possibly vague instruction: broad guidance may consume tokens without giving the agent an operational handle.
+- Long section: large sections often mix concerns or hide procedural detail.
+- Possible split candidate: overloaded sections may belong in task-triggered skills or focused workflows.
 
 TOON remains one output target, not the whole product. Some agent instruction files will be better served by a tighter Markdown rewrite or a split into lazy-loaded skills. CheapAgent should not present itself as a magical summarizer or a universal replacement for human editorial judgment: the human decides what nuance matters, the LLM can help elaborate context when needed, and `doc2toon` provides the compact, structured, measurable intermediary.
 
@@ -312,7 +317,7 @@ The same honesty rule applies to future releases: measure before claiming saving
 
 `doc2toon` is built on and inspired by [TOON](https://github.com/toon-format/toon), including the `@toon-format/toon` package.
 
-Credit to Johann Schopplich and the `@toon-format/toon` maintainers for TOON and the official encoder/decoder this project relies on.
+Credit to the `@toon-format/toon` maintainers for the official encoder/decoder this project relies on.
 
 This project is independent and not affiliated with, endorsed by, or maintained by the TOON project.
 

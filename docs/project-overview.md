@@ -19,7 +19,7 @@ When a strict context budget matters, use budget mode and treat the result as lo
 - Do not preserve redundancy unless it supports cross-reference, traceability, or task accuracy.
 - Do not preserve overwritten or duplicate ideas as separate payload unless the distinction is meaningful to the user or downstream LLM task.
 - Do not preserve purple prose, decorative padding, or rhetorical flourish merely because it exists in the source document.
-- Report measured character and token savings. Avoid universal claims like "40% savings" unless the specific conversion proves them.
+- Report measured character and token savings. Avoid fixed-percentage savings claims unless the specific conversion proves them.
 - Make lossy semantic compression explicit.
 
 ## Product Direction

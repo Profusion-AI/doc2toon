@@ -11,6 +11,7 @@ export {
   DEFAULT_CHARS_PER_TOKEN_RATIOS,
   estimateTokensByChars,
 } from "./token-estimator.js";
+export { analyzeOptimizerWarnings } from "./optimizer.js";
 export { decodeToJson, encodeToToon, roundTrip, selectEncoding, targetReached } from "./toon.js";
 export type {
   CanonicalDocument,
@@ -21,6 +22,9 @@ export type {
   DelimiterOption,
   DocumentProfile,
   EstimateTokenCount,
+  OptimizerWarning,
+  OptimizerWarningKind,
+  OptimizerWarningSeverity,
   OutputMode,
   ParseFlavor,
   SourceType,

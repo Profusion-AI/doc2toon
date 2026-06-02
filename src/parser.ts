@@ -12,6 +12,7 @@ import type {
   RuleRecord,
   StructureStats,
 } from "./types.js";
+import { analyzeOptimizerWarnings } from "./optimizer.js";
 
 interface MarkdownState {
   blocks: LosslessDocBlock[];
@@ -51,7 +52,7 @@ export function profileDocument(
   const stats = buildStats(input, losslessBlocks, tables, definitions, rules);
   const name = chooseProfile(stats);
 
-  return {
+  const profile: Omit<DocumentProfile, "optimizerWarnings"> = {
     name,
     title: losslessBlocks.document.title,
     sourceType: options.sourceType,
@@ -64,6 +65,11 @@ export function profileDocument(
     rules,
     tables,
     stats,
+  };
+
+  return {
+    ...profile,
+    optimizerWarnings: analyzeOptimizerWarnings(profile),
   };
 }
 

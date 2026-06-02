@@ -14,6 +14,7 @@ import type {
   DelimiterOption,
   DocumentProfile,
   OutputMode,
+  OptimizerWarning,
   ParseFlavor,
   SourceType,
   ToonDelimiter,
@@ -311,6 +312,7 @@ function printProfileReport(profile: DocumentProfile, charsPerTokenRatios: numbe
   console.log(`  tables: ${profile.stats.tableCount} (${profile.stats.tableRowCount} rows)`);
   console.log(`  definitions: ${profile.stats.definitionCount}`);
   console.log(`  rules: ${profile.stats.ruleCount}`);
+  printOptimizerWarnings(profile.optimizerWarnings, "  ");
 }
 
 function printConversionReport(
@@ -364,6 +366,27 @@ function printConversionReport(
   for (const warning of result.warnings) {
     if (warning !== "Target was not reached; the budget is probably below the retained semantic payload.") {
       console.log(`  warning: ${warning}`);
+    }
+  }
+
+  printOptimizerWarnings(result.optimizerWarnings, "  ");
+}
+
+function printOptimizerWarnings(warnings: OptimizerWarning[], indent: string): void {
+  if (warnings.length === 0) {
+    return;
+  }
+
+  console.log(`${indent}optimizer warnings: ${warnings.length}`);
+  for (const warning of warnings) {
+    const location =
+      warning.lineStart !== undefined
+        ? ` lines ${warning.lineStart}${warning.lineEnd !== undefined && warning.lineEnd !== warning.lineStart ? `-${warning.lineEnd}` : ""}`
+        : "";
+    console.log(`${indent}- ${warning.message}${location}`);
+    console.log(`${indent}  suggestion: ${warning.suggestion}`);
+    if (warning.evidence) {
+      console.log(`${indent}  evidence: ${warning.evidence}`);
     }
   }
 }

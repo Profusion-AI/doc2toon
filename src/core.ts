@@ -63,6 +63,7 @@ export function buildConversionResult(profile: DocumentProfile, options: CoreBui
     profile,
     mode: options.mode,
     warnings,
+    optimizerWarnings: profile.optimizerWarnings,
     targetReached: reached,
     sourceChars: candidate.stats.sourceChars,
     toonChars: candidate.stats.toonChars,

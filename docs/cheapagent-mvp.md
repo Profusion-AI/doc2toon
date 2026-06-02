@@ -51,7 +51,7 @@ Hero: Paste your bloated agent file and see the waste.
 
 Subhero: CheapAgent measures context overhead, flags duplicate or vague instructions, and prepares structured agent docs for LLM context windows when compression is actually a fit.
 
-Avoid: every document becomes 40 percent smaller.
+Avoid: every document gets the same savings percentage.
 
 Avoid: a magical summarizer that preserves every nuance automatically.
 

@@ -9,10 +9,13 @@ This project follows practical release notes rather than strict format ceremony.
 ### Added
 
 - Project overview and public philosophy language for useful context density, human-in-the-loop nuance decisions, and honest token-efficiency claims.
+- Agent-context fixtures for `AGENTS.md`, `CLAUDE.md`, and `SKILL.md`, plus problematic fixtures for duplicate rules, vague rules, long sections, split candidates, and mixed agent context.
+- Browser-safe optimizer warning primitives for duplicate rules, vague rules, long sections, and split candidates.
 
 ### Changed
 
 - README, roadmap, CheapAgent MVP notes, and examples now frame `doc2toon` as a context-preparation and token-efficiency tool rather than a prose-preservation layer.
+- `doc2toon profile` now reports advisory optimizer warnings when context-density risks are detected.
 
 ## 0.1.1 - 2026-05-27
 

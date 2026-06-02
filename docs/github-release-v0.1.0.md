@@ -55,6 +55,6 @@ doc2toon decode tmp/defs.toon --out tmp/defs.json
 
 ## Credits
 
-Built on the TOON ecosystem and the official `@toon-format/toon` tooling. TOON is MIT licensed, copyright 2025-PRESENT Johann Schopplich.
+Built on the TOON ecosystem and the official `@toon-format/toon` tooling.
 
 `doc2toon` is independent and is not an official TOON project.

@@ -90,4 +90,12 @@ test -s "$OUT_DIR/budget-lossy.toon"
 node "$CLI" validate "$OUT_DIR/budget-lossy.toon" > "$OUT_DIR/budget-lossy.validate.log"
 grep -q "lossless: false" "$OUT_DIR/budget-lossy.convert.log"
 
+node "$CLI" profile "$ROOT/fixtures/agent-context/problematic/mixed-agent-context.md" \
+  > "$OUT_DIR/mixed-agent-profile.log"
+grep -q "optimizer warnings:" "$OUT_DIR/mixed-agent-profile.log"
+grep -q "Possible duplicate rule" "$OUT_DIR/mixed-agent-profile.log"
+grep -q "Possibly vague instruction" "$OUT_DIR/mixed-agent-profile.log"
+grep -q "Long section" "$OUT_DIR/mixed-agent-profile.log"
+grep -q "Possible split candidate" "$OUT_DIR/mixed-agent-profile.log"
+
 echo "Smoke passed. Generated outputs are in tmp/smoke."

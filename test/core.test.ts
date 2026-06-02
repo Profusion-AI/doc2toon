@@ -70,12 +70,16 @@ Tags: safety, scope
     expect(browserApi.convertTextToToon).toBeTypeOf("function");
     expect(browserApi.profileText).toBeTypeOf("function");
     expect(browserApi.validateToonText).toBeTypeOf("function");
+    expect(browserApi.analyzeOptimizerWarnings).toBeTypeOf("function");
 
     const browserSource = await readFile(new URL("../src/browser.ts", import.meta.url), "utf8");
+    const optimizerSource = await readFile(new URL("../src/optimizer.ts", import.meta.url), "utf8");
     expect(browserSource).not.toContain("node:fs");
     expect(browserSource).not.toContain("node:path");
     expect(browserSource).not.toContain("node:buffer");
     expect(browserSource).not.toContain("tokenx");
+    expect(optimizerSource).not.toContain("node:");
+    expect(optimizerSource).not.toContain("tokenx");
   });
 
   it("refuses impossible budget conversion unless lossy output is allowed", () => {

@@ -63,6 +63,27 @@ export interface CoverageRecord {
   dropped: number;
 }
 
+export type OptimizerWarningKind =
+  | "duplicate_rule"
+  | "vague_rule"
+  | "long_section"
+  | "split_candidate";
+
+export type OptimizerWarningSeverity = "info" | "warning";
+
+export interface OptimizerWarning {
+  id: string;
+  kind: OptimizerWarningKind;
+  severity: OptimizerWarningSeverity;
+  message: string;
+  suggestion: string;
+  lineStart?: number;
+  lineEnd?: number;
+  charStart?: number;
+  charEnd?: number;
+  evidence?: string;
+}
+
 export interface CompactDocJson {
   doc: {
     title: string | null;
@@ -139,6 +160,7 @@ export interface DocumentProfile {
   rules: RuleRecord[];
   tables: Array<Record<string, string>[]>;
   stats: StructureStats;
+  optimizerWarnings: OptimizerWarning[];
 }
 
 export interface ParseOptions {
@@ -224,6 +246,7 @@ export interface ConversionResult {
   lossless: boolean;
   valid: boolean;
   warnings: string[];
+  optimizerWarnings: OptimizerWarning[];
   targetReached: boolean | null;
   sourceChars: number;
   toonChars: number;
