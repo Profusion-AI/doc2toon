@@ -17,7 +17,7 @@ function warningKinds(markdown: string): OptimizerWarningKind[] {
 }
 
 describe("optimizer warning primitives", () => {
-  it("detects duplicate rules with advisory evidence and location", async () => {
+  it("detects exact duplicate rules with advisory evidence and location", async () => {
     const markdown = await readAgentFixture("problematic/duplicate-rules.md");
     const profile = profileText(markdown, { flavor: "markdown", sourceType: "markdown" });
     const duplicateWarnings = profile.optimizerWarnings.filter((warning) => warning.kind === "duplicate_rule");
@@ -31,7 +31,46 @@ describe("optimizer warning primitives", () => {
       lineStart: 7,
       lineEnd: 7,
     });
-    expect(duplicateWarnings[0]?.suggestion).toContain("Consolidate repeated rules");
+    expect(duplicateWarnings[0]?.suggestion).toContain("clearest action and scope");
+  });
+
+  it("detects near duplicate rules deterministically", () => {
+    const profile = profileText(
+      [
+        "# Near Duplicate Rules",
+        "",
+        "## Build Gate",
+        "",
+        "- The converter must validate official TOON round trips before writing output.",
+        "- The converter must validate the official TOON round trip before output is written.",
+      ].join("\n"),
+      { flavor: "markdown", sourceType: "markdown" },
+    );
+
+    const duplicateWarnings = profile.optimizerWarnings.filter((warning) => warning.kind === "duplicate_rule");
+    expect(duplicateWarnings).toHaveLength(1);
+    expect(duplicateWarnings[0]).toMatchObject({
+      message: 'Possible duplicate rule in "Build Gate".',
+      lineStart: 6,
+    });
+  });
+
+  it("does not mark unrelated rules as duplicates", () => {
+    const profile = profileText(
+      [
+        "# Focused Rules",
+        "",
+        "## Build Gate",
+        "",
+        "- The converter must validate official TOON round trips before writing output.",
+        "- Public docs must avoid universal savings claims.",
+        "- The reviewer must check profile output.",
+        "- The reviewer must check conversion output.",
+      ].join("\n"),
+      { flavor: "markdown", sourceType: "markdown" },
+    );
+
+    expect(profile.optimizerWarnings.filter((warning) => warning.kind === "duplicate_rule")).toHaveLength(0);
   });
 
   it("detects vague rules without rewriting them", async () => {
@@ -46,7 +85,23 @@ describe("optimizer warning primitives", () => {
       'Possibly vague instruction in "Operating Guidance".',
       'Possibly vague instruction in "Operating Guidance".',
     ]);
-    expect(vagueWarnings[0]?.suggestion).toContain("concrete trigger");
+    expect(vagueWarnings[0]?.suggestion).toContain("verification step");
+  });
+
+  it("does not mark concrete rules as vague", () => {
+    const profile = profileText(
+      [
+        "# Concrete Rule",
+        "",
+        "## Build Gate",
+        "",
+        "- The CLI must validate official TOON round trips before writing output.",
+        "- The report should include measured character and token savings.",
+      ].join("\n"),
+      { flavor: "markdown", sourceType: "markdown" },
+    );
+
+    expect(profile.optimizerWarnings.filter((warning) => warning.kind === "vague_rule")).toHaveLength(0);
   });
 
   it("detects long sections as context-density risks", async () => {
@@ -59,8 +114,24 @@ describe("optimizer warning primitives", () => {
       message: 'Long section: "Always-On Review Procedure".',
       lineStart: 3,
     });
-    expect(longWarning?.evidence).toContain("chars");
-    expect(longWarning?.suggestion).toContain("on-demand skill");
+    expect(longWarning?.evidence).toContain("bullets");
+    expect(longWarning?.suggestion).toContain("task-specific skill");
+  });
+
+  it("does not mark short sections as long", () => {
+    const profile = profileText(
+      [
+        "# Short Section",
+        "",
+        "## Build Gate",
+        "",
+        "- The converter must validate official TOON round trips before writing output.",
+        "- The report should include measured savings.",
+      ].join("\n"),
+      { flavor: "markdown", sourceType: "markdown" },
+    );
+
+    expect(profile.optimizerWarnings.filter((warning) => warning.kind === "long_section")).toHaveLength(0);
   });
 
   it("detects possible split candidates", async () => {
@@ -74,7 +145,25 @@ describe("optimizer warning primitives", () => {
       lineStart: 3,
     });
     expect(splitWarning?.evidence).toContain("when reviewing conversion behavior");
-    expect(splitWarning?.suggestion).toContain("task-triggered workflows");
+    expect(splitWarning?.suggestion).toContain("focused skill file");
+  });
+
+  it("does not mark normal focused sections as split candidates", () => {
+    const profile = profileText(
+      [
+        "# Focused Workflow",
+        "",
+        "## Build Validation",
+        "",
+        "When parser behavior changes, run the existing build, test, and smoke scripts.",
+        "",
+        "- The CLI must validate official TOON round trips before writing output.",
+        "- The report should include measured savings.",
+      ].join("\n"),
+      { flavor: "markdown", sourceType: "markdown" },
+    );
+
+    expect(profile.optimizerWarnings.filter((warning) => warning.kind === "split_candidate")).toHaveLength(0);
   });
 
   it("handles mixed agent context and keeps output deterministic", async () => {
@@ -94,5 +183,12 @@ describe("optimizer warning primitives", () => {
       expect(warning.lineStart).toBeGreaterThan(0);
       expect(warning.charStart).toBeGreaterThanOrEqual(0);
     }
+  });
+
+  it("keeps clean AGENTS.md fixture low-noise", async () => {
+    const markdown = await readAgentFixture("AGENTS.md");
+    const profile = profileText(markdown, { flavor: "markdown", sourceType: "markdown" });
+
+    expect(profile.optimizerWarnings.length).toBeLessThanOrEqual(1);
   });
 });

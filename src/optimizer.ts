@@ -22,9 +22,48 @@ interface SectionLocation extends SourceLocation {
 
 interface WarningDraft extends Omit<OptimizerWarning, "id"> {}
 
-const LONG_SECTION_CHAR_THRESHOLD = 720;
-const LONG_SECTION_LINE_THRESHOLD = 10;
+const LONG_SECTION_CHAR_THRESHOLD = 1500;
+const LONG_SECTION_LINE_THRESHOLD = 40;
+const LONG_SECTION_BULLET_THRESHOLD = 12;
 const MAX_EVIDENCE_CHARS = 180;
+const NEAR_DUPLICATE_DICE_THRESHOLD = 0.72;
+const DUPLICATE_TOKEN_STOPWORDS = new Set([
+  "the",
+  "and",
+  "or",
+  "that",
+  "this",
+  "these",
+  "those",
+  "with",
+  "before",
+  "after",
+  "when",
+  "where",
+  "must",
+  "should",
+  "shall",
+  "required",
+  "requires",
+  "ensure",
+  "make",
+  "sure",
+  "please",
+  "agent",
+  "reviewer",
+  "converter",
+  "tool",
+  "cli",
+  "document",
+  "documents",
+  "doc",
+  "docs",
+  "file",
+  "files",
+  "rule",
+  "rules",
+  "check",
+]);
 
 const VAGUE_PATTERNS: RegExp[] = [
   /\bbe\s+(smart|helpful|careful|thoughtful|good|better|clear|useful)\b/i,
@@ -32,8 +71,12 @@ const VAGUE_PATTERNS: RegExp[] = [
   /\bmake\s+(it|the output|the result|things?)\s+(better|good|clear|useful)\b/i,
   /\bhandle\s+(edge cases|errors|issues|problems)\s+gracefully\b/i,
   /\bdo\s+the\s+right\s+thing\b/i,
+  /\buse\s+common\s+sense\b/i,
+  /\bimprove\s+quality\b/i,
   /\bkeep\s+(quality|the quality)\s+high\b/i,
-  /\bas\s+appropriate\b/i,
+  /\b(be\s+concise|optimi[sz]e)\s+where\s+(possible|appropriate)\b/i,
+  /\b(as|where)\s+appropriate\b/i,
+  /\bmake\s+sure\s+everything\s+is\s+good\b/i,
 ];
 
 const SPLIT_TOPIC_PATTERNS: Array<{ label: string; pattern: RegExp }> = [
@@ -65,6 +108,7 @@ export function analyzeOptimizerWarnings(profile: OptimizerProfileInput): Optimi
 function findDuplicateRules(rules: RuleRecord[], lines: SourceLine[]): WarningDraft[] {
   const warnings: WarningDraft[] = [];
   const seen = new Map<string, RuleRecord>();
+  const seenRules: string[][] = [];
   const usedLines = new Set<number>();
 
   for (const rule of rules) {
@@ -78,22 +122,34 @@ function findDuplicateRules(rules: RuleRecord[], lines: SourceLine[]): WarningDr
     }
 
     const previous = seen.get(key);
-    if (!previous) {
-      seen.set(key, rule);
+    if (previous) {
+      warnings.push(buildDuplicateRuleWarning(rule, location));
       continue;
     }
 
-    warnings.push({
-      kind: "duplicate_rule",
-      severity: "warning",
-      message: `Possible duplicate rule in "${rule.scope}".`,
-      suggestion: "Consolidate repeated rules or keep both only if the distinction supports traceability or task accuracy.",
-      evidence: truncateEvidence(rule.rule),
-      ...location,
-    });
+    const tokens = tokenizeRule(key);
+    const nearDuplicate = seenRules.find((previousTokens) => ruleSimilarity(tokens, previousTokens) >= NEAR_DUPLICATE_DICE_THRESHOLD);
+    if (nearDuplicate) {
+      warnings.push(buildDuplicateRuleWarning(rule, location));
+      continue;
+    }
+
+    seen.set(key, rule);
+    seenRules.push(tokens);
   }
 
   return warnings;
+}
+
+function buildDuplicateRuleWarning(rule: RuleRecord, location: SourceLocation | undefined): WarningDraft {
+  return {
+    kind: "duplicate_rule",
+    severity: "warning",
+    message: `Possible duplicate rule in "${rule.scope}".`,
+    suggestion: "Merge these rules or keep only the version with the clearest action and scope.",
+    evidence: truncateEvidence(rule.rule),
+    ...location,
+  };
 }
 
 function findVagueRules(rules: RuleRecord[], lines: SourceLine[]): WarningDraft[] {
@@ -114,7 +170,7 @@ function findVagueRules(rules: RuleRecord[], lines: SourceLine[]): WarningDraft[
       kind: "vague_rule",
       severity: "warning",
       message: `Possibly vague instruction in "${rule.scope}".`,
-      suggestion: "Replace vague phrasing with a concrete trigger, action, constraint, or acceptance criterion.",
+      suggestion: "Rewrite as a concrete rule with an action, condition, and verification step.",
       evidence: truncateEvidence(rule.rule),
       ...location,
     });
@@ -133,8 +189,13 @@ function findLongSections(
 
   for (const section of sections) {
     const bodyLines = section.body.split(/\r\n|\r|\n/).filter((line) => line.trim().length > 0);
+    const bulletCount = section.body.split(/\r\n|\r|\n/).filter((line) => /^\s*(?:[-+*]|\d+[.)])\s+/.test(line)).length;
     const bodyChars = section.body.trim().length;
-    if (bodyChars < LONG_SECTION_CHAR_THRESHOLD && bodyLines.length < LONG_SECTION_LINE_THRESHOLD) {
+    if (
+      bodyChars <= LONG_SECTION_CHAR_THRESHOLD &&
+      bodyLines.length <= LONG_SECTION_LINE_THRESHOLD &&
+      bulletCount <= LONG_SECTION_BULLET_THRESHOLD
+    ) {
       continue;
     }
 
@@ -143,8 +204,8 @@ function findLongSections(
       kind: "long_section",
       severity: "info",
       message: `Long section: "${section.h}".`,
-      suggestion: "Review whether this section mixes concerns or should move procedural detail into an on-demand skill.",
-      evidence: `${bodyChars} chars across ${bodyLines.length} non-empty lines`,
+      suggestion: "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+      evidence: `${bodyChars} chars, ${bodyLines.length} non-empty lines, ${bulletCount} bullets`,
       ...location,
     });
   }
@@ -163,7 +224,14 @@ function findSplitCandidates(
   for (const section of sections) {
     const triggerLabels = extractTaskTriggers(section.body);
     const topicLabels = extractTopicLabels(section.body);
-    const overloaded = triggerLabels.length >= 3 || (section.body.length >= 420 && topicLabels.length >= 4);
+    const bulletClusters = countBulletClusters(section.body);
+    const hasPolicyAndProcedure = hasPolicyRules(section.body) && hasProcedureSteps(section.body);
+    const hasMixedSupportMaterial = countSupportMaterialTypes(section.body) >= 3;
+    const genericTitle = isGenericSectionTitle(section.h);
+    const overloaded =
+      triggerLabels.length >= 3 ||
+      (section.body.length >= 420 && topicLabels.length >= 4) ||
+      (genericTitle && (bulletClusters >= 2 || hasPolicyAndProcedure || hasMixedSupportMaterial));
     if (!overloaded) {
       continue;
     }
@@ -174,7 +242,7 @@ function findSplitCandidates(
       kind: "split_candidate",
       severity: "info",
       message: `Possible split candidate: "${section.h}".`,
-      suggestion: "Separate always-on rules from task-triggered workflows, policies, or skills before converting.",
+      suggestion: "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
       evidence: labels.length > 0 ? truncateEvidence(`Detected themes: ${labels.join(", ")}`) : undefined,
       ...location,
     });
@@ -326,7 +394,11 @@ function extractTopicLabels(body: string): string[] {
 }
 
 function normalizeRule(rule: string): string {
-  return normalizeLineText(rule).replace(/[.!?]+$/g, "");
+  return normalizeLineText(rule)
+    .replace(/^please\s+/, "")
+    .replace(/^make sure to\s+/, "")
+    .replace(/^ensure that\s+/, "ensure ")
+    .replace(/[.!?]+$/g, "");
 }
 
 function normalizeLineText(text: string): string {
@@ -357,4 +429,78 @@ function uniqueLabels(labels: string[]): string[] {
     result.push(label);
   }
   return result;
+}
+
+function tokenizeRule(rule: string): string[] {
+  return uniqueLabels(
+    rule
+      .split(/[^a-z0-9]+/i)
+      .map(normalizeRuleToken)
+      .filter((token) => token.length >= 3 && !DUPLICATE_TOKEN_STOPWORDS.has(token)),
+  );
+}
+
+function normalizeRuleToken(token: string): string {
+  const lower = token.toLowerCase();
+  if (lower.length > 4 && lower.endsWith("ies")) {
+    return `${lower.slice(0, -3)}y`;
+  }
+  if (lower.length > 4 && lower.endsWith("s")) {
+    return lower.slice(0, -1);
+  }
+  return lower;
+}
+
+function ruleSimilarity(left: string[], right: string[]): number {
+  if (left.length < 4 || right.length < 4) {
+    return 0;
+  }
+
+  const rightTokens = new Set(right);
+  const shared = left.filter((token) => rightTokens.has(token)).length;
+  return (2 * shared) / (left.length + right.length);
+}
+
+function countBulletClusters(body: string): number {
+  let clusters = 0;
+  let inCluster = false;
+
+  for (const rawLine of body.split(/\r\n|\r|\n/)) {
+    const line = rawLine.trim();
+    if (!line) {
+      inCluster = false;
+      continue;
+    }
+    if (!/^(?:[-+*]|\d+[.)])\s+/.test(line)) {
+      continue;
+    }
+    if (!inCluster) {
+      clusters += 1;
+      inCluster = true;
+    }
+  }
+
+  return clusters;
+}
+
+function hasPolicyRules(body: string): boolean {
+  return /\b(must|must not|should|always|never|do not|requires?|prohibited|privacy|policy|approval)\b/i.test(body);
+}
+
+function hasProcedureSteps(body: string): boolean {
+  return /\b(when|if|before|after|step|run|check|validate|write|update|prepare)\b/i.test(body);
+}
+
+function countSupportMaterialTypes(body: string): number {
+  return [
+    /\bexample\b/i,
+    /\bcaveat|exception|unless\b/i,
+    /\bcommand|npm run|```/i,
+    /\bapproval|policy|privacy\b/i,
+    /\bwhen|if|before|after\b/i,
+  ].filter((pattern) => pattern.test(body)).length;
+}
+
+function isGenericSectionTitle(title: string): boolean {
+  return /^(guidelines?|process|instructions?|workflow|notes?|procedure|policy|rules?)$/i.test(title.trim());
 }

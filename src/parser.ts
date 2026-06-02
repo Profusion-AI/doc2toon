@@ -612,8 +612,8 @@ function extractRules(sections: CompactSection[]): RuleRecord[] {
   for (const section of sections) {
     const candidates = section.body
       .split(/\n+|(?<=[.!?])\s+/)
-      .map((candidate) => candidate.replace(/^[-*]\s+/, "").trim())
-      .filter((candidate) => /\b(must|should|shall|required|requires|cannot|must not|prohibited|unless|except|risk)\b/i.test(candidate));
+      .map((candidate) => candidate.replace(/^[-+*]\s+/, "").replace(/^\d+[.)]\s+/, "").trim())
+      .filter(looksLikeRuleCandidate);
 
     for (const candidate of candidates) {
       rules.push({
@@ -627,6 +627,18 @@ function extractRules(sections: CompactSection[]): RuleRecord[] {
   }
 
   return rules;
+}
+
+function looksLikeRuleCandidate(candidate: string): boolean {
+  if (
+    /\b(must|should|shall|required|requires|cannot|must not|prohibited|unless|except|risk|always|never|prefer|avoid|do not|make sure|ensure)\b/i.test(
+      candidate,
+    )
+  ) {
+    return true;
+  }
+
+  return /^(be|use|handle|make|optimize|do|improve|keep|run|validate|preserve|report|move|treat)\b/i.test(candidate);
 }
 
 function buildStats(
