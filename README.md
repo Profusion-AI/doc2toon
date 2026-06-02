@@ -1,12 +1,12 @@
 # doc2toon
 
-`doc2toon` converts Markdown, plain text, and pasted documents into valid TOON for LLM context work. It profiles the document first, chooses a compact JSON shape, encodes with `@toon-format/toon`, decodes back with the same official library, and prints measured size/token metrics before making any savings claim.
+`doc2toon` prepares Markdown, plain text, and pasted documents for LLM context windows by increasing useful context density. It profiles the document first, chooses a compact JSON shape, encodes with `@toon-format/toon`, decodes back with the same official library, and prints measured size/token metrics before making any savings claim.
 
 This is an independent project built on and inspired by [TOON](https://github.com/toon-format/toon). It is not an official TOON project.
 
 ## What is doc2toon
 
-`doc2toon` is a local CLI for turning human-written documents into TOON when TOON is a better fit than raw Markdown or verbose JSON.
+`doc2toon` is a local CLI and library for context preparation and token efficiency. It is not a prose-preservation museum. The goal is to preserve operational meaning, useful structure, retrievability, cross-references, definitions, rules, requirements, and task-relevant context while reducing avoidable token overhead.
 
 It is best for documents with repeated structure:
 
@@ -15,7 +15,19 @@ It is best for documents with repeated structure:
 - simple tables
 - structured notes that need to be pasted into an LLM context window
 
+It should not preserve redundancy unless it supports cross-reference, traceability, or task accuracy. It should not keep overwritten or duplicate ideas as separate payload unless the distinction matters to the user or downstream LLM task. It should not preserve purple prose, decorative padding, or rhetorical flourish merely because it exists in the source document.
+
 It is not a magic compressor. The rule is simple: measure savings before claiming savings.
+
+## Philosophy
+
+`doc2toon` helps prepare documents for LLM context windows by increasing useful context density.
+
+It is not designed to preserve every flourish, repeated idea, or rhetorical aside from the source document. Humans remain responsible for deciding which nuance matters. `doc2toon` focuses on preserving structure, meaning, references, definitions, rules, and task-relevant context while reducing redundancy and avoidable token overhead.
+
+When exact wording matters, use lossless mode.
+When repeated knowledge matters, use record mode.
+When a strict context budget matters, use budget mode and treat the result as lossy unless validation says otherwise.
 
 ## Why not just JSON/YAML/Markdown
 
@@ -23,7 +35,7 @@ Use JSON when downstream software needs standard machine interchange.
 
 Use YAML when humans need hand-edited configuration and the parser boundary is controlled.
 
-Use Markdown when prose, links, headings, and normal reading matter more than compact structured context.
+Use Markdown when prose, links, headings, exact wording, and normal reading matter more than compact structured context.
 
 Use TOON when repeated records matter. TOON can avoid repeating field names across rows, which can make definition lists, tables, and requirement sets easier to fit into LLM prompts.
 
@@ -36,7 +48,7 @@ TOON tends to help when the source can become arrays of repeated records:
 - Markdown tables with stable columns
 - mixed documents where structured sections matter more than original Markdown formatting
 
-The strongest current use case is compact LLM context preparation for definitions, glossaries, requirements, and tables.
+The strongest current use case is compact LLM context preparation for definitions, glossaries, requirements, tables, and other record-like knowledge.
 
 ## When TOON does not help
 
@@ -149,19 +161,19 @@ The core returns data instead of printing to stdout: canonical JSON, encoded TOO
 
 ## Modes
 
-`lossless` preserves the source content in the least verbose schema the profiler can choose.
+`lossless` preserves the source text in the least verbose schema the profiler can choose. Use it when exact wording, nuance, or auditability matters more than aggressive compression.
 
 ```bash
 doc2toon convert examples/prose.md --mode lossless --out /tmp/prose.toon
 ```
 
-`record` favors repeated record schemas for definitions, requirements, and tables.
+`record` favors repeated record schemas for definitions, requirements, rules, tables, and structured sections. Use it when repeated knowledge matters more than preserving surrounding prose exactly.
 
 ```bash
 doc2toon convert examples/definitions.md --mode record --delimiter tab --out /tmp/definitions.toon
 ```
 
-`budget` checks whether a target can be reached losslessly. If it cannot, the command refuses unless `--allow-lossy` is passed.
+`budget` checks whether a target can be reached losslessly. If it cannot, the command refuses unless `--allow-lossy` is passed. Use it when a strict context budget matters and semantic compression is acceptable.
 
 ```bash
 doc2toon convert examples/prose.md --mode budget --target-chars 100 --out /tmp/refused.toon
@@ -170,7 +182,7 @@ doc2toon convert examples/prose.md --mode budget --target-chars 1000 --allow-los
 
 The first command is expected to fail with a lossless-target warning. The second command writes lossy budget output.
 
-Lossy budget output records that it is lossy, stores the target, and includes coverage rows.
+Lossy budget output records that it is lossy, stores the target, and includes coverage rows. Treat it as compressed context for review, not as a replacement for human editorial judgment.
 
 ## Metrics
 
@@ -276,11 +288,11 @@ doc2toon validate /tmp/definitions.toon
 
 ## Agent Context Optimizer Preview
 
-The CheapAgent direction is broader than document conversion: agent-context optimization for files such as `CLAUDE.md`, `AGENTS.md`, and `SKILL.md`.
+The CheapAgent direction is broader than document conversion: practical context compression, token utilization, and LLM-ready document preparation for files such as `CLAUDE.md`, `AGENTS.md`, and `SKILL.md`.
 
 The intended product rule is the same as the CLI rule: measure before claiming savings. Future optimizer work should flag duplicate instructions, vague rules, overlong sections, and split candidates before recommending TOON or compact Markdown.
 
-TOON remains one output target, not the whole product. Some agent instruction files will be better served by a tighter Markdown rewrite or a split into lazy-loaded skills.
+TOON remains one output target, not the whole product. Some agent instruction files will be better served by a tighter Markdown rewrite or a split into lazy-loaded skills. CheapAgent should not present itself as a magical summarizer or a universal replacement for human editorial judgment: the human decides what nuance matters, the LLM can help elaborate context when needed, and `doc2toon` provides the compact, structured, measurable intermediary.
 
 ## Roadmap
 

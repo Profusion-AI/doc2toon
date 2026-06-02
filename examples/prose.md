@@ -4,7 +4,9 @@ AI-assisted document work moves quickly, while the useful record often spreads a
 
 The converter keeps ordinary prose readable while still producing valid TOON. For prose-heavy files, lossless mode groups text by section instead of turning each paragraph into a verbose block record.
 
-This example is intentionally prose-heavy. It includes enough narrative text to show the important boundary in the project: a lossless conversion does not compress away real meaning. If the source is mostly retained prose, TOON can carry the structure cleanly, but the output may be similar in size or larger than the original document.
+This example is intentionally prose-heavy. It shows the important boundary in the project: lossless conversion keeps exact wording, while record and budget modes are for higher context density. If the source is mostly retained prose, TOON can carry the structure cleanly, but the output may be similar in size or larger than the original document.
+
+doc2toon is not trying to preserve every rhetorical aside forever. Humans decide which nuance matters. The tool prepares compact, structured, measurable context so an LLM can consume the source more efficiently.
 
 ## Review Boundary
 

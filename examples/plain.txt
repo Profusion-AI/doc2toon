@@ -2,4 +2,6 @@ Converter Operating Notes
 
 doc2toon profiles a document before converting it. This matters because TOON is useful when repeated structure can be represented once and streamed as rows.
 
+The goal is useful context density, not maximum prose fidelity. Redundant phrasing, repeated ideas, and decorative padding should not survive merely because they were present in the source.
+
 Lossless prose may not shrink. If the target budget is smaller than the retained semantic text, budget mode must either refuse or clearly mark semantic compression as lossy.

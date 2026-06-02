@@ -1,6 +1,16 @@
 # Roadmap
 
-`doc2toon` is the open-source CLI and library foundation for measured document-to-TOON conversion. CheapAgent is the working brand for planned agent-context optimization follow-through.
+`doc2toon` is the open-source CLI and library foundation for measured document-to-TOON conversion, context preparation, and token efficiency. It optimizes for useful context density, not maximum prose fidelity. CheapAgent is the working brand for planned agent-context optimization follow-through.
+
+## Philosophy
+
+`doc2toon` helps prepare documents for LLM context windows by increasing useful context density.
+
+It is not designed to preserve every flourish, repeated idea, or rhetorical aside from the source document. Humans remain responsible for deciding which nuance matters. `doc2toon` focuses on preserving structure, meaning, references, definitions, rules, and task-relevant context while reducing redundancy and avoidable token overhead.
+
+When exact wording matters, use lossless mode.
+When repeated knowledge matters, use record mode.
+When a strict context budget matters, use budget mode and treat the result as lossy unless validation says otherwise.
 
 ## v0.1.0
 
@@ -27,7 +37,7 @@ Status: active hardening lane.
 
 Status: planned.
 
-CheapAgent web alpha should be static-first and use the reusable browser-safe core. The UI should not copy CLI internals.
+CheapAgent web alpha should be static-first and use the reusable browser-safe core. The UI should not copy CLI internals. It should position `cheapagent.ai` as practical context compression, token utilization, and LLM-ready document preparation, not as a magical summarizer or a replacement for human editorial judgment.
 
 - Paste box and `.txt` / `.md` upload.
 - Modes for `CLAUDE.md`, `AGENTS.md`, `SKILL.md`, and generic document-to-TOON conversion.
@@ -38,6 +48,7 @@ CheapAgent web alpha should be static-first and use the reusable browser-safe co
 - Browser-side conversion where possible.
 - No hosted LLM API dependency.
 - No login in alpha.
+- Measured savings and warnings instead of universal compression claims.
 
 ## v0.2 Beta
 

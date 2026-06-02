@@ -4,6 +4,16 @@ All notable changes to `doc2toon` will be documented in this file.
 
 This project follows practical release notes rather than strict format ceremony.
 
+## Unreleased
+
+### Added
+
+- Project overview and public philosophy language for useful context density, human-in-the-loop nuance decisions, and honest token-efficiency claims.
+
+### Changed
+
+- README, roadmap, CheapAgent MVP notes, and examples now frame `doc2toon` as a context-preparation and token-efficiency tool rather than a prose-preservation layer.
+
 ## 0.1.1 - 2026-05-27
 
 Library-boundary hardening release.
