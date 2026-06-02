@@ -11,7 +11,6 @@ import type {
   ParseOptions,
   RuleRecord,
   StructureStats,
-  TableJson,
 } from "./types.js";
 
 interface MarkdownState {
@@ -89,14 +88,11 @@ export function buildLosslessCanonical(profile: DocumentProfile): CanonicalDocum
     return { rows: profile.tables.flat() };
   }
 
-  return {
-    doc: {
-      title: profile.title,
-      profile: profile.name,
-      lossy: false,
-    },
-    sections: profile.sections.length > 0 ? profile.sections : [{ h: profile.title ?? "Document", body: profile.sourceText.trim() }],
-  };
+  if (profile.name === "mixed") {
+    return buildMixedCanonical(profile);
+  }
+
+  return buildCompactDocCanonical(profile);
 }
 
 export function buildRecordCanonical(profile: DocumentProfile): CanonicalDocument {
@@ -104,11 +100,19 @@ export function buildRecordCanonical(profile: DocumentProfile): CanonicalDocumen
     return { rows: profile.tables.flat() };
   }
 
+  if (profile.name === "mixed") {
+    return buildMixedCanonical(profile);
+  }
+
   if (profile.name === "requirements" && profile.rules.length > 0) {
     return { rules: profile.rules };
   }
 
-  if ((profile.name === "definitions" || profile.name === "mixed") && profile.definitions.length > 0) {
+  if (profile.name === "definitions" && profile.definitions.length > 0) {
+    return { defs: profile.definitions };
+  }
+
+  if (profile.definitions.length > 0) {
     return { defs: profile.definitions };
   }
 
@@ -216,8 +220,9 @@ export function parseMarkdown(input: string, sourceType: LosslessDocJson["docume
       const codeLines = [line];
       i += 1;
       while (i < lines.length) {
-        codeLines.push(lines[i] ?? "");
-        if ((lines[i] ?? "").trimStart().startsWith(fenceToken)) {
+        const codeLine = lines[i] ?? "";
+        codeLines.push(codeLine);
+        if (codeLine.trimStart().startsWith(fenceToken)) {
           i += 1;
           break;
         }
@@ -344,6 +349,45 @@ export function parsePlainText(input: string, sourceType: LosslessDocJson["docum
       blocks,
     },
   };
+}
+
+function buildCompactDocCanonical(profile: DocumentProfile): CompactDocJson {
+  return {
+    doc: {
+      title: profile.title,
+      profile: profile.name,
+      lossy: false,
+    },
+    sections: compactSections(profile),
+  };
+}
+
+function buildMixedCanonical(profile: DocumentProfile): MixedJson {
+  const result: MixedJson = {
+    doc: {
+      title: profile.title,
+      profile: profile.name,
+      lossy: false,
+    },
+    sections: compactSections(profile),
+  };
+  const rows = profile.tables.flat();
+
+  if (profile.definitions.length > 0) {
+    result.defs = profile.definitions;
+  }
+  if (profile.rules.length > 0) {
+    result.rules = profile.rules;
+  }
+  if (rows.length > 0) {
+    result.rows = rows;
+  }
+
+  return result;
+}
+
+function compactSections(profile: DocumentProfile): CompactSection[] {
+  return profile.sections.length > 0 ? profile.sections : [{ h: profile.title ?? "Document", body: profile.sourceText.trim() }];
 }
 
 function blocksToSections(lossless: LosslessDocJson): CompactSection[] {
