@@ -2,12 +2,34 @@ import { describe, expect, it } from "vitest";
 import {
   buildBudgetCanonical,
   buildCanonical,
-  buildLosslessCanonical,
   parseDocument,
   profileDocument,
 } from "../src/parser.js";
 import { decodeToJson, selectEncoding } from "../src/toon.js";
 import { stableJson } from "../src/normalize.js";
+
+const mixedMarkdown = `# Operating Framework
+
+## Attention Intelligence
+
+Definition: Ability to direct and protect human attention in AI-mediated environments.
+Tags: attention, ai
+
+## Rules
+
+- The converter must validate round trips.
+- The tool should report measured savings.
+- Budget mode cannot claim lossless compression unless measurements prove it.
+
+| Scope | Owner |
+| --- | --- |
+| Validation | CLI |
+| Metrics | Reporter |
+
+## Notes
+
+This section provides prose context that should stay available without block-object scaffolding.
+`;
 
 describe("profile-first conversion", () => {
   it("uses section-level lossless output for prose-heavy Markdown instead of block objects", () => {
@@ -115,38 +137,31 @@ Type: method
   });
 
   it("keeps mixed documents as compact typed arrays plus section context", () => {
-    const markdown = `# Operating Framework
-
-## Attention Intelligence
-
-Definition: Ability to direct and protect human attention in AI-mediated environments.
-Tags: attention, ai
-
-## Rules
-
-- The converter must validate round trips.
-- The tool should report measured savings.
-- Budget mode cannot claim lossless compression unless measurements prove it.
-
-| Scope | Owner |
-| --- | --- |
-| Validation | CLI |
-| Metrics | Reporter |
-
-## Notes
-
-This section provides prose context that should stay available without block-object scaffolding.
-`;
-
-    const profile = profileDocument(markdown, { sourceType: "markdown", flavor: "markdown" });
+    const profile = profileDocument(mixedMarkdown, { sourceType: "markdown", flavor: "markdown" });
     const canonical = buildCanonical(profile, { mode: "lossless" });
 
     expect(profile.name).toBe("mixed");
     expect(JSON.stringify(canonical)).not.toContain("blocks");
     expect("sections" in canonical ? canonical.sections?.length : 0).toBeGreaterThan(0);
-    expect(profile.definitions.length).toBeGreaterThan(0);
-    expect(profile.rules.length).toBeGreaterThan(0);
-    expect(profile.tables.flat().length).toBeGreaterThan(0);
+    expect("defs" in canonical ? canonical.defs?.length : 0).toBeGreaterThan(0);
+    expect("rules" in canonical ? canonical.rules?.length : 0).toBeGreaterThan(0);
+    expect("rows" in canonical ? canonical.rows?.length : 0).toBeGreaterThan(0);
+  });
+
+  it("record mode keeps every detected record family for mixed documents", () => {
+    const profile = profileDocument(mixedMarkdown, { sourceType: "markdown", flavor: "markdown" });
+    const canonical = buildCanonical(profile, { mode: "record" });
+    const encoding = selectEncoding(canonical, "auto");
+
+    expect(profile.name).toBe("mixed");
+    expect("doc" in canonical ? canonical.doc.profile : undefined).toBe("mixed");
+    expect("defs" in canonical ? canonical.defs?.[0]?.term : undefined).toBe("Attention Intelligence");
+    expect("rules" in canonical ? canonical.rules?.map((rule) => rule.rule) : []).toContain(
+      "The converter must validate round trips.",
+    );
+    expect("rows" in canonical ? canonical.rows?.[0] : undefined).toEqual({ scope: "Validation", owner: "CLI" });
+    expect("sections" in canonical ? canonical.sections?.some((section) => section.h === "Notes") : false).toBe(true);
+    expect(encoding.valid).toBe(true);
   });
 
   it("marks budget output as lossy with target and coverage metadata", () => {
