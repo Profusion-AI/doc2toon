@@ -1,6 +1,6 @@
 # CheapAgent MVP
 
-CheapAgent is the planned branded follow-through for `doc2toon`: a practical context compression, token utilization, and LLM-ready document preparation platform, not just a document converter.
+CheapAgent is the branded hosted-app follow-through for `doc2toon`: a practical context compression, token utilization, and LLM-ready document preparation platform, not just a document converter.
 
 ## Product Rule
 
@@ -20,7 +20,7 @@ When a strict context budget matters, use budget mode and treat the result as lo
 
 ## v0.2 Alpha Scope
 
-The alpha should be a static-first web app that imports the browser-safe `doc2toon` core.
+The alpha should be a static-first web app that imports the browser-safe `doc2toon` package boundary through `doc2toon/browser`.
 
 - Pasted text input.
 - `.txt` and `.md` browser-side file upload.
@@ -61,4 +61,4 @@ Say instead: the human decides what nuance matters; CheapAgent makes the useful 
 
 ## Domain Status
 
-CheapAgent is a working brand. `cheapagent.ai` is a tentative planned domain until ownership is confirmed.
+CheapAgent is a working brand and `cheapagent.ai` is registered. Do not describe the custom domain as live until Netlify SSL is valid for both apex and `www`.

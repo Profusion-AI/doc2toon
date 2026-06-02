@@ -24,6 +24,6 @@ When a strict context budget matters, use budget mode and treat the result as lo
 
 ## Product Direction
 
-`cheapagent.ai` is the planned platform direction for practical context compression, token utilization, and LLM-ready document preparation. It should help humans and LLMs work with context more efficiently, not replace human editorial judgment.
+CheapAgent is the separate hosted app direction for practical context compression, token utilization, and LLM-ready document preparation. The `cheapagent.ai` domain is registered, but public-launch language should wait until the Netlify custom-domain SSL gate is complete. CheapAgent should help humans and LLMs work with context more efficiently, not replace human editorial judgment.
 
 The human decides what nuance matters. The LLM can help elaborate or restore rhetorical context when needed. `doc2toon` provides the technical intermediary that makes source context more compact, structured, measurable, and easier for an LLM to consume.

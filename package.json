@@ -37,7 +37,6 @@
   "files": [
     "dist",
     "examples",
-    "docs",
     "README.md",
     "ROADMAP.md",
     "CHANGELOG.md",

@@ -37,7 +37,7 @@ Status: active hardening lane.
 
 Status: planned.
 
-CheapAgent web alpha should be static-first and use the reusable browser-safe core. The UI should not copy CLI internals. It should position `cheapagent.ai` as practical context compression, token utilization, and LLM-ready document preparation, not as a magical summarizer or a replacement for human editorial judgment.
+CheapAgent web alpha should be static-first and use the reusable browser-safe core. The UI should not copy CLI internals or reach into this repository's source files. It should position CheapAgent as practical context compression, token utilization, and LLM-ready document preparation, not as a magical summarizer or a replacement for human editorial judgment.
 
 - Paste box and `.txt` / `.md` upload.
 - Modes for `CLAUDE.md`, `AGENTS.md`, `SKILL.md`, and generic document-to-TOON conversion.
@@ -74,4 +74,4 @@ Status: planned.
 
 ## Brand And Domain
 
-CheapAgent is a working brand. `cheapagent.ai` is a tentative planned domain until ownership is confirmed. Public docs should not promise a launch before the domain exists.
+CheapAgent is a working brand and `cheapagent.ai` is registered. Public docs should not claim the custom domain is launched until Netlify serves the intended app over valid HTTPS for both `cheapagent.ai` and `www.cheapagent.ai`.

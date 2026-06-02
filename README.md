@@ -6,7 +6,7 @@ This is an independent project built on and inspired by [TOON](https://github.co
 
 ## What is doc2toon
 
-`doc2toon` is a local CLI and library for context preparation and token efficiency. It is not a prose-preservation museum. The goal is to preserve operational meaning, useful structure, retrievability, cross-references, definitions, rules, requirements, and task-relevant context while reducing avoidable token overhead.
+`doc2toon` is a local CLI and library for context preparation and token efficiency. It is the engine/library layer, not the hosted CheapAgent app. The goal is to preserve operational meaning, useful structure, retrievability, cross-references, definitions, rules, requirements, and task-relevant context while reducing avoidable token overhead.
 
 It is best for documents with repeated structure:
 
@@ -59,6 +59,12 @@ Budget mode may require semantic compression. When that happens, output is marke
 Avoid universal percentage savings claims. Measure each document and report the actual numbers.
 
 ## Install
+
+From npm after publication:
+
+```bash
+npm install doc2toon
+```
 
 From a local checkout:
 
@@ -288,7 +294,7 @@ doc2toon validate /tmp/definitions.toon
 
 ## Agent Context Optimizer Preview
 
-The CheapAgent direction is broader than document conversion: practical context compression, token utilization, and LLM-ready document preparation for files such as `CLAUDE.md`, `AGENTS.md`, and `SKILL.md`.
+CheapAgent is the separate hosted app surface for practical context compression, token utilization, and LLM-ready document preparation for files such as `CLAUDE.md`, `AGENTS.md`, and `SKILL.md`. `doc2toon` provides the package boundary CheapAgent should consume through `doc2toon/browser`.
 
 The intended product rule is the same as the CLI rule: measure before claiming savings. Optimizer warnings are advisory signals, not silent rewrites:
 
@@ -303,7 +309,7 @@ TOON remains one output target, not the whole product. Some agent instruction fi
 
 May 27, 2026: `doc2toon` v0.1.0 is the first public release. It is the local, open-source CLI artifact: profile documents, convert `.md`, `.txt`, and stdin, validate TOON, and report measured savings.
 
-May 28, 2026: CheapAgent is the working brand for the planned follow-through into agent-context optimization. `cheapagent.ai` is a tentative planned domain until ownership is confirmed.
+June 2, 2026: CheapAgent is a working brand and `cheapagent.ai` is registered. The hosted app repo is separate from this engine/library repo. Public-launch language should remain restrained until the Netlify custom-domain SSL gate is complete for both `cheapagent.ai` and `www.cheapagent.ai`.
 
 v0.1.x is the hardening lane: reusable core extraction, browser-safe package entrypoints, parser coverage, fixtures, docs, packaging, and CI cleanup.
 
