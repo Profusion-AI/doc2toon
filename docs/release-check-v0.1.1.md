@@ -2,7 +2,7 @@
 
 Date: 2026-06-02
 
-Commit: pending release-prep commit
+Commit: final release commit for tag `v0.1.1` after release-prep base `72e9ce8`
 Tag: pending `v0.1.1`
 
 ## Summary
@@ -16,7 +16,7 @@ The release target remains deliberately narrow:
 - CLI entrypoint through `npx doc2toon`.
 - Browser-safe `doc2toon/browser` entrypoint for CheapAgent.
 - Measured savings only; no universal compression claims.
-- CheapAgent domain launch claims remain gated on valid Netlify SSL for apex and `www`.
+- CheapAgent is live as a controlled alpha at `https://cheapagent.ai/`; broader launch claims remain alpha-oriented and measured.
 
 ## Checks Run
 
@@ -109,3 +109,11 @@ git push origin main --tags
 ```
 
 The tag workflow publishes with npm trusted publishing/provenance under the `alpha` dist-tag. Promote to `latest` only after registry install and CheapAgent smoke pass.
+
+## Publish Result
+
+- npm package: pending
+- dist-tag: pending
+- registry install smoke: pending
+- CheapAgent npm dependency smoke: pending
+- promoted to latest: pending

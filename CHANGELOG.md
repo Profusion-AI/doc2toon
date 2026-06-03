@@ -29,7 +29,7 @@ Library-boundary and packaging hardening release.
 - CLI now delegates conversion orchestration to the shared core and keeps responsibility for Commander, stdin, file paths, output files, and report printing.
 - Token estimation now has a browser-safe fallback, with `tokenx` isolated behind the Node-only estimator used by the CLI.
 - Stats byte counting now uses `TextEncoder` instead of Node `Buffer`.
-- Public roadmap language now treats CheapAgent as the separate hosted app surface and keeps `cheapagent.ai` launch claims gated on valid Netlify SSL.
+- Public roadmap language now treats CheapAgent as the separate hosted app surface, with `cheapagent.ai` live as a controlled alpha while broader launch claims remain measured and alpha-oriented.
 
 ## 0.1.0 - 2026-05-27
 

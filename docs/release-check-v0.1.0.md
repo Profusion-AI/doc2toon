@@ -59,7 +59,7 @@ npm pack --dry-run --json
 - Official `@toon-format/cli` decode passed.
 - README commands were run in order; the documented budget refusal was the only expected nonzero command.
 - `npm pack --dry-run --json` included only package docs, `dist`, examples, release notes, and package metadata.
-- Public roadmap docs identified 2026-05-27 as the `doc2toon` v0.1.0 CLI release and framed CheapAgent as planned follow-through. As of 2026-06-02, `cheapagent.ai` is registered but should not be described as launched until the Netlify custom-domain SSL gate is complete.
+- Public roadmap docs identified 2026-05-27 as the `doc2toon` v0.1.0 CLI release and framed CheapAgent as planned follow-through. Historical 2026-06-02 note: `cheapagent.ai` was registered but Netlify SSL was still pending. Current docs supersede this: `https://cheapagent.ai/` now serves the controlled alpha, with `www.cheapagent.ai` redirecting to apex.
 - Internal CheapAgent strategy notes are kept under ignored private paths and are not tracked or packed.
 
 ## Package Contents

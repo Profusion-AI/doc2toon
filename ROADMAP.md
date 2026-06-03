@@ -33,9 +33,9 @@ Status: active hardening lane.
 - Add agent-instruction fixtures for `AGENTS.md`, `CLAUDE.md`, and `SKILL.md`.
 - Improve package exports, docs, examples, CI, and release notes.
 
-## v0.2.0
+## CheapAgent Hosted Alpha
 
-Status: planned.
+Status: controlled alpha live at `https://cheapagent.ai/`.
 
 CheapAgent web alpha should be static-first and use the reusable browser-safe core. The UI should not copy CLI internals or reach into this repository's source files. It should position CheapAgent as practical context compression, token utilization, and LLM-ready document preparation, not as a magical summarizer or a replacement for human editorial judgment.
 
@@ -74,4 +74,4 @@ Status: planned.
 
 ## Brand And Domain
 
-CheapAgent is a working brand and `cheapagent.ai` is registered. Public docs should not claim the custom domain is launched until Netlify serves the intended app over valid HTTPS for both `cheapagent.ai` and `www.cheapagent.ai`.
+CheapAgent is a working brand and `cheapagent.ai` serves the controlled alpha over valid HTTPS. `www.cheapagent.ai` redirects to apex. `cheapagent.netlify.app` currently mirrors production and should not be described as staging until a separate Netlify staging site exists.
