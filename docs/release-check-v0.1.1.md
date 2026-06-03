@@ -3,7 +3,7 @@
 Date: 2026-06-02
 
 Commit: final release commit for tag `v0.1.1` after release-prep base `72e9ce8`
-Tag: pending `v0.1.1`
+Tag: pushed `v0.1.1`; publish workflow failed before registry publication
 
 ## Summary
 
@@ -112,8 +112,10 @@ The tag workflow publishes with npm trusted publishing/provenance under the `alp
 
 ## Publish Result
 
-- npm package: pending
-- dist-tag: pending
-- registry install smoke: pending
-- CheapAgent npm dependency smoke: pending
-- promoted to latest: pending
+- npm package: not published
+- dist-tag: none
+- registry install smoke: not run
+- CheapAgent npm dependency smoke: not run
+- promoted to latest: no
+
+The `v0.1.1` tag workflow passed `npm ci`, build, tests, smoke, and `npm pack --dry-run`, then failed during `npm publish --provenance --access public --tag alpha` with npm 404 on `PUT https://registry.npmjs.org/doc2toon`. The package was not visible through `npm view doc2toon` afterward. The safer follow-up is a `0.1.2` packaging retry instead of moving the already-pushed `v0.1.1` tag.

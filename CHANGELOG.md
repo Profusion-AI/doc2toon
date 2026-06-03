@@ -8,6 +8,15 @@ This project follows practical release notes rather than strict format ceremony.
 
 - No unreleased changes.
 
+## 0.1.2 - 2026-06-02
+
+Packaging retry release after the `v0.1.1` tag workflow passed build/test/smoke/pack but failed at npm publication before the package became registry-visible.
+
+### Changed
+
+- Normalized CLI `bin` paths to npm's publish-preferred form.
+- Kept the v0.1.1 library boundary, browser export, package contents, and controlled-alpha documentation posture.
+
 ## 0.1.1 - 2026-06-02
 
 Library-boundary and packaging hardening release.

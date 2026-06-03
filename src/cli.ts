@@ -49,7 +49,7 @@ const program = new Command();
 program
   .name("doc2toon")
   .description("Profile text documents, choose compact canonical schemas, and encode valid TOON with official tooling.")
-  .version("0.1.1");
+  .version("0.1.2");
 
 program
   .command("profile")
