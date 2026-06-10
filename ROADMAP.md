@@ -52,7 +52,7 @@ CheapAgent web alpha should be static-first and use the reusable browser-safe co
 
 ## v0.2 Beta
 
-Status: in progress. `doc2toon` 0.2.0 targets npm publication; the user-facing beta features land in the CheapAgent app repository.
+Status: shipped 2026-06-10 (app features live on cheapagent.ai; npm publication in flight). The user-facing beta features landed in the CheapAgent app repository.
 
 - Lightweight sign-in via email plus password with confirmation, with Netlify Identity owning credentials. (Magic links were the original plan, but Netlify Identity does not support passwordless magic links.)
 - 15000 characters per day for signed-in users, enforced server-side by debiting character counts only.
