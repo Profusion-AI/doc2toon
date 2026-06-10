@@ -8,10 +8,11 @@ info:
     is converting it to TOON worth it? Every response is a structured verdict —
     a decision with measurements, never prose.
 
-    One contract, two transports. `npx doc2toon serve --port 8787` exposes these
-    endpoints on localhost today, with document bodies never leaving the machine.
-    `https://api.cheapagent.ai` exposes the identical contract as an explicit,
-    opt-in hosted trust boundary (early access).
+    One contract, two transports — published spec-first. `npx doc2toon serve
+    --port 8787` (ships in doc2toon v0.4) exposes these endpoints on localhost,
+    with document bodies never leaving the machine. `https://api.cheapagent.ai`
+    exposes the identical contract as an explicit, opt-in hosted trust boundary
+    (early access).
 
     The `components.schemas.Verdict` object in this document is, deliberately, a
     field-for-field mirror of `schemas/verdict.v1.json` (modulo `$schema`/`$id`).
@@ -25,7 +26,7 @@ info:
     identifier: MIT
 servers:
   - url: http://127.0.0.1:8787
-    description: Local doc2toon serve (npx doc2toon serve --port 8787). Document bodies never leave the machine.
+    description: Local doc2toon serve (npx doc2toon serve --port 8787; ships in doc2toon v0.4). Document bodies never leave the machine.
   - url: https://api.cheapagent.ai
     description: Hosted API (early access — answers 501 with a pointer to early access until launch).
 paths:

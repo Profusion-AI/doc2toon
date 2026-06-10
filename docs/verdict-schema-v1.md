@@ -4,10 +4,10 @@
 
 The contract is two files plus this document:
 
-- **`schemas/verdict.v1.json`** — JSON Schema 2020-12, `$id: https://cheapagent.ai/schemas/verdict.v1.json`. The canonical artifact. Ships in the npm tarball.
-- **`openapi/cheapagent.v1.yaml`** — OpenAPI 3.1. The HTTP binding of the same contract: `POST /v1/profile`, `/v1/convert`, `/v1/validate` (implemented in v1), `/v1/estimate`, `/v1/batch` (spec-only, `x-status: planned`).
+- **`schemas/verdict.v1.json`** — JSON Schema 2020-12, `$id: https://cheapagent.ai/schemas/verdict.v1.json`. The canonical artifact. Ships in the npm tarball (`schemas/` and `openapi/` are in the package `files` allowlist).
+- **`openapi/cheapagent.v1.yaml`** — OpenAPI 3.1. The HTTP binding of the same contract: `POST /v1/profile`, `/v1/convert`, `/v1/validate` (implemented surfaces in v1), `/v1/estimate`, `/v1/batch` (spec-only, `x-status: planned`).
 
-**One contract, two transports.** `npx doc2toon serve` exposes these endpoints on localhost; `api.cheapagent.ai` exposes the identical contract when demand justifies hosting it. The web app, CLI `--json`, MCP tools, and GitHub Action all emit this same object. No surface ever re-derives a verdict: everything calls the same `buildVerdict` (lands in `src/verdict.ts`, days 4–7).
+**One contract, two transports — spec first, implementations staged.** No HTTP transport exists yet: `doc2toon serve` ships in v0.4.0 (30-day plan, days 13–18) and exposes these endpoints on localhost; `api.cheapagent.ai` exposes the identical contract when demand justifies hosting it. The web app, CLI `--json` (v0.3.0), MCP tools (v0.4.0), and GitHub Action all emit this same object. No surface ever re-derives a verdict: everything calls the same `buildVerdict` (lands in `src/verdict.ts`, days 4–7). This document and the spec are published ahead of the implementations deliberately — that is what makes the freeze meaningful.
 
 Both files are deliberately written **without internal `$ref`s**, fully inlined, so the sync between `components.schemas.Verdict` and the JSON Schema is verifiable by deep equality (modulo `$schema`/`$id`). The sync test (`test/openapi-sync.test.ts`) lands with the freeze merge.
 
@@ -214,7 +214,7 @@ Evaluated in priority order against deterministic inputs only:
 
 (Engine-true numbers, taken from the realistic CLAUDE.md fixture: a mixed-profile agent doc usually measures *negative* — the verdict's advice is to split it into cleanly-typed blocks first, and `split_first` outranks `keep_markdown` precisely because splitting is the actionable fix.)
 
-### curl against localhost
+### curl against localhost (the v0.4.0 surface — illustrative until `serve` ships, days 13–18)
 
 ```bash
 npx doc2toon serve --port 8787 &
@@ -238,11 +238,11 @@ curl -s -X POST http://127.0.0.1:8787/v1/profile \
 
 Document bodies never leave the machine — `serve` binds `127.0.0.1` by default.
 
-### TypeScript (library today, same shape over HTTP tomorrow)
+### TypeScript (library API from v0.3.0, same shape over HTTP from v0.4.0)
 
 ```ts
 import { runVerdict, type VerdictV1 } from "doc2toon";
-// In v0.3.0: runVerdict never throws on representable outcomes — refusal is a verdict.
+// runVerdict lands in v0.3.0 and never throws on representable outcomes — refusal is a verdict.
 
 const verdict: VerdictV1 = runVerdict(agentsMd, { mode: "lossless" });
 
