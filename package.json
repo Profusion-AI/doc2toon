@@ -4,6 +4,14 @@
   "description": "Profile-first document-to-TOON CLI that measures character and token savings before claiming them.",
   "license": "MIT",
   "author": "Kyle Greenwell",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Profusion-AI/doc2toon.git"
+  },
+  "homepage": "https://github.com/Profusion-AI/doc2toon#readme",
+  "bugs": {
+    "url": "https://github.com/Profusion-AI/doc2toon/issues"
+  },
   "keywords": [
     "toon",
     "token-oriented-object-notation",
