@@ -8,6 +8,16 @@ This project follows practical release notes rather than strict format ceremony.
 
 - No unreleased changes.
 
+## 0.2.1 - 2026-06-10
+
+Publishing-pipeline patch. Library and CLI behavior are unchanged from 0.2.0.
+
+### Changed
+
+- Publish workflow authenticates via npm trusted publishing (OIDC) instead of a token secret; the `NODE_AUTH_TOKEN` env was removed. The token path existed only because trusted publishing cannot perform a package's first publish.
+- `package.json` carries `repository`, `homepage`, and `bugs` metadata; `npm publish --provenance` requires `repository.url` to match the repository the workflow runs from (the 0.2.0 publish initially failed with E422 until this was added).
+- README shows the npm version badge now that the package is registry-visible.
+
 ## 0.2.0 - 2026-06-10
 
 Beta-lane release. The library and CLI behavior are unchanged from v0.1.2; this release exists to land doc2toon on the npm registry and to anchor the CheapAgent v0.2 beta (sign-in, daily usage limits, privacy page) on a published package instead of a git-pinned commit.

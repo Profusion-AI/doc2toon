@@ -27,8 +27,7 @@ jobs:
       - run: npm test
       - run: npm run smoke
       - run: npm pack --dry-run
-      # NMP_TOKEN is a tolerated misspelling: the original repo secret was
-      # created under that name and GitHub cannot rename secrets in place.
+      # Authentication is OIDC trusted publishing (configured on npmjs.com for
+      # this repo + workflow). No token secret is involved; id-token: write
+      # above is what grants the OIDC exchange.
       - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NMP_TOKEN }}

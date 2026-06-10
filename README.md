@@ -1,5 +1,7 @@
 # doc2toon
 
+[![npm version](https://img.shields.io/npm/v/doc2toon)](https://www.npmjs.com/package/doc2toon)
+
 `doc2toon` prepares Markdown, plain text, and pasted documents for LLM context windows by increasing useful context density. It profiles the document first, chooses a compact JSON shape, encodes with `@toon-format/toon`, decodes back with the same official library, and prints measured size/token metrics before making any savings claim.
 
 This is an independent project built on and inspired by [TOON](https://github.com/toon-format/toon). It is not an official TOON project.
