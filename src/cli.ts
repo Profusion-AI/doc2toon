@@ -2,6 +2,7 @@
 import { Command } from "commander";
 import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { createRequire } from "node:module";
 import { dirname, extname, resolve } from "node:path";
 import { inspect } from "node:util";
 import { convertTextToToon, decodeToJsonText, profileText, validateToonText } from "./core.js";
@@ -44,12 +45,15 @@ interface DecodeOptions {
   out?: string;
 }
 
+// package.json sits one level above both src/ (dev via tsx) and dist/ (published build).
+const { version: packageVersion } = createRequire(import.meta.url)("../package.json") as { version: string };
+
 const program = new Command();
 
 program
   .name("doc2toon")
   .description("Profile text documents, choose compact canonical schemas, and encode valid TOON with official tooling.")
-  .version("0.1.2");
+  .version(packageVersion);
 
 program
   .command("profile")

@@ -1,0 +1,519 @@
+openapi: 3.1.0
+info:
+  title: CheapAgent Context API
+  version: 1.0.0-draft
+  summary: An API agents call before they waste context.
+  description: |
+    The CheapAgent Context API answers one question before an agent loads a document:
+    is converting it to TOON worth it? Every response is a structured verdict —
+    a decision with measurements, never prose.
+
+    One contract, two transports — published spec-first. `npx doc2toon serve
+    --port 8787` (ships in doc2toon v0.4) exposes these endpoints on localhost,
+    with document bodies never leaving the machine. `https://api.cheapagent.ai`
+    exposes the identical contract as an explicit, opt-in hosted trust boundary
+    (early access).
+
+    The `components.schemas.Verdict` object in this document is, deliberately, a
+    field-for-field mirror of `schemas/verdict.v1.json` (modulo `$schema`/`$id`).
+    Both are inlined without internal references so the sync can be verified by
+    deep equality. The JSON Schema is the canonical artifact; this spec is its
+    HTTP binding.
+  contact:
+    url: https://cheapagent.ai
+  license:
+    name: MIT
+    identifier: MIT
+servers:
+  - url: http://127.0.0.1:8787
+    description: Local doc2toon serve (npx doc2toon serve --port 8787; ships in doc2toon v0.4). Document bodies never leave the machine.
+  - url: https://api.cheapagent.ai
+    description: Hosted API (early access — answers 501 with a pointer to early access until launch).
+paths:
+  /v1/profile:
+    post:
+      operationId: profileDocument
+      summary: Profile a document and get a verdict without the TOON payload.
+      description: |
+        The flagship call. Runs the full measurement pipeline (including an internal
+        lossless trial conversion) and returns the complete verdict with
+        `toon_candidate: null` — the decision and the numbers, without spending
+        response size on output the caller may never use. Agents call this before
+        loading a document into context; if the verdict is `convert`, a follow-up
+        `/v1/convert` returns the payload.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+      responses:
+        '200':
+          description: Verdict for the document. `toon_candidate` is always null on this endpoint.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Verdict'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalError'
+  /v1/convert:
+    post:
+      operationId: convertDocument
+      summary: Convert a document to TOON and get the verdict with the payload.
+      description: |
+        Returns the full verdict including `toon_candidate`. A budget refusal is a
+        representable outcome, not an error: when a budget target cannot be met
+        losslessly and `allow_lossy` is false, the response is HTTP 200 with
+        `verdict: "refused"` and `toon_candidate: null`. HTTP error codes are
+        reserved for unrepresentable failures (malformed requests, oversized
+        bodies, internal errors).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertRequest'
+      responses:
+        '200':
+          description: Verdict for the document, including the TOON candidate (null when refused).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Verdict'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalError'
+  /v1/validate:
+    post:
+      operationId: validateToon
+      summary: Validate TOON text with the official decoder.
+      description: |
+        Decodes the submitted TOON with the official decoder. This endpoint has no
+        source document to judge, so it returns a ValidationResult, not a Verdict.
+        An invalid document is a representable outcome: HTTP 200 with
+        `valid: false` and a coded error.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateRequest'
+      responses:
+        '200':
+          description: Validation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalError'
+  /v1/estimate:
+    post:
+      operationId: estimateDocument
+      summary: Token estimates without a conversion (planned).
+      description: |
+        Planned for a later 1.x release; not implemented in v1 surfaces. All v1
+        servers (local and hosted) answer 501.
+      x-status: planned
+      responses:
+        '501':
+          $ref: '#/components/responses/NotImplemented'
+  /v1/batch:
+    post:
+      operationId: batchVerdicts
+      summary: Verdicts for multiple documents in one call (planned).
+      description: |
+        Planned for a later 1.x release; not implemented in v1 surfaces. All v1
+        servers (local and hosted) answer 501.
+      x-status: planned
+      responses:
+        '501':
+          $ref: '#/components/responses/NotImplemented'
+  /v1/openapi.yaml:
+    get:
+      operationId: getOpenApiSpec
+      summary: This specification.
+      description: Serves the OpenAPI document packaged with the running server, so a caller can always discover the exact contract version it is talking to.
+      responses:
+        '200':
+          description: The OpenAPI 3.1 document.
+          content:
+            application/yaml:
+              schema:
+                type: string
+components:
+  responses:
+    BadRequest:
+      description: The request body is malformed or fails validation (missing `content`, unknown `mode`, non-positive target, invalid delimiter).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    PayloadTooLarge:
+      description: The request body exceeds the server's limit (2 MB by default).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Unrepresentable internal failure. Representable conditions (refusals, invalid TOON) are never 500s.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotImplemented:
+      description: The endpoint is specified but not implemented on this server. The error body points at documentation and, on the hosted server, the early-access page.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ProfileRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          description: The document text to profile.
+        options:
+          type: object
+          additionalProperties: false
+          properties:
+            flavor:
+              description: Parser flavor override. Defaults to markdown.
+              enum: [markdown, text]
+            chars_per_token:
+              type: array
+              description: Chars-per-token ratios for the advisory ratio_estimates table.
+              items:
+                type: number
+                exclusiveMinimum: 0
+    ConvertRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          description: The document text to convert.
+        options:
+          type: object
+          additionalProperties: false
+          properties:
+            mode:
+              description: Output mode. Defaults to lossless. The wire accepts only canonical names (no CLI aliases).
+              enum: [lossless, record, budget]
+            delimiter:
+              description: TOON delimiter. Defaults to auto.
+              enum: [auto, ',', "\t", '|']
+            target_chars:
+              type: integer
+              exclusiveMinimum: 0
+              description: Character budget, mainly for budget mode.
+            target_tokens:
+              type: integer
+              exclusiveMinimum: 0
+              description: Estimated-token budget, mainly for budget mode.
+            allow_lossy:
+              type: boolean
+              description: Permit semantic compression when a budget cannot be met losslessly. When false (default), an unreachable budget yields verdict "refused".
+            chars_per_token:
+              type: array
+              description: Chars-per-token ratios for the advisory ratio_estimates table.
+              items:
+                type: number
+                exclusiveMinimum: 0
+            flavor:
+              description: Parser flavor override. Defaults to markdown.
+              enum: [markdown, text]
+    ValidateRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - toon
+      properties:
+        toon:
+          type: string
+          description: TOON text to decode with the official decoder.
+    ValidationResult:
+      type: object
+      additionalProperties: true
+      required:
+        - schema_version
+        - valid
+        - error
+      properties:
+        schema_version:
+          type: string
+          pattern: '^1\.[0-9]+$'
+        valid:
+          type: boolean
+        error:
+          description: Null when valid. Coded decode error otherwise.
+          oneOf:
+            - type: 'null'
+            - type: object
+              required:
+                - code
+                - message
+              properties:
+                code:
+                  type: string
+                  description: Stable error identifier, e.g. invalid_toon.
+                message:
+                  type: string
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              description: Stable error identifier, e.g. bad_request, payload_too_large, not_implemented, internal.
+            message:
+              type: string
+            docs_url:
+              type: string
+              description: Where to read more. Present on 501 responses.
+            early_access_url:
+              type: string
+              description: Hosted-API early access page. Present on hosted 501 responses.
+    Verdict:
+      title: CheapAgent Verdict v1
+      description: "Machine-readable decision object emitted by every CheapAgent surface (CLI --json, MCP tools, doc2toon serve, hosted API, web app). The verdict is a decision, not a compression claim: it tells an agent whether converting a document to TOON is worth it before any context is spent. Consumers MUST ignore unknown fields; fields are only ever added (never removed or retyped) within schema_version 1.x. Decision fields (verdict, safe_to_auto_apply) derive exclusively from deterministic inputs: measured character counts, warning codes, and the lossless/valid flags. Token estimates are advisory payload and never decision inputs."
+      type: object
+      additionalProperties: true
+      required:
+        - schema_version
+        - verdict
+        - safe_to_auto_apply
+        - profile
+        - measured_chars
+        - token_estimates
+        - toon_candidate
+        - warnings
+        - flags
+        - mode
+        - delimiter
+      properties:
+        schema_version:
+          type: string
+          pattern: '^1\.[0-9]+$'
+          description: Verdict schema version. Additive optional fields bump the minor (1.0 -> 1.1). Breaking changes are a new schema document (verdict.v2.json), never a mutation of this one.
+        verdict:
+          description: 'The decision. convert: TOON is worth it. keep_markdown: TOON does not improve this input. split_first: structural problems hide the savings; split the document before converting. review: convertible, but warnings need a human look first. refused: a budget target could not be met losslessly and lossy output was not permitted.'
+          enum: [convert, keep_markdown, split_first, review, refused]
+        safe_to_auto_apply:
+          type: boolean
+          description: 'True only when an agent may apply the conversion without human review: verdict is convert AND mode is lossless AND flags.lossless AND flags.valid AND measured_chars.savings > 0 AND no warning has severity "warning". The mode clause exists because v1 does not independently verify content coverage outside lossless mode. Conservative by design.'
+        profile:
+          type: object
+          additionalProperties: true
+          required:
+            - name
+            - title
+            - source_type
+            - stats
+          properties:
+            name:
+              description: Detected document profile.
+              enum: [raw_prose, definitions, requirements, table, mixed]
+            title:
+              type: [string, 'null']
+              description: Document title when one was detected.
+            source_type:
+              enum: [markdown, text, stdin, paste]
+            stats:
+              type: object
+              additionalProperties: true
+              required:
+                - lines
+                - headings
+                - paragraphs
+                - list_items
+                - tables
+                - table_rows
+                - definitions
+                - rules
+              properties:
+                lines:
+                  type: integer
+                  minimum: 0
+                headings:
+                  type: integer
+                  minimum: 0
+                paragraphs:
+                  type: integer
+                  minimum: 0
+                list_items:
+                  type: integer
+                  minimum: 0
+                tables:
+                  type: integer
+                  minimum: 0
+                table_rows:
+                  type: integer
+                  minimum: 0
+                definitions:
+                  type: integer
+                  minimum: 0
+                rules:
+                  type: integer
+                  minimum: 0
+        measured_chars:
+          type: object
+          additionalProperties: true
+          description: 'Deterministic character measurements. These are the decision inputs: identical on every surface regardless of tokenizer.'
+          required:
+            - source
+            - toon
+            - savings
+            - savings_pct
+          properties:
+            source:
+              type: integer
+              minimum: 0
+            toon:
+              type: integer
+              minimum: 0
+              description: Characters in the TOON candidate. For refused verdicts this measures the shortest lossless candidate that was attempted.
+            savings:
+              type: integer
+              description: source - toon. Negative when TOON is larger than the source.
+            savings_pct:
+              type: number
+              description: savings / source * 100. Negative when TOON is larger.
+        token_estimates:
+          type: object
+          additionalProperties: true
+          description: 'Advisory token estimates. Never decision inputs: estimators differ by surface, so these numbers may differ between CLI and browser for the same document while the verdict stays identical.'
+          required:
+            - estimator
+            - source
+            - toon
+            - savings
+            - savings_pct
+            - ratio_estimates
+          properties:
+            estimator:
+              type: string
+              description: Identity of the estimator that produced the primary numbers, e.g. "tokenx@1.3.0" or "chars-per-token:4".
+            source:
+              type: integer
+              minimum: 0
+            toon:
+              type: integer
+              minimum: 0
+            savings:
+              type: integer
+            savings_pct:
+              type: number
+            ratio_estimates:
+              type: array
+              description: Fixed chars-per-token ratio projections so consumers can sanity-check the primary estimate against simple ratios.
+              items:
+                type: object
+                additionalProperties: true
+                required:
+                  - chars_per_token
+                  - source
+                  - toon
+                  - savings
+                  - savings_pct
+                properties:
+                  chars_per_token:
+                    type: number
+                    exclusiveMinimum: 0
+                  source:
+                    type: integer
+                    minimum: 0
+                  toon:
+                    type: integer
+                    minimum: 0
+                  savings:
+                    type: integer
+                  savings_pct:
+                    type: number
+        toon_candidate:
+          type: [string, 'null']
+          description: The TOON output. Present on convert responses; null on profile responses (measurements only — the candidate is withheld to keep the verdict context-cheap) and on refused verdicts (no output was produced).
+        warnings:
+          type: array
+          description: 'Coded warnings. The code set is open: new codes may appear within 1.x, and consumers MUST tolerate unknown codes, using the severity field to decide how to react. Prose is a rendering of the code, never the data.'
+          items:
+            type: object
+            additionalProperties: true
+            required:
+              - code
+              - severity
+              - message
+            properties:
+              code:
+                type: string
+                description: 'Stable warning identifier. v1 registry: duplicate_rule, vague_rule, long_section, split_candidate, negative_savings, lossy_applied, target_not_reached, budget_refused.'
+              severity:
+                enum: [info, warning]
+              message:
+                type: string
+              suggestion:
+                type: string
+              evidence:
+                type: string
+              range:
+                type: object
+                additionalProperties: true
+                properties:
+                  line_start:
+                    type: integer
+                    minimum: 1
+                  line_end:
+                    type: integer
+                    minimum: 1
+                  char_start:
+                    type: integer
+                    minimum: 0
+                  char_end:
+                    type: integer
+                    minimum: 0
+        flags:
+          type: object
+          additionalProperties: true
+          required:
+            - lossless
+            - valid
+            - target_reached
+          properties:
+            lossless:
+              type: boolean
+              description: 'No budget (semantic) compression was applied by the pipeline. In v1 this flag asserts the mode''s intent, not independently verified content coverage: only lossless mode preserves all source blocks by construction. See safe_to_auto_apply.'
+            valid:
+              type: boolean
+              description: The candidate round-trips through the official TOON decoder.
+            target_reached:
+              type: [boolean, 'null']
+              description: Whether the requested budget target was met. Null when no target was requested.
+        mode:
+          enum: [lossless, record, budget]
+        delimiter:
+          description: TOON delimiter selected for the candidate. Null when no candidate encoding was selected (refused verdicts).
+          enum: [',', "\t", '|', null]

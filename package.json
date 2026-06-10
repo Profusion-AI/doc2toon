@@ -45,6 +45,8 @@
   "files": [
     "dist",
     "examples",
+    "schemas",
+    "openapi",
     "README.md",
     "ROADMAP.md",
     "CHANGELOG.md",

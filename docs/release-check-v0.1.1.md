@@ -1,5 +1,7 @@
 # doc2toon v0.1.1 Release Check
 
+> Historical record. This publish attempt failed; doc2toon has since published successfully — 0.2.x is live on npm via OIDC trusted publishing.
+
 Date: 2026-06-02
 
 Commit: final release commit for tag `v0.1.1` after release-prep base `72e9ce8`

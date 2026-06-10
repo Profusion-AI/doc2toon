@@ -52,7 +52,7 @@ CheapAgent web alpha should be static-first and use the reusable browser-safe co
 
 ## v0.2 Beta
 
-Status: shipped 2026-06-10 (app features live on cheapagent.ai; npm publication in flight). The user-facing beta features landed in the CheapAgent app repository.
+Status: shipped 2026-06-10 (app features live on cheapagent.ai; doc2toon 0.2.x published to npm via OIDC trusted publishing). The user-facing beta features landed in the CheapAgent app repository.
 
 - Lightweight sign-in via email plus password with confirmation, with Netlify Identity owning credentials. (Magic links were the original plan, but Netlify Identity does not support passwordless magic links.)
 - 15000 characters per day for signed-in users, enforced server-side by debiting character counts only.
@@ -62,16 +62,30 @@ Status: shipped 2026-06-10 (app features live on cheapagent.ai; npm publication 
 - No billing in v0.2.
 - `doc2toon` published to npm so CheapAgent can depend on a registry version instead of a git-pinned commit.
 
-## v0.3.0
+## v0.3.0 — The verdict contract
+
+Status: in progress.
+
+- Stable verdict schema v1 (`schemas/verdict.v1.json`): a machine-readable decision object with `verdict`, profile, measured character deltas, token estimates, `toon_candidate`, coded `warnings[]`, and `safe_to_auto_apply`. Versioned and frozen; changes after the freeze follow documented additive-only rules.
+- `--json` output on `profile` and `convert` emitting the verdict schema exactly; `validate --json` emitting a structured validation result. Exit-code contract plus `--fail-on` for CI.
+- OpenAPI 3.1 spec (`openapi/cheapagent.v1.yaml`) for `POST /v1/profile`, `/v1/convert`, and `/v1/validate` — one contract, two transports: localhost now, hosted later.
+- Realistic agent-context fixtures (`fixtures/agent-context/realistic/`) and verdict threshold calibration.
+- Deprecations: the `toon-doc` bin alias and the `lossless-doc`/`llm-context` mode aliases warn in 0.3 and are removed at 1.0.
+
+## v0.4.0 — The agent interface
 
 Status: planned.
 
-- Multi-file uploads.
-- Target-aware outputs for agent instruction files.
-- Compact Markdown rewrite output where TOON is not the right target.
-- Split-skill recommendations.
-- DOCX and text-based PDF support.
-- Paid hosted convenience tier, while keeping the CLI open source.
+- MCP server: `doc2toon mcp` subcommand plus a `doc2toon-mcp` bin exposing `profile` and `convert` as tools that return verdict objects.
+- `doc2toon serve --port 8787`: local HTTP exposure of `POST /v1/profile`, `/v1/convert`, `/v1/validate` (binds 127.0.0.1 by default).
+- Transport-free HTTP handlers exported from the Node entrypoint for reuse by hosted deployments.
+- GitHub Action (composite `action.yml`, consumed via the `action-v1` tag): context-budget checks that comment on pull requests.
+
+## Deferred
+
+- Multi-file uploads, compact Markdown rewrite output, and split-skill recommendations: revisit after the current 30-day plan.
+- DOCX and text-based PDF support: deferred this quarter — extraction and trust are category-changing problems.
+- Paid hosted convenience tier: demand-gated; the hosted API ships as a published contract first and becomes a service only on validated demand.
 
 ## Brand And Domain
 
