@@ -71,15 +71,20 @@ Tags: safety, scope
     expect(browserApi.profileText).toBeTypeOf("function");
     expect(browserApi.validateToonText).toBeTypeOf("function");
     expect(browserApi.analyzeOptimizerWarnings).toBeTypeOf("function");
+    expect(browserApi.buildVerdict).toBeTypeOf("function");
+    expect(browserApi.runVerdict).toBeTypeOf("function");
 
     const browserSource = await readFile(new URL("../src/browser.ts", import.meta.url), "utf8");
     const optimizerSource = await readFile(new URL("../src/optimizer.ts", import.meta.url), "utf8");
+    const verdictSource = await readFile(new URL("../src/verdict.ts", import.meta.url), "utf8");
     expect(browserSource).not.toContain("node:fs");
     expect(browserSource).not.toContain("node:path");
     expect(browserSource).not.toContain("node:buffer");
     expect(browserSource).not.toContain("tokenx");
     expect(optimizerSource).not.toContain("node:");
     expect(optimizerSource).not.toContain("tokenx");
+    expect(verdictSource).not.toContain("node:");
+    expect(verdictSource).not.toContain("tokenx");
   });
 
   it("refuses impossible budget conversion unless lossy output is allowed", () => {

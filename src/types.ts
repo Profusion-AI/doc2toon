@@ -259,3 +259,91 @@ export interface ToonValidationResult {
   decodedJson?: unknown;
   error?: string;
 }
+
+// --- Verdict v1 (schemas/verdict.v1.json) ---
+// These interfaces mirror the wire contract exactly, snake_case included: there is
+// deliberately no camelCase mapping layer to drift (docs/verdict-schema-v1.md, decision 10).
+
+export type VerdictDecision = "convert" | "keep_markdown" | "split_first" | "review" | "refused";
+
+export type CodedWarningSeverity = "info" | "warning";
+
+export interface CodedWarningRange {
+  line_start?: number;
+  line_end?: number;
+  char_start?: number;
+  char_end?: number;
+}
+
+export interface CodedWarning {
+  /** Open set: consumers MUST tolerate unknown codes and react via severity. */
+  code: string;
+  severity: CodedWarningSeverity;
+  message: string;
+  suggestion?: string;
+  evidence?: string;
+  range?: CodedWarningRange;
+}
+
+export interface VerdictProfileStats {
+  lines: number;
+  headings: number;
+  paragraphs: number;
+  list_items: number;
+  tables: number;
+  table_rows: number;
+  definitions: number;
+  rules: number;
+}
+
+export interface VerdictProfile {
+  name: ProfileName;
+  title: string | null;
+  source_type: SourceType;
+  stats: VerdictProfileStats;
+}
+
+export interface VerdictMeasuredChars {
+  source: number;
+  toon: number;
+  savings: number;
+  savings_pct: number;
+}
+
+export interface VerdictRatioEstimate {
+  chars_per_token: number;
+  source: number;
+  toon: number;
+  savings: number;
+  savings_pct: number;
+}
+
+export interface VerdictTokenEstimates {
+  /** Identity of the estimator that produced the primary numbers, e.g. "tokenx@1.3.0" or "chars-per-token:4". */
+  estimator: string;
+  source: number;
+  toon: number;
+  savings: number;
+  savings_pct: number;
+  ratio_estimates: VerdictRatioEstimate[];
+}
+
+export interface VerdictFlags {
+  lossless: boolean;
+  valid: boolean;
+  target_reached: boolean | null;
+}
+
+export interface VerdictV1 {
+  schema_version: string;
+  verdict: VerdictDecision;
+  safe_to_auto_apply: boolean;
+  profile: VerdictProfile;
+  measured_chars: VerdictMeasuredChars;
+  token_estimates: VerdictTokenEstimates;
+  toon_candidate: string | null;
+  warnings: CodedWarning[];
+  flags: VerdictFlags;
+  mode: OutputMode;
+  delimiter: ToonDelimiter | null;
+}
