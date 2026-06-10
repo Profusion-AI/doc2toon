@@ -52,14 +52,15 @@ CheapAgent web alpha should be static-first and use the reusable browser-safe co
 
 ## v0.2 Beta
 
-Status: planned after anonymous flow works.
+Status: in progress. `doc2toon` 0.2.0 targets npm publication; the user-facing beta features land in the CheapAgent app repository.
 
-- Lightweight sign-in.
-- 15000 characters per day for signed-in users.
+- Lightweight sign-in via email magic link, with Netlify Identity owning credentials.
+- 15000 characters per day for signed-in users, enforced server-side by debiting character counts only.
 - Minimal account metadata only: user id, email, usage count, timestamps.
-- No document body storage by default.
+- No document body storage by default; document bodies never leave the browser.
 - Plain-language privacy page.
 - No billing in v0.2.
+- `doc2toon` published to npm so CheapAgent can depend on a registry version instead of a git-pinned commit.
 
 ## v0.3.0
 
