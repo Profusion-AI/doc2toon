@@ -182,6 +182,34 @@ The exit-code contract (normative in [docs/verdict-schema-v1.md](docs/verdict-sc
 doc2toon profile --json --fail-on split_first,review CLAUDE.md
 ```
 
+## GitHub Action
+
+Run the context check on every PR — a sticky comment with the verdict table, file-level
+annotations, a `doc2toon-verdicts.json` artifact, and an optional `fail-on` gate:
+
+```yaml
+name: Context check
+on: pull_request
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  context-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: Profusion-AI/doc2toon@action-v1
+        with:
+          files: "AGENTS.md, CLAUDE.md, SKILL.md, .claude/**/*.md"
+          # fail-on: "review"   # optional: verdicts and/or severities
+```
+
+The Action runs the published CLI (`doc2toon@0.3.x`) — verdicts come from the same frozen
+Verdict v1 policy as everything else. Security posture by design ([the spike](docs/action-fork-pr-permissions.md)):
+`pull_request` only, zero secrets, and on fork PRs the comment is skipped while the summary,
+annotations, artifact, and exit code still deliver the full result. `@action-v1` is a moving
+tag updated independently of npm releases.
+
 ## Library API
 
 The CLI is a thin wrapper around the reusable conversion core. Node code can import the same pipeline directly:

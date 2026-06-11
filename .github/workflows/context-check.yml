@@ -1,0 +1,24 @@
+# Dogfood: run the in-repo context-check Action (uses: ./) on every PR, against
+# the realistic fixture corpus. Report-only — the corpus deliberately contains
+# split_first/keep_markdown documents, so a verdict gate here would always be red.
+# Consumers should copy docs/example-context-check.yml instead (it pins @action-v1).
+name: Context check (dogfood)
+on: pull_request
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  context-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./
+        with:
+          files: >-
+            fixtures/agent-context/realistic/AGENTS.md,
+            fixtures/agent-context/realistic/CLAUDE.md,
+            fixtures/agent-context/realistic/SKILL.md,
+            fixtures/agent-context/realistic/architecture-rfc.md,
+            fixtures/agent-context/realistic/config-reference.md

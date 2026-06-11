@@ -1,0 +1,84 @@
+name: "doc2toon context check"
+description: "Profile agent docs (AGENTS.md, CLAUDE.md, SKILL.md) with doc2toon's Verdict v1: measured verdicts and coded warnings, posted as a sticky PR comment with fork-safe fallbacks."
+author: "Profusion-AI"
+branding:
+  icon: "file-text"
+  color: "green"
+
+# Security posture (binding design: docs/action-fork-pr-permissions.md):
+# pull_request only — never pull_request_target; zero secret-dependent paths
+# (GITHUB_TOKEN is used opportunistically for the comment and nothing else).
+# The gate rides exit code + step summary + annotations + artifact, all of
+# which work on fork PRs; the comment is best-effort progressive enhancement.
+
+inputs:
+  files:
+    description: "Comma- or newline-separated globs of agent docs to profile."
+    required: false
+    default: "AGENTS.md, CLAUDE.md, SKILL.md, .claude/**/*.md"
+  fail-on:
+    description: "Passed through to doc2toon --fail-on: comma-separated verdicts (convert, keep_markdown, split_first, review, refused) and/or severities (info, warning). Empty = report-only."
+    required: false
+    default: ""
+  comment:
+    description: "Post/update the sticky PR comment (best effort; skipped automatically on fork PRs and read-only tokens)."
+    required: false
+    default: "true"
+
+outputs:
+  tripped:
+    description: "true when the fail-on gate tripped for at least one file."
+    value: ${{ steps.aggregate.outputs.tripped }}
+  matched:
+    description: "Number of documents profiled."
+    value: ${{ steps.aggregate.outputs.matched }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v6
+      with:
+        node-version: 24
+
+    - name: Profile documents
+      id: aggregate
+      shell: bash
+      env:
+        INPUT_FILES: ${{ inputs.files }}
+        INPUT_FAIL_ON: ${{ inputs.fail-on }}
+      run: node "${{ github.action_path }}/action/aggregate.mjs"
+
+    - name: Upload verdicts artifact
+      if: steps.aggregate.outputs.matched != '0'
+      uses: actions/upload-artifact@v7
+      with:
+        name: doc2toon-verdicts
+        path: ${{ steps.aggregate.outputs.results_path }}
+
+    - name: Comment on PR (best effort)
+      if: >-
+        inputs.comment == 'true' &&
+        github.event_name == 'pull_request' &&
+        steps.aggregate.outputs.matched != '0' &&
+        github.event.pull_request.head.repo.full_name == github.repository
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        COMMENT_PATH: ${{ steps.aggregate.outputs.comment_path }}
+      run: node "${{ github.action_path }}/action/comment.mjs"
+
+    - name: Fork PR notice
+      if: >-
+        inputs.comment == 'true' &&
+        github.event_name == 'pull_request' &&
+        github.event.pull_request.head.repo.full_name != github.repository
+      shell: bash
+      run: echo "::notice::Fork PR — comment skipped by design (read-only token). The full verdict table is in the step summary and the doc2toon-verdicts artifact."
+
+    - name: Gate
+      if: steps.aggregate.outputs.tripped == 'true'
+      shell: bash
+      run: |
+        echo "::error::doc2toon --fail-on gate tripped — see the step summary for the verdict table."
+        exit 1

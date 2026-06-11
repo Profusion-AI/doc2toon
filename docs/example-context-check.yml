@@ -1,0 +1,17 @@
+# Copy-paste recipe: doc2toon context check on every PR.
+# Comments a verdict table on same-repo PRs; on fork PRs it degrades to the
+# step summary + annotations + artifact (by design — no secrets involved).
+name: Context check
+on: pull_request
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  context-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: Profusion-AI/doc2toon@action-v1
+        with:
+          files: "AGENTS.md, CLAUDE.md, SKILL.md, .claude/**/*.md"
+          # fail-on: "review"   # optional gate: verdicts and/or severities
