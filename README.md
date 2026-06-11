@@ -149,7 +149,38 @@ Decode TOON back to JSON:
 doc2toon decode /tmp/prose.toon --out /tmp/prose.json
 ```
 
-The older `toon-doc` binary remains available as an alias, but `doc2toon` is the primary package and CLI name.
+The older `toon-doc` binary and the `lossless-doc`/`llm-context` mode aliases are deprecated as of v0.3.0 (a warning is printed on use) and will be removed at 1.0. Use `doc2toon` and the canonical mode names.
+
+## Machine-readable verdicts (`--json`)
+
+`profile --json` and `convert --json` emit the [Verdict v1 object](schemas/verdict.v1.json) — the same object every CheapAgent surface emits, decided by the same engine policy. `profile` withholds the TOON payload (`toon_candidate: null`) so an agent can decide before spending context; `convert` includes it.
+
+```bash
+doc2toon profile --json AGENTS.md | jq '{verdict, safe_to_auto_apply, savings_pct: .measured_chars.savings_pct, warnings: [.warnings[].code]}'
+```
+
+```json
+{
+  "verdict": "keep_markdown",
+  "safe_to_auto_apply": false,
+  "savings_pct": -62.1,
+  "warnings": ["duplicate_rule", "duplicate_rule", "vague_rule", "vague_rule", "negative_savings"]
+}
+```
+
+With `--json`, `--out` becomes optional on `convert`; when given, the `.toon` file is still written and the write confirmation goes to stderr so stdout stays pure JSON.
+
+The exit-code contract (normative in [docs/verdict-schema-v1.md](docs/verdict-schema-v1.md), decision 8):
+
+- Any representable verdict exits `0` — including `refused` (a budget target unreachable losslessly without `--allow-lossy`) and `keep_markdown`. The check succeeded; the verdict is the product.
+- I/O, argument, and internal failures exit `1` and print a `{"error": {"code", "message"}}` envelope (`bad_request`, `input_not_found`, `internal`).
+- `validate --json` returns `{schema_version, valid, error}` and keeps exit `1` on invalid TOON, so a validation gate fails the build.
+- `--fail-on <list>` makes CI fail deliberately, never accidentally: comma-separated verdicts (`split_first,review`) and/or severities (`warning`; `info` fails on any warning) set exit `1` after the verdict is printed.
+
+```bash
+# Fail the build when a doc should be split or reviewed, otherwise pass:
+doc2toon profile --json --fail-on split_first,review CLAUDE.md
+```
 
 ## Library API
 
@@ -168,6 +199,17 @@ const result = convertTextToToon({
 
 console.log(result.toon);
 console.log(result.stats);
+```
+
+For the decision object, `runVerdict` returns the same Verdict v1 the CLI emits and never throws on representable outcomes — a budget refusal is `verdict: "refused"`, not an exception:
+
+```ts
+import { runVerdict } from "doc2toon";
+
+const verdict = runVerdict(agentsMd, { flavor: "markdown" });
+if (verdict.verdict === "convert" && verdict.safe_to_auto_apply) {
+  await writeFile("AGENTS.toon", verdict.toon_candidate!);
+}
 ```
 
 Browser builds should use the browser entrypoint. It accepts raw strings, returns structured results, and does not depend on CLI file handling:

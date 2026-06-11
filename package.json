@@ -1,6 +1,6 @@
 {
   "name": "doc2toon",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Profile-first document-to-TOON CLI that measures character and token savings before claiming them.",
   "license": "MIT",
   "author": "Kyle Greenwell",
@@ -40,7 +40,7 @@
   },
   "bin": {
     "doc2toon": "dist/cli.js",
-    "toon-doc": "dist/cli.js"
+    "toon-doc": "dist/cli-toon-doc.js"
   },
   "files": [
     "dist",

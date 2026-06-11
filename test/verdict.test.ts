@@ -195,17 +195,21 @@ describe("verdict policy outcomes", () => {
   });
 
   it("keeps markdown when measured savings sit below the convert band (MIN_CONVERT_SAVINGS_PCT)", () => {
-    // architecture-rfc.md measures +0.4% lossless: a rounding-error win, not a format-change case.
-    const text = readFileSync(
-      join(root, "fixtures", "agent-context", "realistic", "architecture-rfc.md"),
-      "utf8",
-    );
-    const verdict = runVerdict(text, {
+    // A uniform table with long unquoted cells wins by only ~4%: positive savings, zero
+    // warnings, and still keep_markdown — the band is the only clause that can decide this.
+    const cell = "value detail ".repeat(10).slice(0, 120).trim();
+    let subBandTable = "# Inventory levels\n\n| Item | Description | Note |\n| --- | --- | --- |\n";
+    for (let i = 0; i < 14; i += 1) {
+      subBandTable += `| item${String(i).padStart(2, "0")} | ${cell} | ${cell.slice(0, 60)} |\n`;
+    }
+
+    const verdict = runVerdict(subBandTable, {
       sourceType: "markdown",
       flavor: "markdown",
       includeToonCandidate: false,
     });
 
+    expect(verdict.warnings).toEqual([]);
     expect(verdict.measured_chars.savings).toBeGreaterThan(0);
     expect(verdict.measured_chars.savings_pct).toBeLessThan(5);
     expect(verdict.verdict).toBe("keep_markdown");
