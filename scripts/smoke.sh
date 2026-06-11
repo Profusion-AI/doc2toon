@@ -92,10 +92,50 @@ grep -q "lossless: false" "$OUT_DIR/budget-lossy.convert.log"
 
 node "$CLI" profile "$ROOT/fixtures/agent-context/problematic/mixed-agent-context.md" \
   > "$OUT_DIR/mixed-agent-profile.log"
-grep -q "optimizer warnings:" "$OUT_DIR/mixed-agent-profile.log"
+grep -q "Verdict: split_first" "$OUT_DIR/mixed-agent-profile.log"
+grep -q "warnings:" "$OUT_DIR/mixed-agent-profile.log"
 grep -q "Possible duplicate rule" "$OUT_DIR/mixed-agent-profile.log"
 grep -q "Possibly vague instruction" "$OUT_DIR/mixed-agent-profile.log"
 grep -q "Long section" "$OUT_DIR/mixed-agent-profile.log"
 grep -q "Possible split candidate" "$OUT_DIR/mixed-agent-profile.log"
+
+# --json contract (docs/verdict-schema-v1.md, decision 8): output parses, ajv-validates against
+# the frozen schema, and refusal is in-band with exit 0.
+node "$CLI" profile --json "$ROOT/fixtures/agent-context/realistic/AGENTS.md" \
+  > "$OUT_DIR/agents-verdict.json"
+node "$ROOT/scripts/check-verdict-json.mjs" "$OUT_DIR/agents-verdict.json"
+grep -q '"verdict": "keep_markdown"' "$OUT_DIR/agents-verdict.json"
+grep -q '"toon_candidate": null' "$OUT_DIR/agents-verdict.json"
+
+node "$CLI" convert --json "$ROOT/fixtures/agent-context/realistic/config-reference.md" \
+  > "$OUT_DIR/config-verdict.json"
+node "$ROOT/scripts/check-verdict-json.mjs" "$OUT_DIR/config-verdict.json"
+grep -q '"verdict": "convert"' "$OUT_DIR/config-verdict.json"
+grep -q '"safe_to_auto_apply": true' "$OUT_DIR/config-verdict.json"
+
+node "$CLI" convert --json "$ROOT/examples/prose.md" \
+  --mode budget \
+  --target-chars 10 \
+  > "$OUT_DIR/refused-verdict.json"
+node "$ROOT/scripts/check-verdict-json.mjs" "$OUT_DIR/refused-verdict.json"
+grep -q '"verdict": "refused"' "$OUT_DIR/refused-verdict.json"
+
+# --fail-on fails deliberately: matched verdict exits nonzero, output still printed.
+set +e
+node "$CLI" profile --json --fail-on keep_markdown \
+  "$ROOT/fixtures/agent-context/realistic/AGENTS.md" \
+  > "$OUT_DIR/fail-on-verdict.json"
+fail_on_status=$?
+set -e
+
+if [[ "$fail_on_status" -eq 0 ]]; then
+  echo "Expected --fail-on keep_markdown to exit nonzero." >&2
+  exit 1
+fi
+node "$ROOT/scripts/check-verdict-json.mjs" "$OUT_DIR/fail-on-verdict.json"
+
+# validate --json: ValidationResult shape, exit 1 preserved on invalid TOON.
+node "$CLI" validate --json "$OUT_DIR/definitions.toon" > "$OUT_DIR/validate-ok.json"
+grep -q '"valid": true' "$OUT_DIR/validate-ok.json"
 
 echo "Smoke passed. Generated outputs are in tmp/smoke."
