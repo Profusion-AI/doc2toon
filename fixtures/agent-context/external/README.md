@@ -81,6 +81,23 @@ was probed or measured:
    whole third-party documents. The external section *adds to* the in-house "1 of 19"
    result; it does not replace it.
 
+## Amendment 2026-06-11 (pre-registered metric: actionable-plan rate)
+
+Locked before any context-plan code exists (design: `docs/context-plan-design.md`). When
+section-level context plans ship, the **same pinned corpus** (internal 19 + external lane-1
+19, these exact manifest SHAs, no re-pinning) is re-measured for one new metric:
+
+- **Actionable-plan rate** — the share of documents whose plan recommends a hybrid:
+  net savings (splice overhead included) ≥ the frozen `MIN_CONVERT_SAVINGS_PCT`, with every
+  converted section independently earning `convert` under the unchanged whole-document
+  policy. Secondary: median net savings among plan-positive docs; plan-level
+  `safe_to_auto_apply` count.
+- The whole-document denominators published on the honesty page are not restated, replaced,
+  or affected. The "one-third of documents" figure discussed in planning is a hypothesis to
+  test, not a number to hit: whatever rate falls out is the published rate.
+- This metric definition does not change after results exist; any revision is a new dated
+  pre-registration.
+
 ## Watchlist (not canonical)
 
 Technically tempting sources outside the MIT gate are listed in `manifest.json` under
