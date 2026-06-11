@@ -1,19 +1,30 @@
 {
-  "generated": "2026-06-11T12:15:49.822Z",
-  "doc2toon_version": "0.3.0",
-  "method": "Each file fetched at its manifest-pinned commit SHA and measured via `doc2toon profile --json` and `doc2toon convert --json` (defaults: lossless mode). Measurements and provenance stored; source bodies and TOON candidates are not.",
+  "generated": "2026-06-11T13:15:36.791Z",
+  "doc2toon_version": "0.3.1",
+  "method": "Each file fetched at its manifest-pinned commit SHA and measured via `doc2toon profile --json` and `doc2toon convert --json` (defaults: lossless mode). Measurements and provenance stored; source bodies and TOON candidates are not. Lane 1 (embedded repo docs) is the public headline aggregate; lane 2 (skill packs) is a separate population, reported separately and never merged into the lane-1 denominator.",
   "aggregate": {
-    "documents_counted": 10,
-    "pointers_recorded_not_counted": 2,
-    "verdicts": {
-      "split_first": 9,
-      "keep_markdown": 1
+    "lane1_embedded_repo_docs": {
+      "documents_counted": 19,
+      "verdicts": {
+        "split_first": 16,
+        "keep_markdown": 3
+      },
+      "safe_to_auto_apply_true": 0
     },
-    "safe_to_auto_apply_true": 0
+    "lane2_skill_packs": {
+      "documents_counted": 1,
+      "verdicts": {
+        "split_first": 1
+      },
+      "safe_to_auto_apply_true": 0,
+      "caveat": "Skill files carry YAML frontmatter, which the current profiler does not treat specially — inspect the per-document profile stats before citing lane-2 numbers publicly."
+    },
+    "pointers_recorded_not_counted": 8
   },
   "documents": [
     {
       "repo": "github/spec-kit",
+      "lane": 1,
       "path": "AGENTS.md",
       "source_url": "https://github.com/github/spec-kit/blob/5ae7ff53d003455e9a66429e9706d1bd4b638bd7/AGENTS.md",
       "pinned_sha": "5ae7ff53d003455e9a66429e9706d1bd4b638bd7",
@@ -189,6 +200,7 @@
     },
     {
       "repo": "browser-use/browser-use",
+      "lane": 1,
       "path": "AGENTS.md",
       "source_url": "https://github.com/browser-use/browser-use/blob/d190e20747bccb9bd44c20e4b29f4b6dd2309e50/AGENTS.md",
       "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
@@ -434,6 +446,7 @@
     },
     {
       "repo": "browser-use/browser-use",
+      "lane": 1,
       "path": "CLAUDE.md",
       "source_url": "https://github.com/browser-use/browser-use/blob/d190e20747bccb9bd44c20e4b29f4b6dd2309e50/CLAUDE.md",
       "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
@@ -651,6 +664,7 @@
     },
     {
       "repo": "browser-use/browser-use",
+      "lane": 1,
       "path": "skills/browser-use/SKILL.md",
       "source_url": "https://github.com/browser-use/browser-use/blob/d190e20747bccb9bd44c20e4b29f4b6dd2309e50/skills/browser-use/SKILL.md",
       "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
@@ -798,6 +812,7 @@
     },
     {
       "repo": "langchain-ai/langchain",
+      "lane": 1,
       "path": "AGENTS.md",
       "source_url": "https://github.com/langchain-ai/langchain/blob/76c32db9b38dfc287c958dc2a914d4834f022c1c/AGENTS.md",
       "pinned_sha": "76c32db9b38dfc287c958dc2a914d4834f022c1c",
@@ -945,6 +960,7 @@
     },
     {
       "repo": "langchain-ai/langchainjs",
+      "lane": 1,
       "path": "AGENTS.md",
       "source_url": "https://github.com/langchain-ai/langchainjs/blob/7f573630ccccd9c1377f7e6084a59c0a2ce35531/AGENTS.md",
       "pinned_sha": "7f573630ccccd9c1377f7e6084a59c0a2ce35531",
@@ -1078,6 +1094,7 @@
     },
     {
       "repo": "langflow-ai/langflow",
+      "lane": 1,
       "path": "AGENTS.md",
       "source_url": "https://github.com/langflow-ai/langflow/blob/3a8f48b86c4025dca5f6d60db01cc958e44d9c83/AGENTS.md",
       "pinned_sha": "3a8f48b86c4025dca5f6d60db01cc958e44d9c83",
@@ -1225,6 +1242,7 @@
     },
     {
       "repo": "OpenHands/OpenHands",
+      "lane": 1,
       "path": "AGENTS.md",
       "source_url": "https://github.com/OpenHands/OpenHands/blob/347bba27e588e591b6271a14aa757acb50106d96/AGENTS.md",
       "pinned_sha": "347bba27e588e591b6271a14aa757acb50106d96",
@@ -1484,6 +1502,7 @@
     },
     {
       "repo": "BerriAI/litellm",
+      "lane": 1,
       "path": "CLAUDE.md",
       "source_url": "https://github.com/BerriAI/litellm/blob/343e453c2a7c5351459ac72761fad3e25145e78e/CLAUDE.md",
       "pinned_sha": "343e453c2a7c5351459ac72761fad3e25145e78e",
@@ -1633,6 +1652,7 @@
     },
     {
       "repo": "BerriAI/litellm",
+      "lane": 1,
       "path": "AGENTS.md",
       "source_url": "https://github.com/BerriAI/litellm/blob/343e453c2a7c5351459ac72761fad3e25145e78e/AGENTS.md",
       "pinned_sha": "343e453c2a7c5351459ac72761fad3e25145e78e",
@@ -1645,6 +1665,7 @@
     },
     {
       "repo": "astral-sh/uv",
+      "lane": 1,
       "path": "AGENTS.md",
       "source_url": "https://github.com/astral-sh/uv/blob/e0f3af7b90426351a552e664cc6c419ba1b7837b/AGENTS.md",
       "pinned_sha": "e0f3af7b90426351a552e664cc6c419ba1b7837b",
@@ -1806,6 +1827,7 @@
     },
     {
       "repo": "astral-sh/uv",
+      "lane": 1,
       "path": "CLAUDE.md",
       "source_url": "https://github.com/astral-sh/uv/blob/e0f3af7b90426351a552e664cc6c419ba1b7837b/CLAUDE.md",
       "pinned_sha": "e0f3af7b90426351a552e664cc6c419ba1b7837b",
@@ -1815,6 +1837,1935 @@
       "source_chars": 11,
       "pointer": true,
       "pointer_excerpt": "@AGENTS.md"
+    },
+    {
+      "repo": "openai/openai-agents-python",
+      "lane": 1,
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/openai/openai-agents-python/blob/d8068d96a97dc3b42294a8c832072b16a5cb7f23/AGENTS.md",
+      "pinned_sha": "d8068d96a97dc3b42294a8c832072b16a5cb7f23",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 14507,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 14507,
+        "toon": 25824,
+        "savings": -11317,
+        "savings_pct": -78
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 3701,
+        "toon": 6708,
+        "savings": -3007,
+        "savings_pct": -81.2,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 4145,
+            "toon": 7378,
+            "savings": -3233,
+            "savings_pct": -78
+          },
+          {
+            "chars_per_token": 4,
+            "source": 3627,
+            "toon": 6456,
+            "savings": -2829,
+            "savings_pct": -78
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 3224,
+            "toon": 5739,
+            "savings": -2515,
+            "savings_pct": -78
+          }
+        ]
+      },
+      "warning_codes": [
+        "duplicate_rule",
+        "duplicate_rule",
+        "duplicate_rule",
+        "duplicate_rule",
+        "long_section",
+        "long_section",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "Contributor Guide",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 232,
+            "headings": 27,
+            "paragraphs": 17,
+            "list_items": 83,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 6,
+            "rules": 57
+          }
+        },
+        "measured_chars": {
+          "source": 14507,
+          "toon": 25824,
+          "savings": -11317,
+          "savings_pct": -78
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 3701,
+          "toon": 6708,
+          "savings": -3007,
+          "savings_pct": -81.2,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 4145,
+              "toon": 7378,
+              "savings": -3233,
+              "savings_pct": -78
+            },
+            {
+              "chars_per_token": 4,
+              "source": 3627,
+              "toon": 6456,
+              "savings": -2829,
+              "savings_pct": -78
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 3224,
+              "toon": 5739,
+              "savings": -2515,
+              "savings_pct": -78
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"ExecPlans\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "Call out compatibility risk only when the plan changes behavior shipped in the latest release tag or a released or explicitly supported durable external state boundary."
+          },
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Mandatory local run order\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "make typecheck",
+            "range": {
+              "line_start": 185,
+              "line_end": 185,
+              "char_start": 12616,
+              "char_end": 12630
+            }
+          },
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Utilities & Tips\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "make snapshots-fix",
+            "range": {
+              "line_start": 208,
+              "line_end": 208,
+              "char_start": 13240,
+              "char_end": 13260
+            }
+          },
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Utilities & Tips\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "make snapshots-create",
+            "range": {
+              "line_start": 209,
+              "line_end": 209,
+              "char_start": 13261,
+              "char_end": 13284
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Platform, Docs, and Security Review\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1581 chars, 6 non-empty lines, 6 bullets",
+            "range": {
+              "line_start": 58,
+              "line_end": 66,
+              "char_start": 4847,
+              "char_end": 6465
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Agents Core Runtime Guidelines\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "2665 chars, 16 non-empty lines, 16 bullets",
+            "range": {
+              "line_start": 86,
+              "line_end": 104,
+              "char_start": 7443,
+              "char_end": 10130
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "openai/openai-agents-python",
+      "lane": 1,
+      "path": "CLAUDE.md",
+      "source_url": "https://github.com/openai/openai-agents-python/blob/d8068d96a97dc3b42294a8c832072b16a5cb7f23/CLAUDE.md",
+      "pinned_sha": "d8068d96a97dc3b42294a8c832072b16a5cb7f23",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 9,
+      "pointer": true,
+      "pointer_excerpt": "AGENTS.md"
+    },
+    {
+      "repo": "openai/openai-agents-js",
+      "lane": 1,
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/openai/openai-agents-js/blob/dfbc3b070aaad99753146ff1629755d474c7541a/AGENTS.md",
+      "pinned_sha": "dfbc3b070aaad99753146ff1629755d474c7541a",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 15088,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 15088,
+        "toon": 24509,
+        "savings": -9421,
+        "savings_pct": -62.4
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 3853,
+        "toon": 6484,
+        "savings": -2631,
+        "savings_pct": -68.3,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 4311,
+            "toon": 7003,
+            "savings": -2692,
+            "savings_pct": -62.4
+          },
+          {
+            "chars_per_token": 4,
+            "source": 3772,
+            "toon": 6127,
+            "savings": -2355,
+            "savings_pct": -62.4
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 3353,
+            "toon": 5446,
+            "savings": -2094,
+            "savings_pct": -62.4
+          }
+        ]
+      },
+      "warning_codes": [
+        "duplicate_rule",
+        "long_section",
+        "long_section",
+        "long_section",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "Contributor Guide",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 274,
+            "headings": 30,
+            "paragraphs": 19,
+            "list_items": 102,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 8,
+            "rules": 40
+          }
+        },
+        "measured_chars": {
+          "source": 15088,
+          "toon": 24509,
+          "savings": -9421,
+          "savings_pct": -62.4
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 3853,
+          "toon": 6484,
+          "savings": -2631,
+          "savings_pct": -68.3,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 4311,
+              "toon": 7003,
+              "savings": -2692,
+              "savings_pct": -62.4
+            },
+            {
+              "chars_per_token": 4,
+              "source": 3772,
+              "toon": 6127,
+              "savings": -2355,
+              "savings_pct": -62.4
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 3353,
+              "toon": 5446,
+              "savings": -2094,
+              "savings_pct": -62.4
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Build and Type Checking\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "Run this early to catch TypeScript errors in packages, tests, and examples:",
+            "range": {
+              "line_start": 140,
+              "line_end": 140,
+              "char_start": 10538,
+              "char_end": 10615
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Repo Structure & Important Files\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1257 chars, 13 non-empty lines, 13 bullets",
+            "range": {
+              "line_start": 66,
+              "line_end": 81,
+              "char_start": 4599,
+              "char_end": 5883
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Runtime and Platform Review Checklist\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1574 chars, 6 non-empty lines, 5 bullets",
+            "range": {
+              "line_start": 94,
+              "line_end": 103,
+              "char_start": 7331,
+              "char_end": 8945
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Pull Request & Commit Guidelines\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "737 chars, 23 non-empty lines, 16 bullets",
+            "range": {
+              "line_start": 236,
+              "line_end": 264,
+              "char_start": 13941,
+              "char_end": 14702
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "pydantic/pydantic-ai",
+      "lane": 1,
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/pydantic/pydantic-ai/blob/2b9d272a0a835991c2eb6b076a8035a63aff2eb0/AGENTS.md",
+      "pinned_sha": "2b9d272a0a835991c2eb6b076a8035a63aff2eb0",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 12168,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 12168,
+        "toon": 17546,
+        "savings": -5378,
+        "savings_pct": -44.2
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 3212,
+        "toon": 4707,
+        "savings": -1495,
+        "savings_pct": -46.5,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 3477,
+            "toon": 5013,
+            "savings": -1537,
+            "savings_pct": -44.2
+          },
+          {
+            "chars_per_token": 4,
+            "source": 3042,
+            "toon": 4387,
+            "savings": -1344,
+            "savings_pct": -44.2
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 2704,
+            "toon": 3899,
+            "savings": -1195,
+            "savings_pct": -44.2
+          }
+        ]
+      },
+      "warning_codes": [
+        "vague_rule",
+        "long_section",
+        "long_section",
+        "long_section",
+        "long_section",
+        "long_section",
+        "split_candidate",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "Your primary responsibility is to the project and its users",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 131,
+            "headings": 9,
+            "paragraphs": 25,
+            "list_items": 54,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 3,
+            "rules": 19
+          }
+        },
+        "measured_chars": {
+          "source": 12168,
+          "toon": 17546,
+          "savings": -5378,
+          "savings_pct": -44.2
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 3212,
+          "toon": 4707,
+          "savings": -1495,
+          "savings_pct": -46.5,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 3477,
+              "toon": 5013,
+              "savings": -1537,
+              "savings_pct": -44.2
+            },
+            {
+              "chars_per_token": 4,
+              "source": 3042,
+              "toon": 4387,
+              "savings": -1344,
+              "savings_pct": -44.2
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 2704,
+              "toon": 3899,
+              "savings": -1195,
+              "savings_pct": -44.2
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "vague_rule",
+            "severity": "warning",
+            "message": "Possibly vague instruction in \"Requirements of all contributions\".",
+            "suggestion": "Rewrite as a concrete rule with an action, condition, and verification step.",
+            "evidence": "be thoughtful and deliberate about new abstractions, public APIs, and behaviors, as every wrong-in-retrospect choice (made in a rush or with insufficient context) makes life har...",
+            "range": {
+              "line_start": 62,
+              "line_end": 62,
+              "char_start": 6300,
+              "char_end": 6606
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Your primary responsibility is to the project and its users\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1698 chars, 10 non-empty lines, 5 bullets",
+            "range": {
+              "line_start": 3,
+              "line_end": 20,
+              "char_start": 297,
+              "char_end": 2055
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Gathering context on the task\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1582 chars, 10 non-empty lines, 7 bullets",
+            "range": {
+              "line_start": 21,
+              "line_end": 37,
+              "char_start": 2056,
+              "char_end": 3667
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Ensuring the task is ready for implementation\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1772 chars, 7 non-empty lines, 3 bullets",
+            "range": {
+              "line_start": 38,
+              "line_end": 51,
+              "char_start": 3668,
+              "char_end": 5488
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Requirements of all contributions\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1972 chars, 10 non-empty lines, 6 bullets",
+            "range": {
+              "line_start": 58,
+              "line_end": 74,
+              "char_start": 6241,
+              "char_end": 8246
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Development workflow\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1030 chars, 15 non-empty lines, 14 bullets",
+            "range": {
+              "line_start": 86,
+              "line_end": 104,
+              "char_start": 9273,
+              "char_end": 10316
+            }
+          },
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Requirements of all contributions\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "evidence": "Detected themes: release, ui, docs, skills",
+            "range": {
+              "line_start": 58,
+              "line_end": 74,
+              "char_start": 6241,
+              "char_end": 8246
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "pydantic/pydantic-ai",
+      "lane": 1,
+      "path": "CLAUDE.md",
+      "source_url": "https://github.com/pydantic/pydantic-ai/blob/2b9d272a0a835991c2eb6b076a8035a63aff2eb0/CLAUDE.md",
+      "pinned_sha": "2b9d272a0a835991c2eb6b076a8035a63aff2eb0",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 9,
+      "pointer": true,
+      "pointer_excerpt": "AGENTS.md"
+    },
+    {
+      "repo": "assistant-ui/assistant-ui",
+      "lane": 1,
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/assistant-ui/assistant-ui/blob/59d252fa09c1511acd7e31c9d8178514c5a5cb77/AGENTS.md",
+      "pinned_sha": "59d252fa09c1511acd7e31c9d8178514c5a5cb77",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 2527,
+      "pointer": false,
+      "verdict": "keep_markdown",
+      "profile": "requirements",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 2527,
+        "toon": 2624,
+        "savings": -97,
+        "savings_pct": -3.8
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 653,
+        "toon": 712,
+        "savings": -59,
+        "savings_pct": -9,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 722,
+            "toon": 750,
+            "savings": -28,
+            "savings_pct": -3.8
+          },
+          {
+            "chars_per_token": 4,
+            "source": 632,
+            "toon": 656,
+            "savings": -24,
+            "savings_pct": -3.8
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 562,
+            "toon": 583,
+            "savings": -22,
+            "savings_pct": -3.8
+          }
+        ]
+      },
+      "warning_codes": [
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "keep_markdown",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "requirements",
+          "title": null,
+          "source_type": "markdown",
+          "stats": {
+            "lines": 47,
+            "headings": 6,
+            "paragraphs": 9,
+            "list_items": 0,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 2,
+            "rules": 7
+          }
+        },
+        "measured_chars": {
+          "source": 2527,
+          "toon": 2624,
+          "savings": -97,
+          "savings_pct": -3.8
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 653,
+          "toon": 712,
+          "savings": -59,
+          "savings_pct": -9,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 722,
+              "toon": 750,
+              "savings": -28,
+              "savings_pct": -3.8
+            },
+            {
+              "chars_per_token": 4,
+              "source": 632,
+              "toon": 656,
+              "savings": -24,
+              "savings_pct": -3.8
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 562,
+              "toon": 583,
+              "savings": -22,
+              "savings_pct": -3.8
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "assistant-ui/assistant-ui",
+      "lane": 1,
+      "path": "CLAUDE.md",
+      "source_url": "https://github.com/assistant-ui/assistant-ui/blob/59d252fa09c1511acd7e31c9d8178514c5a5cb77/CLAUDE.md",
+      "pinned_sha": "59d252fa09c1511acd7e31c9d8178514c5a5cb77",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 11,
+      "pointer": true,
+      "pointer_excerpt": "@AGENTS.md"
+    },
+    {
+      "repo": "astral-sh/ruff",
+      "lane": 1,
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/astral-sh/ruff/blob/7a91fa28474f9cc1d3fc16be59ada553de6dd61c/AGENTS.md",
+      "pinned_sha": "7a91fa28474f9cc1d3fc16be59ada553de6dd61c",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 7397,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "requirements",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 7397,
+        "toon": 7606,
+        "savings": -209,
+        "savings_pct": -2.8
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 1970,
+        "toon": 2141,
+        "savings": -171,
+        "savings_pct": -8.7,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 2113,
+            "toon": 2173,
+            "savings": -60,
+            "savings_pct": -2.8
+          },
+          {
+            "chars_per_token": 4,
+            "source": 1849,
+            "toon": 1902,
+            "savings": -52,
+            "savings_pct": -2.8
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 1644,
+            "toon": 1690,
+            "savings": -46,
+            "savings_pct": -2.8
+          }
+        ]
+      },
+      "warning_codes": [
+        "duplicate_rule",
+        "duplicate_rule",
+        "duplicate_rule",
+        "duplicate_rule",
+        "duplicate_rule",
+        "duplicate_rule",
+        "duplicate_rule",
+        "long_section",
+        "split_candidate",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "requirements",
+          "title": "Ruff Repository",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 108,
+            "headings": 8,
+            "paragraphs": 14,
+            "list_items": 16,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 0,
+            "rules": 36
+          }
+        },
+        "measured_chars": {
+          "source": 7397,
+          "toon": 7606,
+          "savings": -209,
+          "savings_pct": -2.8
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 1970,
+          "toon": 2141,
+          "savings": -171,
+          "savings_pct": -8.7,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 2113,
+              "toon": 2173,
+              "savings": -60,
+              "savings_pct": -2.8
+            },
+            {
+              "chars_per_token": 4,
+              "source": 1849,
+              "toon": 1902,
+              "savings": -52,
+              "savings_pct": -2.8
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 1644,
+              "toon": 1690,
+              "savings": -46,
+              "savings_pct": -2.8
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Running Tests\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "CARGO_PROFILE_DEV_OPT_LEVEL=1 INSTA_FORCE_PASS=1 INSTA_UPDATE=always CARGO_PROFILE_DEV_DEBUG=\"line-tables-only\" MDTEST_UPDATE_SNAPSHOTS=1 cargo nextest run -p ty_python_semantic",
+            "range": {
+              "line_start": 25,
+              "line_end": 25,
+              "char_start": 1336,
+              "char_end": 1513
+            }
+          },
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Running Tests\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "CARGO_PROFILE_DEV_OPT_LEVEL=1 INSTA_FORCE_PASS=1 INSTA_UPDATE=always CARGO_PROFILE_DEV_DEBUG=\"line-tables-only\" MDTEST_UPDATE_SNAPSHOTS=1 cargo nextest run -p ty_python_semantic...",
+            "range": {
+              "line_start": 31,
+              "line_end": 31,
+              "char_start": 1659,
+              "char_end": 1872
+            }
+          },
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Running Tests\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "MDTEST_TEST_FILTER=\"<filter>\" CARGO_PROFILE_DEV_OPT_LEVEL=1 INSTA_FORCE_PASS=1 INSTA_UPDATE=always CARGO_PROFILE_DEV_DEBUG=\"line-tables-only\" MDTEST_UPDATE_SNAPSHOTS=1 cargo nex...",
+            "range": {
+              "line_start": 37,
+              "line_end": 37,
+              "char_start": 2057,
+              "char_end": 2300
+            }
+          },
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Fallback without nextest\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "CARGO_PROFILE_DEV_OPT_LEVEL=1 INSTA_FORCE_PASS=1 INSTA_UPDATE=always CARGO_PROFILE_DEV_DEBUG=\"line-tables-only\" MDTEST_UPDATE_SNAPSHOTS=1 cargo test",
+            "range": {
+              "line_start": 46,
+              "line_end": 46,
+              "char_start": 2451,
+              "char_end": 2599
+            }
+          },
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Fallback without nextest\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "CARGO_PROFILE_DEV_OPT_LEVEL=1 INSTA_FORCE_PASS=1 INSTA_UPDATE=always CARGO_PROFILE_DEV_DEBUG=\"line-tables-only\" MDTEST_UPDATE_SNAPSHOTS=1 cargo test -p ty_python_semantic",
+            "range": {
+              "line_start": 49,
+              "line_end": 49,
+              "char_start": 2635,
+              "char_end": 2805
+            }
+          },
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Fallback without nextest\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "CARGO_PROFILE_DEV_OPT_LEVEL=1 INSTA_FORCE_PASS=1 INSTA_UPDATE=always CARGO_PROFILE_DEV_DEBUG=\"line-tables-only\" MDTEST_UPDATE_SNAPSHOTS=1 cargo test -p ty_python_semantic --test...",
+            "range": {
+              "line_start": 52,
+              "line_end": 52,
+              "char_start": 2835,
+              "char_end": 3047
+            }
+          },
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Fallback without nextest\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "MDTEST_TEST_FILTER=\"<filter>\" CARGO_PROFILE_DEV_OPT_LEVEL=1 INSTA_FORCE_PASS=1 INSTA_UPDATE=always CARGO_PROFILE_DEV_DEBUG=\"line-tables-only\" MDTEST_UPDATE_SNAPSHOTS=1 cargo tes...",
+            "range": {
+              "line_start": 55,
+              "line_end": 55,
+              "char_start": 3088,
+              "char_end": 3330
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Development Guidelines\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "2764 chars, 16 non-empty lines, 16 bullets",
+            "range": {
+              "line_start": 90,
+              "line_end": 108,
+              "char_start": 4620,
+              "char_end": 7397
+            }
+          },
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Fallback without nextest\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "evidence": "Detected themes: if `cargo nextest` is not available, after running the tests, when running tests with `insta_force_pass=1`",
+            "range": {
+              "line_start": 40,
+              "line_end": 44,
+              "char_start": 2306,
+              "char_end": 2433
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "astral-sh/ruff",
+      "lane": 1,
+      "path": "CLAUDE.md",
+      "source_url": "https://github.com/astral-sh/ruff/blob/7a91fa28474f9cc1d3fc16be59ada553de6dd61c/CLAUDE.md",
+      "pinned_sha": "7a91fa28474f9cc1d3fc16be59ada553de6dd61c",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 11,
+      "pointer": true,
+      "pointer_excerpt": "@AGENTS.md"
+    },
+    {
+      "repo": "biomejs/biome",
+      "lane": 1,
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/biomejs/biome/blob/263c7ccd12cd8c0d4527fdf4797c652a223df012/AGENTS.md",
+      "pinned_sha": "263c7ccd12cd8c0d4527fdf4797c652a223df012",
+      "license_note": "Dual Apache-2.0/MIT (LICENSE-MIT present at pin; SPDX shows Apache-2.0); corpus uses the MIT option",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 13652,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 13652,
+        "toon": 20856,
+        "savings": -7204,
+        "savings_pct": -52.8
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 3519,
+        "toon": 5917,
+        "savings": -2398,
+        "savings_pct": -68.1,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 3901,
+            "toon": 5959,
+            "savings": -2058,
+            "savings_pct": -52.8
+          },
+          {
+            "chars_per_token": 4,
+            "source": 3413,
+            "toon": 5214,
+            "savings": -1801,
+            "savings_pct": -52.8
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 3034,
+            "toon": 4635,
+            "savings": -1601,
+            "savings_pct": -52.8
+          }
+        ]
+      },
+      "warning_codes": [
+        "long_section",
+        "long_section",
+        "long_section",
+        "long_section",
+        "long_section",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "Agent Guidelines for Contributing to Biome",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 415,
+            "headings": 31,
+            "paragraphs": 38,
+            "list_items": 151,
+            "tables": 1,
+            "table_rows": 3,
+            "definitions": 42,
+            "rules": 25
+          }
+        },
+        "measured_chars": {
+          "source": 13652,
+          "toon": 20856,
+          "savings": -7204,
+          "savings_pct": -52.8
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 3519,
+          "toon": 5917,
+          "savings": -2398,
+          "savings_pct": -68.1,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 3901,
+              "toon": 5959,
+              "savings": -2058,
+              "savings_pct": -52.8
+            },
+            {
+              "chars_per_token": 4,
+              "source": 3413,
+              "toon": 5214,
+              "savings": -1801,
+              "savings_pct": -52.8
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 3034,
+              "toon": 4635,
+              "savings": -1601,
+              "savings_pct": -52.8
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Writing the PR Description\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1460 chars, 32 non-empty lines, 17 bullets",
+            "range": {
+              "line_start": 30,
+              "line_end": 71,
+              "char_start": 1193,
+              "char_end": 2673
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Create Changeset\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1543 chars, 35 non-empty lines, 10 bullets",
+            "range": {
+              "line_start": 97,
+              "line_end": 143,
+              "char_start": 3408,
+              "char_end": 4965
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Creating a New Lint Rule\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "810 chars, 24 non-empty lines, 16 bullets",
+            "range": {
+              "line_start": 251,
+              "line_end": 282,
+              "char_start": 8602,
+              "char_end": 9447
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Fixing a Bug\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "595 chars, 17 non-empty lines, 13 bullets",
+            "range": {
+              "line_start": 283,
+              "line_end": 307,
+              "char_start": 9448,
+              "char_end": 10067
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Common Mistakes to Avoid\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1263 chars, 25 non-empty lines, 23 bullets",
+            "range": {
+              "line_start": 376,
+              "line_end": 404,
+              "char_start": 11969,
+              "char_end": 13239
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "biomejs/biome",
+      "lane": 1,
+      "path": "CLAUDE.md",
+      "source_url": "https://github.com/biomejs/biome/blob/263c7ccd12cd8c0d4527fdf4797c652a223df012/CLAUDE.md",
+      "pinned_sha": "263c7ccd12cd8c0d4527fdf4797c652a223df012",
+      "license_note": "Dual Apache-2.0/MIT (LICENSE-MIT present at pin; SPDX shows Apache-2.0); corpus uses the MIT option",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 15,
+      "pointer": true,
+      "pointer_excerpt": "CONTRIBUTING.md"
+    },
+    {
+      "repo": "pydantic/logfire",
+      "lane": 1,
+      "path": "CLAUDE.md",
+      "source_url": "https://github.com/pydantic/logfire/blob/577a00849a12967ab24dcef1d2bab1d96e2fee42/CLAUDE.md",
+      "pinned_sha": "577a00849a12967ab24dcef1d2bab1d96e2fee42",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 4645,
+      "pointer": false,
+      "verdict": "keep_markdown",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 4645,
+        "toon": 6504,
+        "savings": -1859,
+        "savings_pct": -40
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 1148,
+        "toon": 1686,
+        "savings": -538,
+        "savings_pct": -46.9,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 1327,
+            "toon": 1858,
+            "savings": -531,
+            "savings_pct": -40
+          },
+          {
+            "chars_per_token": 4,
+            "source": 1161,
+            "toon": 1626,
+            "savings": -465,
+            "savings_pct": -40
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 1032,
+            "toon": 1445,
+            "savings": -413,
+            "savings_pct": -40
+          }
+        ]
+      },
+      "warning_codes": [
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "keep_markdown",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "Code Quality",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 91,
+            "headings": 8,
+            "paragraphs": 13,
+            "list_items": 3,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 3,
+            "rules": 9
+          }
+        },
+        "measured_chars": {
+          "source": 4645,
+          "toon": 6504,
+          "savings": -1859,
+          "savings_pct": -40
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 1148,
+          "toon": 1686,
+          "savings": -538,
+          "savings_pct": -46.9,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 1327,
+              "toon": 1858,
+              "savings": -531,
+              "savings_pct": -40
+            },
+            {
+              "chars_per_token": 4,
+              "source": 1161,
+              "toon": 1626,
+              "savings": -465,
+              "savings_pct": -40
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 1032,
+              "toon": 1445,
+              "savings": -413,
+              "savings_pct": -40
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "pydantic/logfire",
+      "lane": 1,
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/pydantic/logfire/blob/577a00849a12967ab24dcef1d2bab1d96e2fee42/AGENTS.md",
+      "pinned_sha": "577a00849a12967ab24dcef1d2bab1d96e2fee42",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 9,
+      "pointer": true,
+      "pointer_excerpt": "CLAUDE.md"
+    },
+    {
+      "repo": "Infisical/agent-vault",
+      "lane": 1,
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/Infisical/agent-vault/blob/e01a9258109b9896e67a7f06c873ebb83e2e9b73/AGENTS.md",
+      "pinned_sha": "e01a9258109b9896e67a7f06c873ebb83e2e9b73",
+      "license_note": "MIT for content outside ee/ per repo LICENSE (SPDX: NOASSERTION); both targets at repo root, outside the carveout",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 5814,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 5814,
+        "toon": 10864,
+        "savings": -5050,
+        "savings_pct": -86.9
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 1575,
+        "toon": 3111,
+        "savings": -1536,
+        "savings_pct": -97.5,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 1661,
+            "toon": 3104,
+            "savings": -1443,
+            "savings_pct": -86.9
+          },
+          {
+            "chars_per_token": 4,
+            "source": 1454,
+            "toon": 2716,
+            "savings": -1262,
+            "savings_pct": -86.9
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 1292,
+            "toon": 2414,
+            "savings": -1122,
+            "savings_pct": -86.9
+          }
+        ]
+      },
+      "warning_codes": [
+        "split_candidate",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "Agent Vault — Agent Protocol",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 115,
+            "headings": 12,
+            "paragraphs": 9,
+            "list_items": 11,
+            "tables": 3,
+            "table_rows": 11,
+            "definitions": 7,
+            "rules": 12
+          }
+        },
+        "measured_chars": {
+          "source": 5814,
+          "toon": 10864,
+          "savings": -5050,
+          "savings_pct": -86.9
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 1575,
+          "toon": 3111,
+          "savings": -1536,
+          "savings_pct": -97.5,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 1661,
+              "toon": 3104,
+              "savings": -1443,
+              "savings_pct": -86.9
+            },
+            {
+              "chars_per_token": 4,
+              "source": 1454,
+              "toon": 2716,
+              "savings": -1262,
+              "savings_pct": -86.9
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 1292,
+              "toon": 2414,
+              "savings": -1122,
+              "savings_pct": -86.9
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Rules\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "range": {
+              "line_start": 109,
+              "line_end": 115,
+              "char_start": 5518,
+              "char_end": 5814
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "Infisical/agent-vault",
+      "lane": 1,
+      "path": "CLAUDE.md",
+      "source_url": "https://github.com/Infisical/agent-vault/blob/e01a9258109b9896e67a7f06c873ebb83e2e9b73/CLAUDE.md",
+      "pinned_sha": "e01a9258109b9896e67a7f06c873ebb83e2e9b73",
+      "license_note": "MIT for content outside ee/ per repo LICENSE (SPDX: NOASSERTION); both targets at repo root, outside the carveout",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 6277,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 6277,
+        "toon": 9148,
+        "savings": -2871,
+        "savings_pct": -45.7
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 1741,
+        "toon": 2567,
+        "savings": -826,
+        "savings_pct": -47.4,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 1793,
+            "toon": 2614,
+            "savings": -820,
+            "savings_pct": -45.7
+          },
+          {
+            "chars_per_token": 4,
+            "source": 1569,
+            "toon": 2287,
+            "savings": -718,
+            "savings_pct": -45.7
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 1395,
+            "toon": 2033,
+            "savings": -638,
+            "savings_pct": -45.7
+          }
+        ]
+      },
+      "warning_codes": [
+        "long_section",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "Agent Vault (agent-vault)",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 52,
+            "headings": 6,
+            "paragraphs": 2,
+            "list_items": 25,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 5,
+            "rules": 8
+          }
+        },
+        "measured_chars": {
+          "source": 6277,
+          "toon": 9148,
+          "savings": -2871,
+          "savings_pct": -45.7
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 1741,
+          "toon": 2567,
+          "savings": -826,
+          "savings_pct": -47.4,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 1793,
+              "toon": 2614,
+              "savings": -820,
+              "savings_pct": -45.7
+            },
+            {
+              "chars_per_token": 4,
+              "source": 1569,
+              "toon": 2287,
+              "savings": -718,
+              "savings_pct": -45.7
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 1395,
+              "toon": 2033,
+              "savings": -638,
+              "savings_pct": -45.7
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Core concepts (mental model)\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "2785 chars, 8 non-empty lines, 8 bullets",
+            "range": {
+              "line_start": 23,
+              "line_end": 33,
+              "char_start": 1379,
+              "char_end": 4191
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "lane": 2,
+      "path": "skills/using-agent-skills/SKILL.md",
+      "source_url": "https://github.com/addyosmani/agent-skills/blob/d187883b7d761265309cdcc0f202cc76b4b3fb06/skills/using-agent-skills/SKILL.md",
+      "pinned_sha": "d187883b7d761265309cdcc0f202cc76b4b3fb06",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 9337,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 9337,
+        "toon": 12997,
+        "savings": -3660,
+        "savings_pct": -39.2
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 2311,
+        "toon": 3375,
+        "savings": -1064,
+        "savings_pct": -46,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 2668,
+            "toon": 3713,
+            "savings": -1046,
+            "savings_pct": -39.2
+          },
+          {
+            "chars_per_token": 4,
+            "source": 2334,
+            "toon": 3249,
+            "savings": -915,
+            "savings_pct": -39.2
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 2075,
+            "toon": 2888,
+            "savings": -813,
+            "savings_pct": -39.2
+          }
+        ]
+      },
+      "warning_codes": [
+        "long_section",
+        "long_section",
+        "split_candidate",
+        "split_candidate",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "Using Agent Skills",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 190,
+            "headings": 14,
+            "paragraphs": 20,
+            "list_items": 30,
+            "tables": 1,
+            "table_rows": 23,
+            "definitions": 6,
+            "rules": 5
+          }
+        },
+        "measured_chars": {
+          "source": 9337,
+          "toon": 12997,
+          "savings": -3660,
+          "savings_pct": -39.2
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 2311,
+          "toon": 3375,
+          "savings": -1064,
+          "savings_pct": -46,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 2668,
+              "toon": 3713,
+              "savings": -1046,
+              "savings_pct": -39.2
+            },
+            {
+              "chars_per_token": 4,
+              "source": 2334,
+              "toon": 3249,
+              "savings": -915,
+              "savings_pct": -39.2
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 2075,
+              "toon": 2888,
+              "savings": -813,
+              "savings_pct": -39.2
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Skill Discovery\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1615 chars, 28 non-empty lines, 0 bullets",
+            "range": {
+              "line_start": 12,
+              "line_end": 43,
+              "char_start": 546,
+              "char_end": 2182
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Lifecycle Sequence\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1260 chars, 20 non-empty lines, 16 bullets",
+            "range": {
+              "line_start": 138,
+              "line_end": 162,
+              "char_start": 6020,
+              "char_end": 7304
+            }
+          },
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Skill Discovery\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "evidence": "Detected themes: ui, testing, docs, skills",
+            "range": {
+              "line_start": 12,
+              "line_end": 43,
+              "char_start": 546,
+              "char_end": 2182
+            }
+          },
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Quick Reference\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "evidence": "Detected themes: ui, testing, docs, skills",
+            "range": {
+              "line_start": 163,
+              "line_end": 190,
+              "char_start": 7305,
+              "char_end": 9337
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
     }
   ]
 }

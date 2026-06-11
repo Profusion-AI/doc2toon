@@ -56,6 +56,8 @@ The strongest current use case is compact LLM context preparation for definition
 
 TOON may not shrink raw prose. If every word must be preserved, the retained text still has to go somewhere.
 
+Measured, not asserted: across 19 real agent docs from public repos (openai-agents, pydantic-ai, ruff, biome, langchain, and more — commit-pinned, MIT-verified), the verdict engine recommends `convert` on **zero** ([methodology and results](fixtures/agent-context/external/README.md); the in-house corpus adds 1 of 19). The honest verdicts are `split_first` and `keep_markdown` — which is what this tool is for.
+
 Budget mode may require semantic compression. When that happens, output is marked as lossy and includes coverage metadata. Do not describe budget output as lossless unless the metrics say the lossless target was reached.
 
 Avoid universal percentage savings claims. Measure each document and report the actual numbers.

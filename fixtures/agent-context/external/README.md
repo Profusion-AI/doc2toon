@@ -29,12 +29,34 @@ Consequences of the amendment:
 - The EOL trap is avoided by construction: files are measured as fetched (the blob bytes at
   the pin), never checked out through git smudge. The original EOL is recorded per file.
 
-## Pre-registered methodology (unchanged by the amendment)
+## Amendment 2026-06-11 (round 2, locked before probing) — lanes and a file-centric gate
+
+Round 2 expands the corpus. Two methodology changes, locked **before** any round-2 source
+was probed or measured:
+
+- **Three lanes.** Lane 1, *embedded repo docs*: agent docs maintained inside production
+  repos — the only lane that feeds the public honesty-page denominator. Lane 2, *skill
+  packs*: curated `SKILL.md` ecosystems (packaged, productized — a different population);
+  measured and reported separately, never merged into the lane-1 denominator, and lane-2
+  numbers are not published until the engine's handling of YAML frontmatter is inspected
+  and documented (skill files carry frontmatter; the in-house corpus largely does not).
+  Lane 3, *pointer/control*: pointer-only and symlinked agent files, recorded as evidence
+  of how repos route agent context, never counted as documents.
+- **The activity gate is file-centric for lane 1** (target file's last commit on or after
+  2026-04-01): lane 1 exists to test *living* operational documents, not archival ones.
+  Lane 2 uses repo-level activity (skill packs version as a unit). Round 1 was gated
+  "repo or file" — its sources pass the stricter reading too (browser-use CLAUDE.md, the
+  one round-1 file older than the cutoff, rode in with two passing siblings and stays for
+  continuity, disclosed here).
+- Dual MIT/Apache-2.0 licensing passes the gate via the MIT option (uv set the precedent
+  in round 1).
+
+## Pre-registered methodology (unchanged by the amendments)
 
 1. **Gates** (recorded per source in `manifest.json`): 100+ stars; MIT license or explicit
    MIT for non-enterprise content with the target file outside any carveout subtree —
-   verified against the LICENSE file at the pin, not just the repo's SPDX tag; repo or
-   target file active since 2026-04-01; target file is an agent-context document
+   verified against the LICENSE file at the pin, not just the repo's SPDX tag; activity
+   per the lane rules above; target file is an agent-context document
    (`AGENTS.md`, `CLAUDE.md`, `SKILL.md`, or nested skill files).
 2. **Pin before measuring.** Every source is pinned to an exact commit SHA in the manifest
    before any result is produced.

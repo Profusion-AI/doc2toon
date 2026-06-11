@@ -23,12 +23,13 @@ const manifest = JSON.parse(readFileSync(join(externalDir, "manifest.json"), "ut
 const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
 const cli = join(root, "dist", "cli.js");
 
-// A pointer file delegates to another agent doc instead of carrying content.
-// Size bound plus a reference to another known agent-doc name.
+// A pointer file delegates to another doc instead of carrying content: tiny, and it
+// references some other .md file (agent docs usually, but biome's CLAUDE.md points at
+// CONTRIBUTING.md — the pre-registered rule is about delegation, not the target's name).
 const POINTER_MAX_CHARS = 256;
 const isPointer = (text) => {
   const trimmed = text.trim();
-  return trimmed.length <= POINTER_MAX_CHARS && /(AGENTS|CLAUDE|SKILL)\.md/i.test(trimmed);
+  return trimmed.length <= POINTER_MAX_CHARS && /\b[\w./-]+\.md\b/i.test(trimmed);
 };
 
 function runCliJson(args, file) {
@@ -60,6 +61,7 @@ try {
       const text = await res.text();
       const entry = {
         repo: source.repo,
+        lane: source.lane ?? 1,
         path: f.path,
         source_url: `https://github.com/${source.repo}/blob/${source.pinned_sha}/${f.path}`,
         pinned_sha: source.pinned_sha,
@@ -70,6 +72,11 @@ try {
         pointer: isPointer(text),
       };
 
+      if (f.expect && f.expect !== (entry.pointer ? "pointer" : "substantive")) {
+        console.warn(
+          `WARNING: ${source.repo}:${f.path} classified ${entry.pointer ? "pointer" : "substantive"} but manifest expects ${f.expect} — reconcile before publishing.`,
+        );
+      }
       if (entry.pointer) {
         entry.pointer_excerpt = text.trim().slice(0, 120);
         docs.push(entry);
@@ -109,22 +116,33 @@ try {
   rmSync(tmp, { recursive: true, force: true });
 }
 
-const counted = docs.filter((d) => !d.pointer);
-const verdicts = {};
-for (const d of counted) {
-  verdicts[d.verdict] = (verdicts[d.verdict] ?? 0) + 1;
-}
+const laneAggregate = (lane) => {
+  const counted = docs.filter((d) => !d.pointer && d.lane === lane);
+  const verdicts = {};
+  for (const d of counted) {
+    verdicts[d.verdict] = (verdicts[d.verdict] ?? 0) + 1;
+  }
+  return {
+    documents_counted: counted.length,
+    verdicts,
+    safe_to_auto_apply_true: counted.filter((d) => d.safe_to_auto_apply).length,
+  };
+};
 
+const counted = docs.filter((d) => !d.pointer);
 const results = {
   generated: new Date().toISOString(),
   doc2toon_version: pkg.version,
   method:
-    "Each file fetched at its manifest-pinned commit SHA and measured via `doc2toon profile --json` and `doc2toon convert --json` (defaults: lossless mode). Measurements and provenance stored; source bodies and TOON candidates are not.",
+    "Each file fetched at its manifest-pinned commit SHA and measured via `doc2toon profile --json` and `doc2toon convert --json` (defaults: lossless mode). Measurements and provenance stored; source bodies and TOON candidates are not. Lane 1 (embedded repo docs) is the public headline aggregate; lane 2 (skill packs) is a separate population, reported separately and never merged into the lane-1 denominator.",
   aggregate: {
-    documents_counted: counted.length,
+    lane1_embedded_repo_docs: laneAggregate(1),
+    lane2_skill_packs: {
+      ...laneAggregate(2),
+      caveat:
+        "Skill files carry YAML frontmatter, which the current profiler does not treat specially — inspect the per-document profile stats before citing lane-2 numbers publicly.",
+    },
     pointers_recorded_not_counted: docs.length - counted.length,
-    verdicts,
-    safe_to_auto_apply_true: counted.filter((d) => d.safe_to_auto_apply).length,
   },
   documents: docs,
 };
@@ -132,23 +150,32 @@ writeFileSync(join(externalDir, "results.json"), JSON.stringify(results, null, 2
 
 const pad = (v, n) => String(v).padEnd(n);
 console.log(`External honesty corpus — doc2toon ${pkg.version}, measured ${results.generated.slice(0, 10)}`);
-console.log(`${pad("document", 52)} ${pad("profile", 13)} ${pad("Δ chars", 9)} ${pad("verdict", 14)} warnings`);
-console.log("-".repeat(110));
-for (const d of docs) {
-  const name = `${d.repo}:${d.path}`;
-  if (d.pointer) {
-    console.log(`${pad(name, 52)} ${pad("(pointer)", 13)} ${pad("—", 9)} ${pad("not counted", 14)} "${d.pointer_excerpt}"`);
+for (const lane of [1, 2]) {
+  const laneDocs = docs.filter((d) => d.lane === lane);
+  if (laneDocs.length === 0) {
     continue;
   }
-  const delta = `${d.measured_chars.savings_pct.toFixed(1)}%`;
+  console.log(`\n=== Lane ${lane}: ${lane === 1 ? "embedded repo docs (public denominator)" : "skill packs (separate population)"} ===`);
+  console.log(`${pad("document", 56)} ${pad("profile", 13)} ${pad("Δ chars", 9)} ${pad("verdict", 14)} warnings`);
+  console.log("-".repeat(114));
+  for (const d of laneDocs) {
+    const name = `${d.repo}:${d.path}`;
+    if (d.pointer) {
+      console.log(`${pad(name, 56)} ${pad("(pointer)", 13)} ${pad("—", 9)} ${pad("not counted", 14)} "${d.pointer_excerpt}"`);
+      continue;
+    }
+    const delta = `${d.measured_chars.savings_pct.toFixed(1)}%`;
+    console.log(
+      `${pad(name, 56)} ${pad(d.profile, 13)} ${pad(delta, 9)} ${pad(d.verdict, 14)} ${d.warning_codes.join(",") || "-"}`,
+    );
+  }
+  const agg = lane === 1 ? results.aggregate.lane1_embedded_repo_docs : results.aggregate.lane2_skill_packs;
+  console.log("-".repeat(114));
   console.log(
-    `${pad(name, 52)} ${pad(d.profile, 13)} ${pad(delta, 9)} ${pad(d.verdict, 14)} ${d.warning_codes.join(",") || "-"}`,
+    `lane ${lane}: ${agg.documents_counted} counted — ` +
+      Object.entries(agg.verdicts)
+        .map(([v, n]) => `${v}=${n}`)
+        .join(", "),
   );
 }
-console.log("-".repeat(110));
-console.log(
-  `${counted.length} documents counted (${docs.length - counted.length} pointers recorded, not counted): ` +
-    Object.entries(verdicts)
-      .map(([v, n]) => `${v}=${n}`)
-      .join(", "),
-);
+console.log(`\n${docs.length - counted.length} pointer files recorded across lanes, not counted.`);

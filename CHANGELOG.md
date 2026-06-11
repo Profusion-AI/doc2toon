@@ -4,6 +4,21 @@ All notable changes to `doc2toon` will be documented in this file.
 
 This project follows practical release notes rather than strict format ceremony.
 
+## 0.3.2 - 2026-06-11
+
+External honesty corpus round 2: the lane-1 denominator grows to **19 real-world documents — 0 convert, 16 split_first, 3 keep_markdown** (measured deltas −2.8% to −86.9%, `safe_to_auto_apply` on none). No engine or contract changes; the package change is this changelog plus a README line citing the result.
+
+### Added (repo)
+
+- **Round-2 external corpus** (gates and three-lane architecture pre-registered before probing — see `fixtures/agent-context/external/README.md`): 9 new lane-1 documents from openai/openai-agents-python and -js, pydantic/pydantic-ai, assistant-ui/assistant-ui, astral-sh/ruff, biomejs/biome, pydantic/logfire (CLAUDE.md is the substantive doc there), and Infisical/agent-vault (both root docs substantive). Lane 2 (skill packs, separate population, never merged into the lane-1 denominator): addyosmani/agent-skills measured; its YAML frontmatter is counted as content by the profiler (frontmatter-naive — documented caveat, lane-2 numbers not cited publicly). Lane 3: 8 pointer files recorded across the corpus — the pointer-plus-substantive-doc pattern is now the norm in major repos (ruff, pydantic-ai, assistant-ui, openai-agents-python route CLAUDE.md → AGENTS.md; logfire routes the other way; biome points CLAUDE.md at CONTRIBUTING.md). vercel-labs/skills quarantined to the watchlist: no LICENSE file at the pin.
+- Runner: lane-aware aggregates; pointer rule generalized to any tiny file delegating to another `.md` (the pre-registered rule is about delegation, not the target's name — biome's CONTRIBUTING.md pointer was the case in point); manifest-expectation mismatches now warn loudly.
+
+### Notable measurements
+
+- ruff `AGENTS.md`: `duplicate_rule` ×7, −2.8% — the closest any real-world doc came to parity, and it still loses.
+- openai-agents-python `AGENTS.md`: `duplicate_rule` ×4 at −78.0%.
+- Infisical/agent-vault `AGENTS.md`: −86.9%, the corpus's worst real-world case.
+
 ## 0.3.1 - 2026-06-11
 
 The GitHub Action release. No engine or contract changes — the package change is the README
