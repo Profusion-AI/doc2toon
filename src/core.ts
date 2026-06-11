@@ -9,6 +9,7 @@ import { DEFAULT_CHARS_PER_TOKEN_RATIOS, estimateTokensByChars } from "./token-e
 import { decodeToJson, selectEncoding, targetReached } from "./toon.js";
 import type {
   CanonicalDocument,
+  ConversionStats,
   CoreBuildOptions,
   ConversionResult,
   CoreConvertOptions,
@@ -22,6 +23,29 @@ type BuildCandidate = Pick<
   ConversionResult,
   "canonicalJson" | "decodedJson" | "toon" | "stats" | "delimiter" | "lossless" | "valid"
 >;
+
+/** The measurements of the shortest lossless candidate a refused budget conversion attempted. */
+export interface RefusedLosslessAttempt {
+  stats: ConversionStats;
+  valid: boolean;
+}
+
+/**
+ * Thrown when a budget target is unreachable losslessly and lossy output is not permitted.
+ * Carries the attempted lossless candidate so callers (runVerdict) can represent the refusal
+ * in-band as a verdict instead of parsing the message (docs/verdict-schema-v1.md, decision 6).
+ */
+export class BudgetRefusedError extends Error {
+  readonly profile: DocumentProfile;
+  readonly losslessAttempt: RefusedLosslessAttempt;
+
+  constructor(message: string, profile: DocumentProfile, losslessAttempt: RefusedLosslessAttempt) {
+    super(message);
+    this.name = "BudgetRefusedError";
+    this.profile = profile;
+    this.losslessAttempt = losslessAttempt;
+  }
+}
 
 export function profileText(
   text: string,
@@ -108,8 +132,10 @@ function buildConversion(profile: DocumentProfile, options: CoreBuildOptions): B
   }
 
   if (!options.allowLossy) {
-    throw new Error(
+    throw new BudgetRefusedError(
       `Target cannot be reached losslessly. Source is ${profile.sourceChars} chars; shortest lossless TOON is ${losslessCandidate.stats.toonChars} chars / ~${losslessCandidate.stats.toonTokens} tokens. Use --mode budget --allow-lossy to produce semantic compression.`,
+      profile,
+      { stats: losslessCandidate.stats, valid: losslessCandidate.valid },
     );
   }
 

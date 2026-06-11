@@ -4,17 +4,17 @@
 // listed first. CheapAgent never claims TOON always saves tokens; this script is
 // the receipt.
 //
-// Caveat printed with the results: record-mode savings are advisory until the
-// engine verifies content coverage outside lossless mode (it can currently drop
-// content on prose-leaning inputs while still flagging lossless: true — see
-// docs/verdict-schema-v1.md, decision 12).
+// "Win" means the engine's own verdict says convert — the same buildVerdict every
+// surface calls, including the savings band (sub-band positive deltas are not
+// wins) and the content-coverage check (record-mode runs that drop content fire
+// low_coverage and cannot receive convert — docs/verdict-schema-v1.md).
 //
 // Usage: npm run build && node scripts/benchmark-honesty.mjs [--json]
 
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { convertTextToToon } from "../dist/index.js";
+import { buildVerdict, convertTextToToon, NODE_TOKEN_ESTIMATOR_ID } from "../dist/index.js";
 import { estimateNodeTokenCount } from "../dist/node-token-estimator.js";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -42,6 +42,10 @@ function measure(text, mode) {
     delimiter: "auto",
     estimateTokenCount: estimateNodeTokenCount,
   });
+  const verdict = buildVerdict(result, {
+    estimator: NODE_TOKEN_ESTIMATOR_ID,
+    includeToonCandidate: false,
+  });
   return {
     profile: result.profile.name,
     toon: result.toon,
@@ -51,7 +55,9 @@ function measure(text, mode) {
     source_tokens: result.stats.sourceTokens,
     toon_tokens: result.stats.toonTokens,
     token_savings_pct: result.stats.tokenSavingsPercent,
-    warning_kinds: [...new Set(result.optimizerWarnings.map((w) => w.kind))],
+    warning_codes: [...new Set(verdict.warnings.map((warning) => warning.code))],
+    verdict: verdict.verdict,
+    safe_to_auto_apply: verdict.safe_to_auto_apply,
   };
 }
 
@@ -76,15 +82,21 @@ for (const file of files) {
         source_tokens: lossless.source_tokens,
         toon_tokens: lossless.toon_tokens,
         token_savings_pct: lossless.token_savings_pct,
+        verdict: lossless.verdict,
+        safe_to_auto_apply: lossless.safe_to_auto_apply,
       },
       record: {
         toon_chars: record.toon_chars,
         char_savings_pct: record.char_savings_pct,
         token_savings_pct: record.token_savings_pct,
+        verdict: record.verdict,
+        safe_to_auto_apply: record.safe_to_auto_apply,
       },
       mode_invariant: lossless.toon === record.toon,
-      warning_kinds: lossless.warning_kinds,
-      toon_wins_lossless: lossless.char_savings_pct > 0,
+      warning_codes: lossless.warning_codes,
+      // A win is the engine's own call, not a sign bit: verdict === "convert" applies the
+      // savings band, so a sub-band positive delta is honestly not a win.
+      toon_wins_lossless: lossless.verdict === "convert",
     });
   } catch (error) {
     rows.push({ file: rel, error: error instanceof Error ? error.message : String(error) });
@@ -95,12 +107,12 @@ for (const file of files) {
 rows.sort((a, b) => (a.lossless?.char_savings_pct ?? 0) - (b.lossless?.char_savings_pct ?? 0));
 
 if (process.argv.includes("--json")) {
-  process.stdout.write(`${JSON.stringify({ estimator: "tokenx", rows }, null, 2)}\n`);
+  process.stdout.write(`${JSON.stringify({ estimator: NODE_TOKEN_ESTIMATOR_ID, rows }, null, 2)}\n`);
   process.exit(0);
 }
 
 const pct = (value) => `${value >= 0 ? "" : "-"}${Math.abs(value).toFixed(1)}%`;
-const headers = ["file", "profile", "src chars", "lossless Δ", "record Δ", "warnings", "lossless result"];
+const headers = ["file", "profile", "src chars", "lossless Δ", "record Δ", "warnings", "verdict (lossless)"];
 const table = rows.map((row) =>
   row.error
     ? [row.file, "-", "-", "-", "-", "-", `ERROR: ${row.error}`]
@@ -110,8 +122,8 @@ const table = rows.map((row) =>
         String(row.source_chars),
         pct(row.lossless.char_savings_pct),
         row.mode_invariant ? "(same)" : pct(row.record.char_savings_pct),
-        row.warning_kinds.length > 0 ? row.warning_kinds.join(",") : "-",
-        row.toon_wins_lossless ? "toon wins" : "TOON LOSES",
+        row.warning_codes.length > 0 ? row.warning_codes.join(",") : "-",
+        row.toon_wins_lossless ? "convert (toon wins)" : row.lossless.verdict,
       ],
 );
 
@@ -119,9 +131,9 @@ const widths = headers.map((header, i) => Math.max(header.length, ...table.map((
 const renderRow = (cells) => cells.map((cell, i) => cell.padEnd(widths[i])).join("  ");
 
 console.log("Honesty benchmark — measured per input, losses first.");
-console.log("Results use lossless mode (the only mode with content coverage by construction).");
-console.log("Record-mode deltas are advisory: coverage outside lossless mode is unverified in v1");
-console.log("(record mode can drop content on prose-leaning inputs — docs/verdict-schema-v1.md, decision 12).");
+console.log("A win is the engine's own verdict (convert), savings band included: a sub-band positive");
+console.log("delta is honestly not a win. Record-mode content coverage is measured per run; runs that");
+console.log("drop content fire low_coverage and cannot earn convert (docs/verdict-schema-v1.md, decision 12).");
 console.log("Token estimates: tokenx (advisory). Decisions use measured chars.\n");
 console.log(renderRow(headers));
 console.log(widths.map((w) => "-".repeat(w)).join("  "));
@@ -132,7 +144,7 @@ for (const row of table) {
 const measured = rows.filter((row) => !row.error);
 const losses = measured.filter((row) => !row.toon_wins_lossless);
 console.log(
-  `\n${measured.length} documents measured (lossless): TOON wins on ${measured.length - losses.length}, loses on ${losses.length}.`,
+  `\n${measured.length} documents measured (lossless): the verdict says convert on ${measured.length - losses.length}, not on ${losses.length}.`,
 );
 if (losses.length > 0) {
   const worst = losses[0];

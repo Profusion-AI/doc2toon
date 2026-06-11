@@ -30,7 +30,7 @@
     },
     "safe_to_auto_apply": {
       "type": "boolean",
-      "description": "True only when an agent may apply the conversion without human review: verdict is convert AND mode is lossless AND flags.lossless AND flags.valid AND measured_chars.savings > 0 AND no warning has severity \"warning\". The mode clause exists because v1 does not independently verify content coverage outside lossless mode. Conservative by design."
+      "description": "True only when an agent may apply the conversion without human review: verdict is convert AND mode is lossless AND flags.lossless AND flags.valid AND measured_chars.savings > 0 AND no warning has severity \"warning\". The mode clause exists because only lossless mode preserves all source blocks by construction; outside it, content coverage is measured heuristically and disclosed via the low_coverage warning rather than trusted for auto-apply. Conservative by design."
     },
     "profile": {
       "type": "object",
@@ -123,7 +123,7 @@
         "properties": {
           "code": {
             "type": "string",
-            "description": "Stable warning identifier. v1 registry: duplicate_rule, vague_rule, long_section, split_candidate, negative_savings, lossy_applied, target_not_reached, budget_refused."
+            "description": "Stable warning identifier. v1 registry: duplicate_rule, vague_rule, long_section, split_candidate, negative_savings, lossy_applied, target_not_reached, low_coverage, budget_refused."
           },
           "severity": { "enum": ["info", "warning"] },
           "message": { "type": "string" },
@@ -147,7 +147,7 @@
       "additionalProperties": true,
       "required": ["lossless", "valid", "target_reached"],
       "properties": {
-        "lossless": { "type": "boolean", "description": "No budget (semantic) compression was applied by the pipeline. In v1 this flag asserts the mode's intent, not independently verified content coverage: only lossless mode preserves all source blocks by construction. See safe_to_auto_apply." },
+        "lossless": { "type": "boolean", "description": "No budget (semantic) compression was applied by the pipeline. In v1 this flag asserts the mode's intent, not independently verified content coverage: only lossless mode preserves all source blocks by construction. Content coverage is separately measured and disclosed via the low_coverage warning. See safe_to_auto_apply." },
         "valid": { "type": "boolean", "description": "The candidate round-trips through the official TOON decoder." },
         "target_reached": { "type": ["boolean", "null"], "description": "Whether the requested budget target was met. Null when no target was requested." }
       }

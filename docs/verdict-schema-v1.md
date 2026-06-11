@@ -1,6 +1,8 @@
 # Verdict Schema v1 — contract and decision log
 
-**Status: DRAFT — frozen when the freeze merge lands (30-day plan, day 7).** After the freeze, every change to this contract follows the versioning rules at the bottom of this document. Nothing about the freeze is ceremonial: the schema ships in the npm tarball, the spec is published, and consumers multiply from day 8 onward.
+**Status: FROZEN (freeze merge, 2026-06-10 — 30-day plan, day 7 milestone).** Every change to this contract from here follows the versioning rules at the bottom of this document. Nothing about the freeze is ceremonial: the schema ships in the npm tarball, the spec is published, and consumers multiply from the v0.3.0 release onward.
+
+**Calibration complete (2026-06-10):** the seven open questions below are answered with fixture data; the measured table and tuned constants live in `docs/calibration-v1.md`, and the snapshot tests pin the same behavior per fixture.
 
 The contract is two files plus this document:
 
@@ -51,7 +53,7 @@ safe_to_auto_apply :=
 
 Conservative by design: `review` absorbs the gray zone. A timid v1 is recoverable; a wrong-and-confident v1 is not.
 
-The `mode == "lossless"` clause was added on day 1 after measurement (see decision 12): v1 does not independently verify content coverage outside lossless mode, and only lossless mode preserves all source blocks by construction. The clause may be relaxed in a 1.x minor once record-mode coverage is verified mechanically — relaxing a criterion is additive; trusting an unverified one is not.
+The `mode == "lossless"` clause was added on day 1 after measurement (see decision 12): only lossless mode preserves all source blocks by construction. Calibration outcome: coverage is now measured mechanically and disclosed (`low_coverage`, decision 12), but the clause is retained for v1.0 anyway — relaxing it against measured coverage is a documented 1.x option once the measurement has field mileage. Relaxing a criterion is additive; trusting a fresh one is not.
 
 Note: under the v1 decision policy (below), a `convert` verdict implies zero warnings, which makes the severity clause currently vacuous. It is kept normative anyway so that future threshold tunes (e.g., letting info-severity warnings coexist with `convert`) cannot silently weaken auto-apply.
 
@@ -70,6 +72,7 @@ One `warnings[]` array of `{ code, severity, message, suggestion?, evidence?, ra
 | `negative_savings` | conversion | TOON output is larger than the source |
 | `lossy_applied` | conversion | Semantic compression was applied; output is not lossless |
 | `target_not_reached` | conversion | Budget target missed even with compression |
+| `low_coverage` | verdict (coverage check) | The canonical retains too little of the source's content characters — the measured share is in the message (threshold `LOW_COVERAGE_RATIO`, tunable) |
 | `budget_refused` | conversion | Target unreachable losslessly and lossy not permitted |
 
 `severity` is a **closed** two-level enum in v1: `info | warning`. Expanding it would be a breaking change (consumers branch on it); a third level means schema v2.
@@ -108,7 +111,7 @@ Wire format is `snake_case` (`toon_candidate`, `safe_to_auto_apply`, `measured_c
 
 Validation has no source document to judge — there is nothing to render a verdict on. `POST /v1/validate` and `validate --json` return `{ schema_version, valid, error }` (the `ValidationResult` component in the OpenAPI spec). An invalid document is representable: HTTP `200` with `valid: false` and a coded error (`invalid_toon`).
 
-### 12. Record-mode content coverage is unverified in v1 (measured day 1)
+### 12. Record-mode content coverage is measured and disclosed, never trusted (measured day 1; check shipped at calibration)
 
 Day-1 measurement against the engine surfaced two facts the contract must not paper over:
 
@@ -119,19 +122,28 @@ The realistic fixtures (committed day 1, `fixtures/agent-context/realistic/READM
 
 Consequences encoded in this contract: the `flags.lossless` description states the honest semantics; `safe_to_auto_apply` requires `mode == "lossless"` (decision 4); and the engine work to verify coverage mechanically (source-to-canonical coverage check, plus fixing the raw-prose/requirements record extraction) is a calibration-week item (Phase 1, days 4–6) tracked in the open questions below. The verdict feature must not ship telling users record mode saved them 91% when it deleted their document.
 
+**Calibration outcome (2026-06-10): the mechanical coverage check ships with the freeze.** `buildVerdict` measures the share of the source's content characters (alphanumerics — markdown syntax deliberately doesn't count) retained by the canonical document's string values, and fires a `low_coverage` warning (severity `warning`) below `LOW_COVERAGE_RATIO` (0.70). Measured: the two dishonest cases land at 8% (architecture-rfc.md record) and 18% (prose.md record) and now verdict `review`, never `convert`; every legitimate path measures 88–100%. The raw-prose/requirements record-extraction fix itself (sentence-boundary-aware `extractRules`) is deferred to a post-freeze minor — with the coverage check in place its absence can no longer produce a confident wrong verdict.
+
 ---
 
-## Open calibration questions (resolve in days 4–6, before the freeze)
+## Open calibration questions — ANSWERED (2026-06-10, with the data in `docs/calibration-v1.md`)
 
-These do not block the schema draft — no field changes hang on them — but they must be answered before the freeze merge, with fixture data:
+These did not block the schema draft — no field changes hung on them — and they are now answered with fixture data ahead of the freeze merge:
 
-1. **Default wire mode.** The draft defaults `/v1/convert` to lossless (matches the CLI; honest by construction). The web app uses record mode for its agent-doc tabs. Once record-mode coverage verification exists, should the wire default flip to record for the flagship use, or stay lossless with record opt-in? Decide with the calibration table, not in the abstract.
-2. **Record-mode coverage verification.** Mechanical check (canonical-vs-source coverage) and a fix for the raw-prose record extraction misfire (decision 12). Until this lands, every surface treats record-mode savings as suspect.
-3. **Mixed-profile mode invariance.** Whether record mode should have a real (different, smaller) canonical for `mixed` docs, or whether `split_first` is simply the permanent answer for them.
-4. **Web app alignment.** The Phase 2 web swap replaces client-side verdict logic with the engine's; at that point the web tabs' record-mode defaults must reconcile with whatever default the wire freezes, or the web and CLI will disagree about the same document — the exact failure the shared engine exists to prevent.
-5. **`long_section` vs. uniform tables.** The `table` profile requires ≤1 heading, so any real-size table document is one giant section and `long_section` always fires — turning `config-reference.md`'s decode-verified +21.1% win into `split_first`. The thresholds should probably exempt (or weight differently) sections that are a single uniform table; otherwise the engine's best legitimate win class can never receive `convert`.
-6. **Lossless-mode coverage check.** `config-reference.md` shows the lossless-claimed table canonical dropping title/intro/captions (~3.4% of source). Either the canonical carries them, or the coverage check from question 2 applies to lossless mode too — `safe_to_auto_apply` leans on lossless-by-construction, so this is a freeze-relevant question.
-7. **Phantom definitions.** The inline-definition heuristic extracts junk definitions from capitalized lines containing hyphens or `Term: def` shapes (`SKILL.md`: 17 definitions, mostly phantom; `architecture-rfc.md` needed deliberate line-wrapping to dodge it). This inflates `activeKinds` toward `mixed`, which currently dooms a document to negative savings — profiler precision directly gates which verdicts are reachable.
+1. **Default wire mode.** The draft defaults `/v1/convert` to lossless (matches the CLI; honest by construction). The web app uses record mode for its agent-doc tabs. Once record-mode coverage verification exists, should the wire default flip to record for the flagship use, or stay lossless with record opt-in?
+   **Answer: lossless stays the wire default; record is opt-in.** The calibration table shows record mode either produces the identical canonical (every `mixed` doc — all realistic agent docs), wins marginally on definitions-profile docs (+7.8%, +8.9% at 89–92% coverage), or "wins" big only by dropping content (+91.7% at 8% coverage, +80.2% at 18%). Nothing in that distribution justifies defaulting a lossy-in-practice mode. Record mode stays available with its coverage now measured and disclosed.
+2. **Record-mode coverage verification.**
+   **Answer: shipped with the freeze, in the verdict layer.** `measureContentCoverage` compares content characters (alphanumerics) between source and canonical; below `LOW_COVERAGE_RATIO` (0.70) a `low_coverage` warning (severity `warning`) fires and the decision policy lands on `review` (or worse) instead of `convert`. The `extractRules` sentence-boundary fix is deferred to a post-freeze minor: with the coverage check in place, the misfire can no longer produce a confident wrong verdict — it produces a disclosed, review-class one.
+3. **Mixed-profile mode invariance.**
+   **Answer: `split_first`/`keep_markdown` is the v1 answer for mixed docs, permanently per mode-invariance.** Every `mixed` fixture is mode-invariant (record short-circuits to the lossless canonical) at -33% to -137% savings. A genuinely smaller mixed canonical would be a designed artifact, not a threshold tune — if it ever exists it arrives in a minor with its own calibration pass. The verdict's advice (split into cleanly-typed blocks) is the product's actual advice.
+4. **Web app alignment.**
+   **Answer: the web swaps to the engine verdict in Phase 2 with no user-visible verdict flips.** Measured on the web's own samples in their current tab modes: engine and web agree on every tab today (keep_markdown / split_first / split_first / keep_markdown). The web's record-default tabs keep record mode as their display default for now (the verdicts agree either way on the corpus); the wire default stays lossless per question 1, and record-tab users gain `low_coverage` disclosure the client-side logic never had.
+5. **`long_section` vs. uniform tables.**
+   **Answer: exempted.** Sections whose non-empty lines are ≥ `LONG_SECTION_TABLE_LINE_RATIO` (0.60) table rows no longer fire `long_section` — tables are the case that converts well, so their length is not a smell. config-reference.md flips from a doomed `split_first` to the corpus's one honest `convert` with `safe_to_auto_apply: true` (+22.2%, decode-verified 294/294 rows). Mixed-content long sections (prose plus an embedded table) still fire: the toy corpus confirms no other verdict moved.
+6. **Lossless-mode coverage check.**
+   **Answer: the coverage check applies to every mode, and quantifies this case at 91% — above the warning bar, documented as a known v1 limitation.** The honest fix is the `table` canonical carrying title/intro/captions; that is a canonical-shape change (library-visible, savings-number-moving) scheduled as a post-freeze minor, at which point coverage reaches ~100% and the limitation note is deleted. `safe_to_auto_apply` on table docs is accepted for v1 with this disclosed: the drop is bounded (9% of content chars on the worst fixture), measured, and the candidate is decode-verified.
+7. **Phantom definitions.**
+   **Answer: deferred to a post-freeze minor, with the blast radius measured and bounded.** The heuristic inflates `definitions` counts (realistic SKILL.md: 17, mostly phantom) and pushes docs toward `mixed` — but on the corpus this changes no verdict: mixed agent docs measure heavily negative with or without the phantoms, and the honest verdict for them is `keep_markdown`/`split_first` either way (question 3). Profiler precision work is real engine work for a 1.x minor and is deliberately not rushed into freeze week; the calibration table is the regression baseline for it.
 
 ## Decision policy (normative; constants tunable)
 
@@ -141,11 +153,11 @@ Evaluated in priority order against deterministic inputs only:
 |---|---|---|
 | 1 | `refused` | Budget target unreachable losslessly and lossy output not permitted |
 | 2 | `split_first` | Any `long_section` or `split_candidate` warning fired |
-| 3 | `keep_markdown` | `measured_chars.savings <= 0` |
+| 3 | `keep_markdown` | `measured_chars.savings <= 0` **or** `savings_pct < MIN_CONVERT_SAVINGS_PCT` (5, tunable — sub-band wins do not justify a format change; calibration caught a +0.4% "win" earning `convert`) |
 | 4 | `review` | Any other warning fired (any code, any severity) |
-| 5 | `convert` | Otherwise: zero warnings and positive measured savings |
+| 5 | `convert` | Otherwise: zero warnings and measured savings at or above the band |
 
-**Fields freeze; thresholds don't.** The optimizer constants that decide when `long_section` / `split_candidate` / `duplicate_rule` / `vague_rule` fire (in `src/optimizer.ts`) are decision-policy constants, documented here as **minor-version-tunable**: teardown-week feedback may tune them in a 1.x minor with a CHANGELOG entry, without any schema change. The calibration table (Phase 1, days 4–6) pins current behavior per fixture in committed test expectations, so every tune is a visible diff.
+**Fields freeze; thresholds don't.** The optimizer constants that decide when `long_section` / `split_candidate` / `duplicate_rule` / `vague_rule` fire (in `src/optimizer.ts`) and the verdict-policy constants (`MIN_CONVERT_SAVINGS_PCT`, `LOW_COVERAGE_RATIO` in `src/verdict.ts`; `LONG_SECTION_TABLE_LINE_RATIO` in `src/optimizer.ts`) are decision-policy constants, documented here as **minor-version-tunable**: teardown-week feedback may tune them in a 1.x minor with a CHANGELOG entry, without any schema change. The calibration table (`docs/calibration-v1.md`) pins current behavior per fixture, the snapshot tests pin it as committed expectations, so every tune is a visible diff.
 
 ---
 
@@ -161,7 +173,7 @@ Evaluated in priority order against deterministic inputs only:
 
 ## Examples
 
-### A verdict (split_first, abridged `toon_candidate`)
+### A verdict (split_first, profile surface — `toon_candidate` withheld, warnings abridged)
 
 ```json
 {
@@ -170,35 +182,37 @@ Evaluated in priority order against deterministic inputs only:
   "safe_to_auto_apply": false,
   "profile": {
     "name": "mixed",
-    "title": "CLAUDE.md",
+    "title": "CLAUDE.md — Bramblebill monorepo",
     "source_type": "markdown",
-    "stats": { "lines": 524, "headings": 23, "paragraphs": 61, "list_items": 118, "tables": 2, "table_rows": 14, "definitions": 9, "rules": 37 }
+    "stats": { "lines": 435, "headings": 29, "paragraphs": 108, "list_items": 89, "tables": 0, "table_rows": 0, "definitions": 23, "rules": 53 }
   },
-  "measured_chars": { "source": 20056, "toon": 27644, "savings": -7588, "savings_pct": -37.8 },
+  "measured_chars": { "source": 20490, "toon": 27644, "savings": -7154, "savings_pct": -34.9 },
   "token_estimates": {
-    "estimator": "tokenx@1.3.0",
-    "source": 5151, "toon": 7612, "savings": -2461, "savings_pct": -47.8,
+    "estimator": "chars-per-token:4",
+    "source": 5123, "toon": 6911, "savings": -1788, "savings_pct": -34.9,
     "ratio_estimates": [
-      { "chars_per_token": 3.5, "source": 5730, "toon": 7898, "savings": -2168, "savings_pct": -37.8 },
-      { "chars_per_token": 4, "source": 5014, "toon": 6911, "savings": -1897, "savings_pct": -37.8 },
-      { "chars_per_token": 4.5, "source": 4457, "toon": 6143, "savings": -1686, "savings_pct": -37.8 }
+      { "chars_per_token": 3.5, "source": 5854, "toon": 7898, "savings": -2044, "savings_pct": -34.9 },
+      { "chars_per_token": 4, "source": 5123, "toon": 6911, "savings": -1788, "savings_pct": -34.9 },
+      { "chars_per_token": 4.5, "source": 4553, "toon": 6143, "savings": -1590, "savings_pct": -34.9 }
     ]
   },
   "toon_candidate": null,
   "warnings": [
     {
-      "code": "long_section",
-      "severity": "warning",
-      "message": "Section \"Deployment\" is carrying too much.",
-      "suggestion": "Split it into smaller, named sections.",
-      "range": { "line_start": 201, "line_end": 318 }
-    },
-    {
       "code": "duplicate_rule",
       "severity": "warning",
-      "message": "Two rules state the same constraint about migration files.",
-      "suggestion": "Keep one and delete the other.",
-      "range": { "line_start": 96, "line_end": 96 }
+      "message": "Possible duplicate rule in \"Gotchas\".",
+      "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+      "evidence": "Never use JavaScript number arithmetic for invoice amounts; always",
+      "range": { "line_start": 336, "line_end": 336, "char_start": 15350, "char_end": 15418 }
+    },
+    {
+      "code": "long_section",
+      "severity": "info",
+      "message": "Long section: \"Testing\".",
+      "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+      "evidence": "3069 chars, 50 non-empty lines, 14 bullets",
+      "range": { "line_start": 225, "line_end": 279, "char_start": 9781, "char_end": 12890 }
     },
     {
       "code": "negative_savings",
@@ -208,11 +222,11 @@ Evaluated in priority order against deterministic inputs only:
   ],
   "flags": { "lossless": true, "valid": true, "target_reached": null },
   "mode": "lossless",
-  "delimiter": ","
+  "delimiter": "\t"
 }
 ```
 
-(Engine-true numbers, taken from the realistic CLAUDE.md fixture: a mixed-profile agent doc usually measures *negative* — the verdict's advice is to split it into cleanly-typed blocks first, and `split_first` outranks `keep_markdown` precisely because splitting is the actionable fix.)
+(Engine-true output for the realistic CLAUDE.md fixture — these exact values are pinned in `test/__snapshots__/verdict.test.ts.snap`, abridged here from six warnings to three. A mixed-profile agent doc usually measures *negative* — the verdict's advice is to split it into cleanly-typed blocks first, and `split_first` outranks `keep_markdown` precisely because splitting is the actionable fix. Note `long_section` is severity `info`: severities are data from the optimizer, and the decision policy keys on codes, not severities. The `chars-per-token:4` estimator identity is what browser surfaces report; CLI surfaces report `tokenx@1.3.0` with different advisory numbers and the identical verdict.)
 
 ### curl against localhost (the v0.4.0 surface — illustrative until `serve` ships, days 13–18)
 

@@ -1,0 +1,1694 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`verdict contract over fixtures (lossless mode) > examples/definitions.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": ",",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -76,
+    "savings_pct": -7.9,
+    "source": 956,
+    "toon": 1032,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "definitions",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 4,
+      "headings": 5,
+      "lines": 26,
+      "list_items": 0,
+      "paragraphs": 4,
+      "rules": 2,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "Converter Definitions",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -22,
+        "savings_pct": -7.9,
+        "source": 273,
+        "toon": 295,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -19,
+        "savings_pct": -7.9,
+        "source": 239,
+        "toon": 258,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -17,
+        "savings_pct": -7.9,
+        "source": 212,
+        "toon": 229,
+      },
+    ],
+    "savings": -19,
+    "savings_pct": -7.9,
+    "source": 239,
+    "toon": 258,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > examples/prose.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": ",",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -69,
+    "savings_pct": -3.4,
+    "source": 2051,
+    "toon": 2120,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "raw_prose",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 1,
+      "headings": 3,
+      "lines": 22,
+      "list_items": 0,
+      "paragraphs": 8,
+      "rules": 2,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "Field Note",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -20,
+        "savings_pct": -3.4,
+        "source": 586,
+        "toon": 606,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -17,
+        "savings_pct": -3.4,
+        "source": 513,
+        "toon": 530,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -15,
+        "savings_pct": -3.4,
+        "source": 456,
+        "toon": 471,
+      },
+    ],
+    "savings": -17,
+    "savings_pct": -3.3,
+    "source": 513,
+    "toon": 530,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > examples/requirements.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": ",",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -92,
+    "savings_pct": -10.5,
+    "source": 876,
+    "toon": 968,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "requirements",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 0,
+      "headings": 5,
+      "lines": 23,
+      "list_items": 9,
+      "paragraphs": 0,
+      "rules": 9,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "Release Smoke Requirements",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -26,
+        "savings_pct": -10.5,
+        "source": 250,
+        "toon": 277,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -23,
+        "savings_pct": -10.5,
+        "source": 219,
+        "toon": 242,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -20,
+        "savings_pct": -10.5,
+        "source": 195,
+        "toon": 215,
+      },
+    ],
+    "savings": -23,
+    "savings_pct": -10.5,
+    "source": 219,
+    "toon": 242,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > examples/table.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": ",",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -487,
+    "savings_pct": -136,
+    "source": 358,
+    "toon": 845,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "mixed",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 0,
+      "headings": 1,
+      "lines": 9,
+      "list_items": 0,
+      "paragraphs": 0,
+      "rules": 1,
+      "table_rows": 4,
+      "tables": 1,
+    },
+    "title": "Profile Matrix",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -139,
+        "savings_pct": -136,
+        "source": 102,
+        "toon": 241,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -122,
+        "savings_pct": -136,
+        "source": 90,
+        "toon": 211,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -108,
+        "savings_pct": -136,
+        "source": 80,
+        "toon": 188,
+      },
+    ],
+    "savings": -121,
+    "savings_pct": -134.4,
+    "source": 90,
+    "toon": 211,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/AGENTS.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": "	",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -3060,
+    "savings_pct": -124,
+    "source": 2468,
+    "toon": 5528,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "mixed",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 6,
+      "headings": 9,
+      "lines": 55,
+      "list_items": 28,
+      "paragraphs": 1,
+      "rules": 21,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "AGENTS.md - doc2toon",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -874,
+        "savings_pct": -124,
+        "source": 705,
+        "toon": 1579,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -765,
+        "savings_pct": -124,
+        "source": 617,
+        "toon": 1382,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -680,
+        "savings_pct": -124,
+        "source": 548,
+        "toon": 1228,
+      },
+    ],
+    "savings": -765,
+    "savings_pct": -124,
+    "source": 617,
+    "toon": 1382,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/CLAUDE.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": "	",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -85,
+    "savings_pct": -19.1,
+    "source": 446,
+    "toon": 531,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "requirements",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 0,
+      "headings": 2,
+      "lines": 13,
+      "list_items": 6,
+      "paragraphs": 1,
+      "rules": 7,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "CLAUDE.md",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -24,
+        "savings_pct": -19.1,
+        "source": 127,
+        "toon": 152,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -21,
+        "savings_pct": -19.1,
+        "source": 112,
+        "toon": 133,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -19,
+        "savings_pct": -19.1,
+        "source": 99,
+        "toon": 118,
+      },
+    ],
+    "savings": -21,
+    "savings_pct": -18.7,
+    "source": 112,
+    "toon": 133,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/SKILL.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": "	",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -3232,
+    "savings_pct": -103.8,
+    "source": 3113,
+    "toon": 6345,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "mixed",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 5,
+      "headings": 11,
+      "lines": 75,
+      "list_items": 25,
+      "paragraphs": 11,
+      "rules": 19,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "Skill: Review a Markdown document for context-density risks before conversion",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -923,
+        "savings_pct": -103.8,
+        "source": 889,
+        "toon": 1813,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -808,
+        "savings_pct": -103.8,
+        "source": 778,
+        "toon": 1586,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -718,
+        "savings_pct": -103.8,
+        "source": 692,
+        "toon": 1410,
+      },
+    ],
+    "savings": -808,
+    "savings_pct": -103.9,
+    "source": 778,
+    "toon": 1586,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/problematic/duplicate-rules.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": ",",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -96,
+    "savings_pct": -20.2,
+    "source": 475,
+    "toon": 571,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "requirements",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 0,
+      "headings": 3,
+      "lines": 14,
+      "list_items": 6,
+      "paragraphs": 0,
+      "rules": 6,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "Duplicate Rule Fixture",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -27,
+        "savings_pct": -20.2,
+        "source": 136,
+        "toon": 163,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -24,
+        "savings_pct": -20.2,
+        "source": 119,
+        "toon": 143,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -21,
+        "savings_pct": -20.2,
+        "source": 106,
+        "toon": 127,
+      },
+    ],
+    "savings": -24,
+    "savings_pct": -20.2,
+    "source": 119,
+    "toon": 143,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "duplicate_rule",
+      "evidence": "The converter must validate official TOON round trips before writing output.",
+      "message": "Possible duplicate rule in "Build Gate".",
+      "range": {
+        "char_end": 268,
+        "char_start": 190,
+        "line_end": 7,
+        "line_start": 7,
+      },
+      "severity": "warning",
+      "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+    },
+    {
+      "code": "duplicate_rule",
+      "evidence": "Public docs must avoid universal savings claims.",
+      "message": "Possible duplicate rule in "Documentation Gate".",
+      "range": {
+        "char_end": 473,
+        "char_start": 423,
+        "line_end": 13,
+        "line_start": 13,
+      },
+      "severity": "warning",
+      "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+    },
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/problematic/long-section.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": ",",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -112,
+    "savings_pct": -4.7,
+    "source": 2376,
+    "toon": 2488,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "requirements",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 1,
+      "headings": 3,
+      "lines": 25,
+      "list_items": 15,
+      "paragraphs": 1,
+      "rules": 17,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "Long Section Fixture",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -32,
+        "savings_pct": -4.7,
+        "source": 679,
+        "toon": 711,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -28,
+        "savings_pct": -4.7,
+        "source": 594,
+        "toon": 622,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -25,
+        "savings_pct": -4.7,
+        "source": 528,
+        "toon": 553,
+      },
+    ],
+    "savings": -28,
+    "savings_pct": -4.7,
+    "source": 594,
+    "toon": 622,
+  },
+  "toon_candidate": null,
+  "verdict": "split_first",
+  "warnings": [
+    {
+      "code": "long_section",
+      "evidence": "2247 chars, 15 non-empty lines, 14 bullets",
+      "message": "Long section: "Always-On Review Procedure".",
+      "range": {
+        "char_end": 2310,
+        "char_start": 26,
+        "line_end": 21,
+        "line_start": 3,
+      },
+      "severity": "info",
+      "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+    },
+    {
+      "code": "split_candidate",
+      "evidence": "Detected themes: conversion, release, privacy, ui, testing",
+      "message": "Possible split candidate: "Always-On Review Procedure".",
+      "range": {
+        "char_end": 2310,
+        "char_start": 26,
+        "line_end": 21,
+        "line_start": 3,
+      },
+      "severity": "info",
+      "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+    },
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/problematic/mixed-agent-context.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": "	",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -2967,
+    "savings_pct": -123.4,
+    "source": 2404,
+    "toon": 5371,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "mixed",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 0,
+      "headings": 5,
+      "lines": 45,
+      "list_items": 17,
+      "paragraphs": 5,
+      "rules": 22,
+      "table_rows": 3,
+      "tables": 1,
+    },
+    "title": "Mixed Agent Context Fixture",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -848,
+        "savings_pct": -123.4,
+        "source": 687,
+        "toon": 1535,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -742,
+        "savings_pct": -123.4,
+        "source": 601,
+        "toon": 1343,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -659,
+        "savings_pct": -123.4,
+        "source": 534,
+        "toon": 1194,
+      },
+    ],
+    "savings": -742,
+    "savings_pct": -123.5,
+    "source": 601,
+    "toon": 1343,
+  },
+  "toon_candidate": null,
+  "verdict": "split_first",
+  "warnings": [
+    {
+      "code": "duplicate_rule",
+      "evidence": "The optimizer should preserve useful context density.",
+      "message": "Possible duplicate rule in "Product Philosophy".",
+      "range": {
+        "char_end": 213,
+        "char_start": 158,
+        "line_end": 7,
+        "line_start": 7,
+      },
+      "severity": "warning",
+      "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+    },
+    {
+      "code": "vague_rule",
+      "evidence": "The agent should be smart about which details matter.",
+      "message": "Possibly vague instruction in "Product Philosophy".",
+      "range": {
+        "char_end": 270,
+        "char_start": 215,
+        "line_end": 8,
+        "line_start": 8,
+      },
+      "severity": "warning",
+      "suggestion": "Rewrite as a concrete rule with an action, condition, and verification step.",
+    },
+    {
+      "code": "long_section",
+      "evidence": "1574 chars, 14 non-empty lines, 13 bullets",
+      "message": "Long section: "Always-On Procedure".",
+      "range": {
+        "char_end": 1878,
+        "char_start": 274,
+        "line_end": 27,
+        "line_start": 10,
+      },
+      "severity": "info",
+      "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+    },
+    {
+      "code": "split_candidate",
+      "evidence": "Detected themes: conversion, release, privacy, ui, testing",
+      "message": "Possible split candidate: "Always-On Procedure".",
+      "range": {
+        "char_end": 1878,
+        "char_start": 274,
+        "line_end": 27,
+        "line_start": 10,
+      },
+      "severity": "info",
+      "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+    },
+    {
+      "code": "split_candidate",
+      "evidence": "Detected themes: when preparing release notes, when drafting ui copy, when reviewing privacy posture, when authoring skills",
+      "message": "Possible split candidate: "Release, UI, Privacy, And Skill Workflow".",
+      "range": {
+        "char_end": 2247,
+        "char_start": 1880,
+        "line_end": 37,
+        "line_start": 28,
+      },
+      "severity": "info",
+      "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+    },
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/problematic/split-candidate.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": "	",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -90,
+    "savings_pct": -11.2,
+    "source": 805,
+    "toon": 895,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "requirements",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 0,
+      "headings": 3,
+      "lines": 16,
+      "list_items": 1,
+      "paragraphs": 4,
+      "rules": 3,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "Split Candidate Fixture",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -26,
+        "savings_pct": -11.2,
+        "source": 230,
+        "toon": 256,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -22,
+        "savings_pct": -11.2,
+        "source": 201,
+        "toon": 224,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -20,
+        "savings_pct": -11.2,
+        "source": 179,
+        "toon": 199,
+      },
+    ],
+    "savings": -23,
+    "savings_pct": -11.4,
+    "source": 201,
+    "toon": 224,
+  },
+  "toon_candidate": null,
+  "verdict": "split_first",
+  "warnings": [
+    {
+      "code": "split_candidate",
+      "evidence": "Detected themes: when reviewing conversion behavior, when preparing release notes, when reviewing privacy posture, when drafting ui copy",
+      "message": "Possible split candidate: "Conversion, Release, Privacy, And UI Workflow".",
+      "range": {
+        "char_end": 725,
+        "char_start": 29,
+        "line_end": 12,
+        "line_start": 3,
+      },
+      "severity": "info",
+      "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+    },
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/problematic/vague-rules.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": ",",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -92,
+    "savings_pct": -25.6,
+    "source": 359,
+    "toon": 451,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "requirements",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 0,
+      "headings": 3,
+      "lines": 14,
+      "list_items": 6,
+      "paragraphs": 0,
+      "rules": 6,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "Vague Rule Fixture",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -26,
+        "savings_pct": -25.6,
+        "source": 103,
+        "toon": 129,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -23,
+        "savings_pct": -25.6,
+        "source": 90,
+        "toon": 113,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -20,
+        "savings_pct": -25.6,
+        "source": 80,
+        "toon": 100,
+      },
+    ],
+    "savings": -23,
+    "savings_pct": -25.6,
+    "source": 90,
+    "toon": 113,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "vague_rule",
+      "evidence": "The agent should be smart about context.",
+      "message": "Possibly vague instruction in "Operating Guidance".",
+      "range": {
+        "char_end": 91,
+        "char_start": 49,
+        "line_end": 5,
+        "line_start": 5,
+      },
+      "severity": "warning",
+      "suggestion": "Rewrite as a concrete rule with an action, condition, and verification step.",
+    },
+    {
+      "code": "vague_rule",
+      "evidence": "The tool must make the output better.",
+      "message": "Possibly vague instruction in "Operating Guidance".",
+      "range": {
+        "char_end": 132,
+        "char_start": 93,
+        "line_end": 6,
+        "line_start": 6,
+      },
+      "severity": "warning",
+      "suggestion": "Rewrite as a concrete rule with an action, condition, and verification step.",
+    },
+    {
+      "code": "vague_rule",
+      "evidence": "The reviewer should use good judgment.",
+      "message": "Possibly vague instruction in "Operating Guidance".",
+      "range": {
+        "char_end": 174,
+        "char_start": 134,
+        "line_end": 7,
+        "line_start": 7,
+      },
+      "severity": "warning",
+      "suggestion": "Rewrite as a concrete rule with an action, condition, and verification step.",
+    },
+    {
+      "code": "vague_rule",
+      "evidence": "The workflow should handle edge cases gracefully.",
+      "message": "Possibly vague instruction in "Operating Guidance".",
+      "range": {
+        "char_end": 227,
+        "char_start": 176,
+        "line_end": 8,
+        "line_start": 8,
+      },
+      "severity": "warning",
+      "suggestion": "Rewrite as a concrete rule with an action, condition, and verification step.",
+    },
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/realistic/AGENTS.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": "	",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -11769,
+    "savings_pct": -58.4,
+    "source": 20149,
+    "toon": 31918,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "mixed",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 30,
+      "headings": 42,
+      "lines": 460,
+      "list_items": 100,
+      "paragraphs": 102,
+      "rules": 48,
+      "table_rows": 32,
+      "tables": 4,
+    },
+    "title": "AGENTS.md — Sluicegate",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -3363,
+        "savings_pct": -58.4,
+        "source": 5757,
+        "toon": 9119,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -2942,
+        "savings_pct": -58.4,
+        "source": 5037,
+        "toon": 7980,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -2615,
+        "savings_pct": -58.4,
+        "source": 4478,
+        "toon": 7093,
+      },
+    ],
+    "savings": -2943,
+    "savings_pct": -58.4,
+    "source": 5037,
+    "toon": 7980,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "duplicate_rule",
+      "evidence": "Make sure to run \`make schema-stubs\` after editing anything under",
+      "message": "Possible duplicate rule in "Schema management".",
+      "range": {
+        "char_end": 9961,
+        "char_start": 9894,
+        "line_end": 217,
+        "line_start": 217,
+      },
+      "severity": "warning",
+      "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+    },
+    {
+      "code": "duplicate_rule",
+      "evidence": "Never point a local pipeline run at the production warehouse; production",
+      "message": "Possible duplicate rule in "Merge semantics".",
+      "range": {
+        "char_end": 11126,
+        "char_start": 11052,
+        "line_end": 245,
+        "line_start": 245,
+      },
+      "severity": "warning",
+      "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+    },
+    {
+      "code": "vague_rule",
+      "evidence": "Handle errors gracefully in consumer shutdown hooks; orphaned offsets",
+      "message": "Possibly vague instruction in "Dead-letter handling".",
+      "range": {
+        "char_end": 10398,
+        "char_start": 10327,
+        "line_end": 228,
+        "line_start": 228,
+      },
+      "severity": "warning",
+      "suggestion": "Rewrite as a concrete rule with an action, condition, and verification step.",
+    },
+    {
+      "code": "vague_rule",
+      "evidence": "Use good judgment when deciding whether a failed backfill needs a full",
+      "message": "Possibly vague instruction in "Backfills".",
+      "range": {
+        "char_end": 11530,
+        "char_start": 11458,
+        "line_end": 254,
+        "line_start": 254,
+      },
+      "severity": "warning",
+      "suggestion": "Rewrite as a concrete rule with an action, condition, and verification step.",
+    },
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/realistic/CLAUDE.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": "	",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -7154,
+    "savings_pct": -34.9,
+    "source": 20490,
+    "toon": 27644,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "mixed",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 23,
+      "headings": 29,
+      "lines": 435,
+      "list_items": 89,
+      "paragraphs": 108,
+      "rules": 53,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "CLAUDE.md — Bramblebill monorepo",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -2044,
+        "savings_pct": -34.9,
+        "source": 5854,
+        "toon": 7898,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -1788,
+        "savings_pct": -34.9,
+        "source": 5123,
+        "toon": 6911,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -1590,
+        "savings_pct": -34.9,
+        "source": 4553,
+        "toon": 6143,
+      },
+    ],
+    "savings": -1788,
+    "savings_pct": -34.9,
+    "source": 5123,
+    "toon": 6911,
+  },
+  "toon_candidate": null,
+  "verdict": "split_first",
+  "warnings": [
+    {
+      "code": "duplicate_rule",
+      "evidence": "Always run \`pnpm typecheck\` before you push, otherwise CI fails at",
+      "message": "Possible duplicate rule in "PR conventions".",
+      "range": {
+        "char_end": 14232,
+        "char_start": 14164,
+        "line_end": 309,
+        "line_start": 309,
+      },
+      "severity": "warning",
+      "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+    },
+    {
+      "code": "duplicate_rule",
+      "evidence": "Never use JavaScript number arithmetic for invoice amounts; always",
+      "message": "Possible duplicate rule in "Gotchas".",
+      "range": {
+        "char_end": 15418,
+        "char_start": 15350,
+        "line_end": 336,
+        "line_start": 336,
+      },
+      "severity": "warning",
+      "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+    },
+    {
+      "code": "vague_rule",
+      "evidence": "Be careful with the database when you touch anything under",
+      "message": "Possibly vague instruction in "Database and migrations".",
+      "range": {
+        "char_end": 13155,
+        "char_start": 13097,
+        "line_end": 286,
+        "line_start": 286,
+      },
+      "severity": "warning",
+      "suggestion": "Rewrite as a concrete rule with an action, condition, and verification step.",
+    },
+    {
+      "code": "vague_rule",
+      "evidence": "Use good judgment when deciding whether a schema change needs a data",
+      "message": "Possibly vague instruction in "Database and migrations".",
+      "range": {
+        "char_end": 13638,
+        "char_start": 13568,
+        "line_end": 297,
+        "line_start": 297,
+      },
+      "severity": "warning",
+      "suggestion": "Rewrite as a concrete rule with an action, condition, and verification step.",
+    },
+    {
+      "code": "long_section",
+      "evidence": "3069 chars, 50 non-empty lines, 14 bullets",
+      "message": "Long section: "Testing".",
+      "range": {
+        "char_end": 12890,
+        "char_start": 9781,
+        "line_end": 279,
+        "line_start": 225,
+      },
+      "severity": "info",
+      "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+    },
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/realistic/SKILL.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": "	",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -7127,
+    "savings_pct": -36.3,
+    "source": 19629,
+    "toon": 26756,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "mixed",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 17,
+      "headings": 37,
+      "lines": 365,
+      "list_items": 86,
+      "paragraphs": 27,
+      "rules": 12,
+      "table_rows": 17,
+      "tables": 2,
+    },
+    "title": "Quarterly financial board report",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -2036,
+        "savings_pct": -36.3,
+        "source": 5608,
+        "toon": 7645,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -1782,
+        "savings_pct": -36.3,
+        "source": 4907,
+        "toon": 6689,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -1584,
+        "savings_pct": -36.3,
+        "source": 4362,
+        "toon": 5946,
+      },
+    ],
+    "savings": -1782,
+    "savings_pct": -36.3,
+    "source": 4907,
+    "toon": 6689,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/realistic/architecture-rfc.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": ",",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": 186,
+    "savings_pct": 0.4,
+    "source": 45628,
+    "toon": 45442,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "requirements",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 1,
+      "headings": 65,
+      "lines": 839,
+      "list_items": 0,
+      "paragraphs": 60,
+      "rules": 33,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "RFC-0047: Retiring the Nightly Batch Window at Lattermile",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": 53,
+        "savings_pct": 0.4,
+        "source": 13037,
+        "toon": 12983,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": 47,
+        "savings_pct": 0.4,
+        "source": 11407,
+        "toon": 11361,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": 41,
+        "savings_pct": 0.4,
+        "source": 10140,
+        "toon": 10098,
+      },
+    ],
+    "savings": 46,
+    "savings_pct": 0.4,
+    "source": 11407,
+    "toon": 11361,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/agent-context/realistic/config-reference.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": "	",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": 7260,
+    "savings_pct": 22.2,
+    "source": 32768,
+    "toon": 25508,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "table",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 0,
+      "headings": 1,
+      "lines": 450,
+      "list_items": 0,
+      "paragraphs": 1,
+      "rules": 0,
+      "table_rows": 294,
+      "tables": 28,
+    },
+    "title": "Stackmason Configuration Reference",
+  },
+  "safe_to_auto_apply": true,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": 2074,
+        "savings_pct": 22.2,
+        "source": 9362,
+        "toon": 7288,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": 1815,
+        "savings_pct": 22.2,
+        "source": 8192,
+        "toon": 6377,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": 1613,
+        "savings_pct": 22.2,
+        "source": 7282,
+        "toon": 5668,
+      },
+    ],
+    "savings": 1815,
+    "savings_pct": 22.2,
+    "source": 8192,
+    "toon": 6377,
+  },
+  "toon_candidate": null,
+  "verdict": "convert",
+  "warnings": [],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/glossary.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": ",",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -81,
+    "savings_pct": -15.5,
+    "source": 524,
+    "toon": 605,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "definitions",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 3,
+      "headings": 4,
+      "lines": 18,
+      "list_items": 0,
+      "paragraphs": 3,
+      "rules": 2,
+      "table_rows": 0,
+      "tables": 0,
+    },
+    "title": "Framework Definitions",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -23,
+        "savings_pct": -15.5,
+        "source": 150,
+        "toon": 173,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -20,
+        "savings_pct": -15.5,
+        "source": 131,
+        "toon": 151,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -18,
+        "savings_pct": -15.5,
+        "source": 116,
+        "toon": 134,
+      },
+    ],
+    "savings": -20,
+    "savings_pct": -15.3,
+    "source": 131,
+    "toon": 151,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;
+
+exports[`verdict contract over fixtures (lossless mode) > fixtures/sample.md: validates against schemas/verdict.v1.json and matches its snapshot 1`] = `
+{
+  "delimiter": ",",
+  "flags": {
+    "lossless": true,
+    "target_reached": null,
+    "valid": true,
+  },
+  "measured_chars": {
+    "savings": -145,
+    "savings_pct": -32.7,
+    "source": 444,
+    "toon": 589,
+  },
+  "mode": "lossless",
+  "profile": {
+    "name": "mixed",
+    "source_type": "markdown",
+    "stats": {
+      "definitions": 0,
+      "headings": 2,
+      "lines": 21,
+      "list_items": 3,
+      "paragraphs": 1,
+      "rules": 0,
+      "table_rows": 2,
+      "tables": 1,
+    },
+    "title": "Converter Sample",
+  },
+  "safe_to_auto_apply": false,
+  "schema_version": "1.0",
+  "token_estimates": {
+    "estimator": "chars-per-token:4",
+    "ratio_estimates": [
+      {
+        "chars_per_token": 3.5,
+        "savings": -41,
+        "savings_pct": -32.7,
+        "source": 127,
+        "toon": 168,
+      },
+      {
+        "chars_per_token": 4,
+        "savings": -36,
+        "savings_pct": -32.7,
+        "source": 111,
+        "toon": 147,
+      },
+      {
+        "chars_per_token": 4.5,
+        "savings": -32,
+        "savings_pct": -32.7,
+        "source": 99,
+        "toon": 131,
+      },
+    ],
+    "savings": -36,
+    "savings_pct": -32.4,
+    "source": 111,
+    "toon": 147,
+  },
+  "toon_candidate": null,
+  "verdict": "keep_markdown",
+  "warnings": [
+    {
+      "code": "negative_savings",
+      "message": "TOON output is larger than the source text for this input.",
+      "severity": "warning",
+    },
+  ],
+}
+`;

@@ -25,6 +25,10 @@ interface WarningDraft extends Omit<OptimizerWarning, "id"> {}
 const LONG_SECTION_CHAR_THRESHOLD = 1500;
 const LONG_SECTION_LINE_THRESHOLD = 40;
 const LONG_SECTION_BULLET_THRESHOLD = 12;
+// Sections that are overwhelmingly one uniform table are exempt from long_section: tables are
+// the case that converts well, so their length is not a smell (calibration question 5 —
+// docs/verdict-schema-v1.md). Tunable decision-policy constant.
+const LONG_SECTION_TABLE_LINE_RATIO = 0.6;
 const MAX_EVIDENCE_CHARS = 180;
 const NEAR_DUPLICATE_DICE_THRESHOLD = 0.72;
 const DUPLICATE_TOKEN_STOPWORDS = new Set([
@@ -196,6 +200,14 @@ function findLongSections(
       bodyLines.length <= LONG_SECTION_LINE_THRESHOLD &&
       bulletCount <= LONG_SECTION_BULLET_THRESHOLD
     ) {
+      continue;
+    }
+
+    const tableLineCount = bodyLines.filter((line) => {
+      const trimmed = line.trim();
+      return trimmed.startsWith("|") && trimmed.endsWith("|");
+    }).length;
+    if (bodyLines.length > 0 && tableLineCount / bodyLines.length >= LONG_SECTION_TABLE_LINE_RATIO) {
       continue;
     }
 
