@@ -4,8 +4,15 @@ All notable changes to `doc2toon` will be documented in this file.
 
 This project follows practical release notes rather than strict format ceremony.
 
-## Unreleased
+## 0.3.1 - 2026-06-11
 
+The GitHub Action release. No engine or contract changes — the package change is the README
+(which ships in the tarball) gaining the Action recipe; the Action itself lives in the repo
+and is consumed via the `action-v1` moving tag, not npm.
+
+### Added (repo)
+
+- **GitHub Action — `Profusion-AI/doc2toon@action-v1`:** composite `action.yml` profiling agent docs on every PR via the published CLI (`npx doc2toon@0.3.x profile --json`). Sticky verdict-table comment (hidden-marker find-and-update), file/line annotations, `doc2toon-verdicts.json` artifact, step summary, and an optional `fail-on` gate that passes through to the CLI's own `--fail-on` so semantics never diverge. Security posture per the day-9 spike (`docs/action-fork-pr-permissions.md`): `pull_request` only, zero secret-dependent paths, comment is best-effort (detected-fork skip + caught-403 downgrade) while exit code/summary/annotations/artifact deliver everywhere. Dogfooded on a real PR: comment posted, re-push updated the same comment, `fail-on` turned the check red. Consumer recipe: `docs/example-context-check.yml` (≤15 lines). Deliberate v1 cuts, documented: no `actions/github-script` (current majors run the deprecated node20 runtime), no `token-budget`/`max-waste-pct` inputs (no waste metric exists in Verdict v1; the Action never re-derives judgment).
 - **External real-world corpus (repo-side only; measured 2026-06-11, doc2toon 0.3.0):** `fixtures/agent-context/external/` extends the honesty benchmark with agent docs from 8 public repos (100+ stars gate, MIT or MIT-with-carveout verified at the pin, active since 2026-04-01), pinned to exact commit SHAs in `manifest.json` before measurement. Storage posture amended pre-measurement from vendoring to **measurements-not-copies**: `scripts/benchmark-external.mjs` fetches each file at its pin and stores provenance + verdict JSON with `toon_candidate` stripped — no third-party bodies in the repo, in-house corpus and snapshots untouched. Result (`results.json`): **10 documents counted (2 pointer files recorded, not counted), 0 convert, 9 split_first, 1 keep_markdown**; measured deltas −10.5% to −86.4%; `safe_to_auto_apply` true on none. The out-of-sample run confirms the calibrated policy's behavior on real files. No engine, contract, or package changes — nothing here ships in the tarball or gates a release.
 
 ## 0.3.0 - 2026-06-10
