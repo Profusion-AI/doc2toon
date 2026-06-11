@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: CheapAgent Context API
-  version: 1.0.0-draft
+  version: 1.0.0
   summary: An API agents call before they waste context.
   description: |
     The CheapAgent Context API answers one question before an agent loads a document:

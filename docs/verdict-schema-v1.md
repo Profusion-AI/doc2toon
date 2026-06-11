@@ -1,6 +1,6 @@
 # Verdict Schema v1 — contract and decision log
 
-**Status: DRAFT — frozen when the freeze merge lands (30-day plan, day 7).** After the freeze, every change to this contract follows the versioning rules at the bottom of this document. Nothing about the freeze is ceremonial: the schema ships in the npm tarball, the spec is published, and consumers multiply from day 8 onward.
+**Status: FROZEN (freeze merge, 2026-06-10 — 30-day plan, day 7 milestone).** Every change to this contract from here follows the versioning rules at the bottom of this document. Nothing about the freeze is ceremonial: the schema ships in the npm tarball, the spec is published, and consumers multiply from the v0.3.0 release onward.
 
 **Calibration complete (2026-06-10):** the seven open questions below are answered with fixture data; the measured table and tuned constants live in `docs/calibration-v1.md`, and the snapshot tests pin the same behavior per fixture.
 
