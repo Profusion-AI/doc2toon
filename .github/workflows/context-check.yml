@@ -22,3 +22,4 @@ jobs:
             fixtures/agent-context/realistic/SKILL.md,
             fixtures/agent-context/realistic/architecture-rfc.md,
             fixtures/agent-context/realistic/config-reference.md
+          fail-on: "split_first"
