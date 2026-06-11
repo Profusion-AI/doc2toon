@@ -4,9 +4,9 @@ All notable changes to `doc2toon` will be documented in this file.
 
 This project follows practical release notes rather than strict format ceremony.
 
-## Unreleased
+## Unreleased — slated for 0.3.1
 
-- No unreleased changes.
+- **External real-world corpus (in progress):** `fixtures/agent-context/external/` extends the honesty benchmark with third-party documents sourced from public repos (being identified now). The intake contract — verbatim files, license-verified, manifest with source/commit/EOL provenance, verdicts published as they fall, no threshold tuning on intake — is pre-registered in that directory's README, written before the documents were selected. The benchmark and the per-fixture snapshot suite glob `fixtures/` recursively, so the documents join both automatically at commit; the re-run, snapshot receipts, and updated published numbers land with the docs. Additive only: no engine or contract changes.
 
 ## 0.3.0 - 2026-06-10
 
