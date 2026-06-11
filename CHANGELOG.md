@@ -6,25 +6,50 @@ This project follows practical release notes rather than strict format ceremony.
 
 ## Unreleased
 
-Verdict engine + calibrated contract (Phase 1 of the 30-day plan; ships in v0.3.0).
+- No unreleased changes.
 
-### Added
+## 0.3.0 - 2026-06-10
+
+The verdict release: the frozen Verdict v1 contract (schema + OpenAPI spec in the tarball), the verdict engine behind every surface, and machine-readable CLI output with a CI-grade exit-code contract. Phases 1–2 of the 30-day plan.
+
+### Added (CLI)
+
+- `--json` on `profile` and `convert` emits the Verdict v1 object (`schemas/verdict.v1.json`): `profile` withholds `toon_candidate` so agents can decide before spending context; `convert` includes it. `--out` is optional under `--json` (write confirmations go to stderr; stdout stays pure JSON).
+- Exit-code contract (schema doc, decision 8): any representable verdict exits 0 — including `refused` (budget unreachable losslessly without `--allow-lossy`) and `keep_markdown`. I/O, argument, and internal failures — including argument errors commander itself raises — exit 1 with a `{"error":{code,message}}` envelope (`bad_request`, `input_not_found`, `internal`).
+- `validate --json` returns the spec's ValidationResult (`{schema_version, valid, error}`, `invalid_toon` coded) and keeps exit 1 on invalid TOON so validation gates fail builds.
+- `--fail-on <list>`: comma-separated verdicts and/or severities that set exit 1 after the output is printed; `info` is a threshold (any warning).
+- Pretty reports lead with the verdict and render the unified coded warnings; `profile` now runs the lossless trial conversion the contract requires (decision 9), so its report carries measured savings.
+- Deprecated, removed at 1.0 (warnings on stderr): the `toon-doc` bin alias (now a dedicated wrapper bin so the warning fires through Windows cmd shims too) and the `lossless-doc`/`llm-context` mode aliases.
+- `test/cli.test.ts` (spawns the built CLI; Windows-runnable; fails fast on a stale build) and smoke coverage for the `--json` surface with ajv validation via `scripts/check-verdict-json.mjs`.
+
+### Changed (CLI, pretty mode)
+
+- Conversion/profile reports are verdict-first; warning bullets carry `[code]` prefixes (prose is a rendering of codes — scripts that scraped pretty text should move to `--json`).
+- `validate`/`decode` report missing files as `Input file not found` like the other commands, instead of leaking Node's ENOENT text.
+- `convert` validates flags before reading input: a missing `--out` fails immediately instead of after stdin is consumed; `--json-sidecar` without `--out` is rejected.
+- A candidate that fails its own round-trip is an internal error (exit 1) on both renderings — never a confident exit-0 verdict.
+
+### Fixed
+
+- **The measured corpus is line-ending-pinned** (`fixtures/**`, `examples/**` → LF in `.gitattributes`): verdict decisions derive from character counts, and a CRLF checkout measured different savings than the LF content CI and the npm tarball see — the same fixture measured −1.5% at LF and +0.4% at CRLF, and the snapshot suite failed on ubuntu because of it. Snapshots, the calibration table, and every documented number are regenerated from LF truth.
+
+### Added (engine — Phase 1, merged at the freeze)
 
 - `src/verdict.ts`: `buildVerdict(result, opts)` maps a `ConversionResult` to the `VerdictV1` wire object (`schemas/verdict.v1.json`); `runVerdict(text, opts)` converts and never throws on representable outcomes — budget refusal returns `verdict: "refused"` in-band. Exported from both the Node and browser entrypoints; the browser-purity test covers the module.
 - `VerdictV1`, `VerdictDecision`, `CodedWarning` and supporting types in `src/types.ts`, mirroring the wire exactly (snake_case, no mapping layer).
 - Unified coded `warnings[]`: optimizer kinds pass through as codes; conversion-state codes (`negative_savings`, `lossy_applied`, `target_not_reached`, `budget_refused`) derive from result fields, never from prose. `ConversionResult`'s existing string/optimizer channels are unchanged.
-- Content-coverage check (decision 12): `measureContentCoverage` measures the share of source content characters retained by the canonical; below `LOW_COVERAGE_RATIO` (0.70) a `low_coverage` warning (severity `warning`) fires. Record-mode runs that "win" by dropping content (+91.7% at 8% coverage on the RFC fixture) now land on `review`, never `convert`. `low_coverage` joins the v1 warning registry in the schema and OpenAPI spec.
+- Content-coverage check (decision 12): `measureContentCoverage` measures the share of source content characters retained by the canonical; below `LOW_COVERAGE_RATIO` (0.70) a `low_coverage` warning (severity `warning`) fires. Record-mode runs that "win" by dropping content (+91.6% at 8% coverage on the RFC fixture) now land on `review`, never `convert`. `low_coverage` joins the v1 warning registry in the schema and OpenAPI spec.
 - `BudgetRefusedError` (subclass of `Error`, message unchanged) carries the attempted lossless candidate so refusals are representable without message parsing.
 - Estimator identity constants: `NODE_TOKEN_ESTIMATOR_ID` (read from the pinned tokenx version) and `CHARS_PER_TOKEN_ESTIMATOR_ID`, carried in `token_estimates.estimator`.
 - Tests: `test/verdict.test.ts` (per-fixture snapshots + ajv validation against the schema + estimator-parity proving decisions identical under chars-per-token and tokenx) and `test/openapi-sync.test.ts` (deep equality between `components.schemas.Verdict` and the JSON Schema modulo `$schema`/`$id`). ajv and yaml are devDependencies only; runtime deps stay at three.
 - `scripts/calibration-table.mjs` + `docs/calibration-v1.md`: the hand-verified calibration table over every fixture and the CheapAgent web samples, both modes, with coverage and verdicts.
 
-### Changed
+### Changed (engine and docs)
 
-- Decision policy calibrated against the fixture corpus (constants only; the schema is untouched): `MIN_CONVERT_SAVINGS_PCT` (5%) keeps rounding-error wins (+0.4% measured on the RFC fixture) at `keep_markdown`; sections that are ≥60% uniform table rows are exempt from `long_section` (`LONG_SECTION_TABLE_LINE_RATIO`), making the decode-verified table win class (+22.2%) reachable as `convert` with `safe_to_auto_apply`.
+- Decision policy calibrated against the fixture corpus (constants only; the schema is untouched): `MIN_CONVERT_SAVINGS_PCT` (5%) keeps near-zero wins (glossary.md record mode: +4.7%) at `keep_markdown` — measurements that small sit inside encoding-level noise; sections that are ≥60% uniform table rows are exempt from `long_section` (`LONG_SECTION_TABLE_LINE_RATIO`), making the decode-verified table win class (+21.1%) reachable as `convert` with `safe_to_auto_apply`.
 - `docs/verdict-schema-v1.md`: the seven open calibration questions are answered with fixture data; the worked example now carries engine-true pinned values (including `long_section` severity `info`).
 - Realistic-fixture README re-measured on the calibrated engine.
-- `scripts/benchmark-honesty.mjs` reports the engine's own verdict instead of a raw sign bit: "win" now means `buildVerdict` says `convert` (savings band applied — a +0.4% delta is honestly not a win), warnings are the coded set, and the stale "coverage unverified" caveat is replaced by the shipped `low_coverage` semantics.
+- `scripts/benchmark-honesty.mjs` reports the engine's own verdict instead of a raw sign bit: "win" now means `buildVerdict` says `convert` (savings band applied — a sub-band delta is honestly not a win), warnings are the coded set, and the stale "coverage unverified" caveat is replaced by the shipped `low_coverage` semantics.
 
 ## 0.2.1 - 2026-06-10
 
