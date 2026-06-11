@@ -24,6 +24,7 @@ Verdict engine + calibrated contract (Phase 1 of the 30-day plan; ships in v0.3.
 - Decision policy calibrated against the fixture corpus (constants only; the schema is untouched): `MIN_CONVERT_SAVINGS_PCT` (5%) keeps rounding-error wins (+0.4% measured on the RFC fixture) at `keep_markdown`; sections that are ≥60% uniform table rows are exempt from `long_section` (`LONG_SECTION_TABLE_LINE_RATIO`), making the decode-verified table win class (+22.2%) reachable as `convert` with `safe_to_auto_apply`.
 - `docs/verdict-schema-v1.md`: the seven open calibration questions are answered with fixture data; the worked example now carries engine-true pinned values (including `long_section` severity `info`).
 - Realistic-fixture README re-measured on the calibrated engine.
+- `scripts/benchmark-honesty.mjs` reports the engine's own verdict instead of a raw sign bit: "win" now means `buildVerdict` says `convert` (savings band applied — a +0.4% delta is honestly not a win), warnings are the coded set, and the stale "coverage unverified" caveat is replaced by the shipped `low_coverage` semantics.
 
 ## 0.2.1 - 2026-06-10
 

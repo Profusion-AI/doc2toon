@@ -111,7 +111,7 @@ Wire format is `snake_case` (`toon_candidate`, `safe_to_auto_apply`, `measured_c
 
 Validation has no source document to judge — there is nothing to render a verdict on. `POST /v1/validate` and `validate --json` return `{ schema_version, valid, error }` (the `ValidationResult` component in the OpenAPI spec). An invalid document is representable: HTTP `200` with `valid: false` and a coded error (`invalid_toon`).
 
-### 12. Record-mode content coverage is unverified in v1 (measured day 1)
+### 12. Record-mode content coverage is measured and disclosed, never trusted (measured day 1; check shipped at calibration)
 
 Day-1 measurement against the engine surfaced two facts the contract must not paper over:
 
