@@ -134,8 +134,25 @@ if [[ "$fail_on_status" -eq 0 ]]; then
 fi
 node "$ROOT/scripts/check-verdict-json.mjs" "$OUT_DIR/fail-on-verdict.json"
 
-# validate --json: ValidationResult shape, exit 1 preserved on invalid TOON.
+# validate --json: ValidationResult shape on both outcomes; exit 1 preserved on invalid TOON.
 node "$CLI" validate --json "$OUT_DIR/definitions.toon" > "$OUT_DIR/validate-ok.json"
 grep -q '"valid": true' "$OUT_DIR/validate-ok.json"
+
+printf 'defs[2]{id,term}:\n  d001,alpha\n' > "$OUT_DIR/invalid.toon"
+set +e
+node "$CLI" validate --json "$OUT_DIR/invalid.toon" > "$OUT_DIR/validate-invalid.json"
+invalid_status=$?
+set -e
+
+if [[ "$invalid_status" -eq 0 ]]; then
+  echo "Expected validate --json to exit nonzero on invalid TOON." >&2
+  exit 1
+fi
+grep -q '"valid": false' "$OUT_DIR/validate-invalid.json"
+grep -q '"code": "invalid_toon"' "$OUT_DIR/validate-invalid.json"
+
+# toon-doc wrapper bin: deprecation warning on stderr, normal behavior otherwise.
+node "$ROOT/dist/cli-toon-doc.js" --version > "$OUT_DIR/toon-doc-version.log" 2> "$OUT_DIR/toon-doc-warning.log"
+grep -q "deprecated" "$OUT_DIR/toon-doc-warning.log"
 
 echo "Smoke passed. Generated outputs are in tmp/smoke."

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-import { Command } from "commander";
+import { Command, CommanderError } from "commander";
 import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
-import { basename, dirname, extname, resolve } from "node:path";
+import { dirname, extname, resolve } from "node:path";
 import { inspect } from "node:util";
 import { BudgetRefusedError, convertTextToToon, decodeToJsonText, validateToonText } from "./core.js";
 import { estimateNodeTokenCount, NODE_TOKEN_ESTIMATOR_ID } from "./node-token-estimator.js";
@@ -79,14 +79,12 @@ const { version: packageVersion } = createRequire(import.meta.url)("../package.j
 const FAIL_ON_VERDICTS = new Set(["convert", "keep_markdown", "split_first", "review", "refused"]);
 const FAIL_ON_SEVERITIES = new Set(["info", "warning"]);
 
-// Deprecated in v0.3.0, removed at 1.0 (docs/verdict-schema-v1.md, decision 7). Detection is
-// best-effort: POSIX bin symlinks surface the alias in argv[1]; Windows cmd shims resolve to the
-// real script path, so the docs and CHANGELOG carry the deprecation there.
-if (basename(process.argv[1] ?? "").includes("toon-doc")) {
-  warnDeprecated("the toon-doc command", "doc2toon");
-}
-
 const program = new Command();
+
+// exitOverride is set before the subcommands are defined (settings are copied to subcommands at
+// creation): commander-raised argument errors must reach the catch around parseAsync below so
+// --json consumers get the decision-8 error envelope instead of an empty stdout.
+program.exitOverride();
 
 program
   .name("doc2toon")
@@ -141,8 +139,8 @@ program
   .option("--chars-per-token <ratios>", "Comma-separated token-estimate ratios.", "3.5,4,4.5")
   .option("--allow-lossy", "Allow semantic compression when a budget cannot be reached losslessly.")
   .option("--out <path>", "Output .toon path. Required unless --json is set.")
-  .option("--json-sidecar", "Also write canonical JSON sidecar next to the .toon output.")
-  .option("--stats", "Include JSON-vs-TOON stats in addition to source-vs-TOON metrics.")
+  .option("--json-sidecar", "Also write canonical JSON sidecar next to the .toon output. Requires --out.")
+  .option("--stats", "Include JSON-vs-TOON stats in the pretty report (no effect with --json).")
   .option("--json", "Emit the verdict (schemas/verdict.v1.json) with toon_candidate as JSON. A budget refusal is verdict \"refused\", exit 0.")
   .option(
     "--fail-on <list>",
@@ -208,7 +206,24 @@ program
     }
   });
 
-await program.parseAsync(process.argv);
+try {
+  await program.parseAsync(process.argv);
+} catch (error) {
+  if (!(error instanceof CommanderError)) {
+    throw error;
+  }
+  // Help and --version exit cleanly; argument errors get the decision-8 envelope under --json.
+  // Commander has already written its human-readable message to stderr either way. Parsing
+  // failed, so the raw argv scan is the only reliable --json signal.
+  if (error.exitCode === 0) {
+    process.exitCode = 0;
+  } else {
+    if (process.argv.includes("--json")) {
+      console.log(JSON.stringify({ error: { code: "bad_request", message: error.message } }, null, 2));
+    }
+    process.exitCode = error.exitCode ?? 1;
+  }
+}
 
 async function convertCommand(input: string | undefined, options: ConvertOptions): Promise<void> {
   const json = Boolean(options.json);
@@ -221,11 +236,16 @@ async function convertCommand(input: string | undefined, options: ConvertOptions
     throw new CliError("bad_request", "Budget mode requires --target-chars or --target-tokens.");
   }
   const charsPerTokenRatios = parseCharsPerTokenRatios(options.charsPerToken);
-  const { text, sourceType, flavor } = await ingestInput(input, options);
+  // Flag validation happens before any input is read: a missing --out must fail immediately,
+  // not after stdin has been consumed to EOF (which never arrives for a streaming pipe).
   const outPath = options.out ? resolve(options.out) : undefined;
   if (!outPath && !json) {
     throw new CliError("bad_request", "Missing --out path. Required unless --json is set.");
   }
+  if (options.jsonSidecar && !outPath) {
+    throw new CliError("bad_request", "--json-sidecar requires --out.");
+  }
+  const { text, sourceType, flavor } = await ingestInput(input, options);
 
   let result: ConversionResult;
   try {
@@ -267,15 +287,13 @@ async function convertCommand(input: string | undefined, options: ConvertOptions
   const verdict = buildVerdict(result, { estimator: NODE_TOKEN_ESTIMATOR_ID });
 
   if (!result.valid) {
-    if (json) {
-      // Representable: flags.valid is false in the verdict and safe_to_auto_apply with it.
-      console.log(JSON.stringify(verdict, null, 2));
-      console.error("Round-trip validation failed; no files were written.");
-      applyFailOn(verdict, failOn);
-      return;
+    // A candidate that fails its own round-trip means the tool malfunctioned, not the input:
+    // internal error on both renderings (decision 8), never a confident exit-0 verdict.
+    if (outPath) {
+      await writeDebugFiles(outPath, result.canonicalJson, result.toon);
+      throw new CliError("internal", `Round-trip validation failed. Debug files written beside ${outPath}.`);
     }
-    await writeDebugFiles(outPath as string, result.canonicalJson, result.toon);
-    throw new CliError("internal", `Round-trip validation failed. Debug files written beside ${outPath}.`);
+    throw new CliError("internal", "Round-trip validation failed; no files were written.");
   }
 
   if (outPath) {

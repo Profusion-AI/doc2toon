@@ -28,14 +28,15 @@ export const VERDICT_SCHEMA_VERSION = "1.0";
 
 /**
  * Measured char savings below this percentage do not justify a format change: the verdict stays
- * keep_markdown. Calibration: the corpus separates real wins (+22.2%) from rounding-error wins
- * (+0.4%) with a wide gap; 5% sits safely inside it.
+ * keep_markdown. Calibration: measurements near zero are noise-sensitive (EOL encoding alone
+ * moved a fixture from -1.5% to +0.4%), and the corpus separates real wins (+21.1%, +6.4%) from
+ * marginal ones (+4.7%) with a clear gap at 5.
  */
 export const MIN_CONVERT_SAVINGS_PCT = 5;
 
 /**
  * Below this share of retained content characters, a low_coverage warning fires. Calibration:
- * legitimate conversions measure >= 0.93; the record-mode content-loss cases measure 0.05-0.25.
+ * legitimate conversions measure 0.88-1.0; the content-loss cases measure 0.08-0.66.
  */
 export const LOW_COVERAGE_RATIO = 0.7;
 

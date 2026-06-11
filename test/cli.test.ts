@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import Ajv2020 from "ajv/dist/2020.js";
@@ -45,9 +45,28 @@ beforeAll(() => {
   if (!existsSync(cli)) {
     throw new Error("dist/cli.js not found — run `npm run build` before `npm test`.");
   }
+  // A stale dist silently green-lights old CLI behavior (the suite spawns the build, not src/).
+  const distMtime = statSync(cli).mtimeMs;
+  const newerSource = collectSourceFiles(join(root, "src")).find((file) => statSync(file).mtimeMs > distMtime);
+  if (newerSource) {
+    throw new Error(`dist/cli.js is older than ${newerSource} — run \`npm run build\` before \`npm test\`.`);
+  }
   rmSync(tmpDir, { recursive: true, force: true });
   mkdirSync(tmpDir, { recursive: true });
 });
+
+function collectSourceFiles(dir: string): string[] {
+  const out: string[] = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      out.push(...collectSourceFiles(full));
+    } else if (entry.name.endsWith(".ts")) {
+      out.push(full);
+    }
+  }
+  return out;
+}
 
 describe("profile --json", () => {
   it("emits a schema-valid verdict with the candidate withheld, exit 0", () => {
@@ -235,6 +254,35 @@ describe("--fail-on", () => {
     expect(run.status).toBe(0);
   });
 
+  // Known coverage gap: "info" vs "warning" threshold distinguishability needs a verdict whose
+  // warnings are info-severity ONLY. No corpus fixture produces one, and synthesizing one is
+  // blocked by the profiler: any doc that fires split_candidate/long_section (the info codes)
+  // alongside positive savings flips to the mixed profile and gains a warning-severity
+  // negative_savings (open question 7's phantom-rule extraction is part of why). The two pins
+  // below bound the info clause from both sides; the distinguishing case lands when the
+  // profiler precision work does.
+  it("--fail-on info passes a verdict with zero warnings", () => {
+    const run = runCli([
+      "profile",
+      "--json",
+      "--fail-on",
+      "info",
+      "fixtures/agent-context/realistic/config-reference.md",
+    ]);
+    expect(run.status).toBe(0);
+  });
+
+  it("--fail-on info fails a verdict with any warning present", () => {
+    const run = runCli([
+      "profile",
+      "--json",
+      "--fail-on",
+      "info",
+      "fixtures/agent-context/realistic/AGENTS.md",
+    ]);
+    expect(run.status).toBe(1);
+  });
+
   it("rejects unknown values with a bad_request envelope", () => {
     const run = runCli(["profile", "--json", "--fail-on", "bogus", "examples/prose.md"]);
 
@@ -276,7 +324,91 @@ describe("validate --json", () => {
   });
 });
 
+describe("commander-level argument errors (decision 8 envelope)", () => {
+  it("unknown option under --json: bad_request envelope on stdout, exit 1", () => {
+    const run = runCli(["profile", "--json", "--bogus", "examples/prose.md"]);
+
+    expect(run.status).toBe(1);
+    expect(run.stderr).toContain("unknown option");
+    const envelope = JSON.parse(run.stdout) as { error: { code: string; message: string } };
+    expect(envelope.error.code).toBe("bad_request");
+    expect(envelope.error.message).toContain("--bogus");
+  });
+
+  it("missing required argument under --json: bad_request envelope, exit 1", () => {
+    const run = runCli(["validate", "--json"]);
+
+    expect(run.status).toBe(1);
+    const envelope = JSON.parse(run.stdout) as { error: { code: string } };
+    expect(envelope.error.code).toBe("bad_request");
+  });
+
+  it("unknown option without --json: stderr only, empty stdout, exit 1", () => {
+    const run = runCli(["profile", "--bogus", "examples/prose.md"]);
+
+    expect(run.status).toBe(1);
+    expect(run.stdout).toBe("");
+    expect(run.stderr).toContain("unknown option");
+  });
+
+  it("--help still exits 0 with usage on stdout", () => {
+    const run = runCli(["--help"]);
+
+    expect(run.status).toBe(0);
+    expect(run.stdout).toContain("Usage:");
+  });
+});
+
+describe("toon-doc wrapper bin (decision 7)", () => {
+  it("warns on stderr through the dedicated bin and keeps stdout intact", () => {
+    const wrapper = join(root, "dist", "cli-toon-doc.js");
+    const result = spawnSync(process.execPath, [wrapper, "--version"], { cwd: root, encoding: "utf8" });
+
+    expect(result.status).toBe(0);
+    expect(result.stderr).toContain("toon-doc command is deprecated");
+    const { version } = JSON.parse(readFileSync(join(root, "package.json"), "utf8")) as { version: string };
+    expect(result.stdout.trim()).toBe(version);
+  });
+});
+
+describe("--json-sidecar interactions", () => {
+  it("rejects --json-sidecar without --out (bad_request)", () => {
+    const run = runCli(["convert", "--json", "--json-sidecar", "examples/definitions.md"]);
+
+    expect(run.status).toBe(1);
+    const envelope = JSON.parse(run.stdout) as { error: { code: string; message: string } };
+    expect(envelope.error.code).toBe("bad_request");
+    expect(envelope.error.message).toContain("--json-sidecar");
+  });
+
+  it("writes the sidecar next to --out under --json with stdout staying pure JSON", () => {
+    const outPath = join(tmpDir, "sidecar.toon");
+    const run = runCli([
+      "convert",
+      "--json",
+      "--json-sidecar",
+      "examples/definitions.md",
+      "--mode",
+      "record",
+      "--out",
+      outPath,
+    ]);
+
+    expect(run.status).toBe(0);
+    parseVerdict(run);
+    expect(existsSync(outPath)).toBe(true);
+    expect(existsSync(join(tmpDir, "sidecar.json"))).toBe(true);
+  });
+});
+
 describe("error envelope and version", () => {
+  it("missing --out fails before any input is read (flag checks precede ingestion)", () => {
+    const run = runCli(["convert", "--stdin"], "# Doc\n\nBody that should never need to be consumed.\n");
+
+    expect(run.status).toBe(1);
+    expect(run.stderr).toContain("Missing --out");
+  });
+
   it("missing input file: exit 1 with input_not_found", () => {
     const run = runCli(["profile", "--json", "no-such-file.md"]);
 

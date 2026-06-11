@@ -1,3 +1,11 @@
 # Vitest writes snapshot files with LF regardless of platform. Pin them to LF so a test run
 # on Windows (autocrlf) never produces a line-ending-only working-tree diff.
 test/__snapshots__/*.snap text eol=lf
+
+# The measured corpus must be byte-identical on every platform: verdict decisions derive from
+# character counts, so a CRLF checkout literally measures different savings than the LF content
+# CI and the npm tarball see (the same doc measured -1.5% at LF and +0.4% at CRLF). Pin the
+# fixtures and examples to LF so measurements, snapshots, and the calibration table agree
+# everywhere.
+fixtures/** text eol=lf
+examples/** text eol=lf

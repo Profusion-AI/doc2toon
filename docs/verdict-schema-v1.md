@@ -122,7 +122,7 @@ The realistic fixtures (committed day 1, `fixtures/agent-context/realistic/READM
 
 Consequences encoded in this contract: the `flags.lossless` description states the honest semantics; `safe_to_auto_apply` requires `mode == "lossless"` (decision 4); and the engine work to verify coverage mechanically (source-to-canonical coverage check, plus fixing the raw-prose/requirements record extraction) is a calibration-week item (Phase 1, days 4–6) tracked in the open questions below. The verdict feature must not ship telling users record mode saved them 91% when it deleted their document.
 
-**Calibration outcome (2026-06-10): the mechanical coverage check ships with the freeze.** `buildVerdict` measures the share of the source's content characters (alphanumerics — markdown syntax deliberately doesn't count) retained by the canonical document's string values, and fires a `low_coverage` warning (severity `warning`) below `LOW_COVERAGE_RATIO` (0.70). Measured: the two dishonest cases land at 8% (architecture-rfc.md record) and 18% (prose.md record) and now verdict `review`, never `convert`; every legitimate path measures 88–100%. The raw-prose/requirements record-extraction fix itself (sentence-boundary-aware `extractRules`) is deferred to a post-freeze minor — with the coverage check in place its absence can no longer produce a confident wrong verdict.
+**Calibration outcome (2026-06-10): the mechanical coverage check ships with the freeze.** `buildVerdict` measures the share of the source's content characters (alphanumerics — markdown syntax deliberately doesn't count) retained by the canonical document's string values, and fires a `low_coverage` warning (severity `warning`) below `LOW_COVERAGE_RATIO` (0.70). Measured: the two dishonest cases land at 8% (architecture-rfc.md record, +91.6% claimed savings) and 18% (prose.md record, +80.0%) and now verdict `review`, never `convert`; every legitimate path measures 88–100%. The raw-prose/requirements record-extraction fix itself (sentence-boundary-aware `extractRules`) is deferred to a post-freeze minor — with the coverage check in place its absence can no longer produce a confident wrong verdict.
 
 ---
 
@@ -131,7 +131,7 @@ Consequences encoded in this contract: the `flags.lossless` description states t
 These did not block the schema draft — no field changes hung on them — and they are now answered with fixture data ahead of the freeze merge:
 
 1. **Default wire mode.** The draft defaults `/v1/convert` to lossless (matches the CLI; honest by construction). The web app uses record mode for its agent-doc tabs. Once record-mode coverage verification exists, should the wire default flip to record for the flagship use, or stay lossless with record opt-in?
-   **Answer: lossless stays the wire default; record is opt-in.** The calibration table shows record mode either produces the identical canonical (every `mixed` doc — all realistic agent docs), wins marginally on definitions-profile docs (+7.8%, +8.9% at 89–92% coverage), or "wins" big only by dropping content (+91.7% at 8% coverage, +80.2% at 18%). Nothing in that distribution justifies defaulting a lossy-in-practice mode. Record mode stays available with its coverage now measured and disclosed.
+   **Answer: lossless stays the wire default; record is opt-in.** The calibration table shows record mode either produces the identical canonical (every `mixed` doc — all realistic agent docs), wins marginally on definitions-profile docs (+4.7%, +6.4% at 89–92% coverage — the +4.7% sits below the convert band), or "wins" big only by dropping content (+91.6% at 8% coverage, +80.0% at 18%). Nothing in that distribution justifies defaulting a lossy-in-practice mode. Record mode stays available with its coverage now measured and disclosed.
 2. **Record-mode coverage verification.**
    **Answer: shipped with the freeze, in the verdict layer.** `measureContentCoverage` compares content characters (alphanumerics) between source and canonical; below `LOW_COVERAGE_RATIO` (0.70) a `low_coverage` warning (severity `warning`) fires and the decision policy lands on `review` (or worse) instead of `convert`. The `extractRules` sentence-boundary fix is deferred to a post-freeze minor: with the coverage check in place, the misfire can no longer produce a confident wrong verdict — it produces a disclosed, review-class one.
 3. **Mixed-profile mode invariance.**
@@ -139,7 +139,7 @@ These did not block the schema draft — no field changes hung on them — and t
 4. **Web app alignment.**
    **Answer: the web swaps to the engine verdict in Phase 2 with no user-visible verdict flips.** Measured on the web's own samples in their current tab modes: engine and web agree on every tab today (keep_markdown / split_first / split_first / keep_markdown). The web's record-default tabs keep record mode as their display default for now (the verdicts agree either way on the corpus); the wire default stays lossless per question 1, and record-tab users gain `low_coverage` disclosure the client-side logic never had.
 5. **`long_section` vs. uniform tables.**
-   **Answer: exempted.** Sections whose non-empty lines are ≥ `LONG_SECTION_TABLE_LINE_RATIO` (0.60) table rows no longer fire `long_section` — tables are the case that converts well, so their length is not a smell. config-reference.md flips from a doomed `split_first` to the corpus's one honest `convert` with `safe_to_auto_apply: true` (+22.2%, decode-verified 294/294 rows). Mixed-content long sections (prose plus an embedded table) still fire: the toy corpus confirms no other verdict moved.
+   **Answer: exempted.** Sections whose non-empty lines are ≥ `LONG_SECTION_TABLE_LINE_RATIO` (0.60) table rows no longer fire `long_section` — tables are the case that converts well, so their length is not a smell. config-reference.md flips from a doomed `split_first` to the corpus's one honest `convert` with `safe_to_auto_apply: true` (+21.1%, decode-verified 294/294 rows). Mixed-content long sections (prose plus an embedded table) still fire: the toy corpus confirms no other verdict moved.
 6. **Lossless-mode coverage check.**
    **Answer: the coverage check applies to every mode, and quantifies this case at 91% — above the warning bar, documented as a known v1 limitation.** The honest fix is the `table` canonical carrying title/intro/captions; that is a canonical-shape change (library-visible, savings-number-moving) scheduled as a post-freeze minor, at which point coverage reaches ~100% and the limitation note is deleted. `safe_to_auto_apply` on table docs is accepted for v1 with this disclosed: the drop is bounded (9% of content chars on the worst fixture), measured, and the candidate is decode-verified.
 7. **Phantom definitions.**
@@ -153,7 +153,7 @@ Evaluated in priority order against deterministic inputs only:
 |---|---|---|
 | 1 | `refused` | Budget target unreachable losslessly and lossy output not permitted |
 | 2 | `split_first` | Any `long_section` or `split_candidate` warning fired |
-| 3 | `keep_markdown` | `measured_chars.savings <= 0` **or** `savings_pct < MIN_CONVERT_SAVINGS_PCT` (5, tunable — sub-band wins do not justify a format change; calibration caught a +0.4% "win" earning `convert`) |
+| 3 | `keep_markdown` | `measured_chars.savings <= 0` **or** `savings_pct < MIN_CONVERT_SAVINGS_PCT` (5, tunable — sub-band wins do not justify a format change: measurements near zero are noise-sensitive (the RFC fixture measured −1.5% at LF and +0.4% on a CRLF checkout before the corpus was EOL-pinned), and the corpus's smallest sub-band case, glossary.md in record mode, "wins" only +4.7%) |
 | 4 | `review` | Any other warning fired (any code, any severity) |
 | 5 | `convert` | Otherwise: zero warnings and measured savings at or above the band |
 
@@ -186,14 +186,14 @@ Evaluated in priority order against deterministic inputs only:
     "source_type": "markdown",
     "stats": { "lines": 435, "headings": 29, "paragraphs": 108, "list_items": 89, "tables": 0, "table_rows": 0, "definitions": 23, "rules": 53 }
   },
-  "measured_chars": { "source": 20490, "toon": 27644, "savings": -7154, "savings_pct": -34.9 },
+  "measured_chars": { "source": 20056, "toon": 27644, "savings": -7588, "savings_pct": -37.8 },
   "token_estimates": {
     "estimator": "chars-per-token:4",
-    "source": 5123, "toon": 6911, "savings": -1788, "savings_pct": -34.9,
+    "source": 5014, "toon": 6911, "savings": -1897, "savings_pct": -37.8,
     "ratio_estimates": [
-      { "chars_per_token": 3.5, "source": 5854, "toon": 7898, "savings": -2044, "savings_pct": -34.9 },
-      { "chars_per_token": 4, "source": 5123, "toon": 6911, "savings": -1788, "savings_pct": -34.9 },
-      { "chars_per_token": 4.5, "source": 4553, "toon": 6143, "savings": -1590, "savings_pct": -34.9 }
+      { "chars_per_token": 3.5, "source": 5730, "toon": 7898, "savings": -2168, "savings_pct": -37.8 },
+      { "chars_per_token": 4, "source": 5014, "toon": 6911, "savings": -1897, "savings_pct": -37.8 },
+      { "chars_per_token": 4.5, "source": 4457, "toon": 6143, "savings": -1686, "savings_pct": -37.8 }
     ]
   },
   "toon_candidate": null,
@@ -204,7 +204,7 @@ Evaluated in priority order against deterministic inputs only:
       "message": "Possible duplicate rule in \"Gotchas\".",
       "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
       "evidence": "Never use JavaScript number arithmetic for invoice amounts; always",
-      "range": { "line_start": 336, "line_end": 336, "char_start": 15350, "char_end": 15418 }
+      "range": { "line_start": 336, "line_end": 336, "char_start": 15015, "char_end": 15083 }
     },
     {
       "code": "long_section",
@@ -212,7 +212,7 @@ Evaluated in priority order against deterministic inputs only:
       "message": "Long section: \"Testing\".",
       "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
       "evidence": "3069 chars, 50 non-empty lines, 14 bullets",
-      "range": { "line_start": 225, "line_end": 279, "char_start": 9781, "char_end": 12890 }
+      "range": { "line_start": 225, "line_end": 279, "char_start": 9557, "char_end": 12612 }
     },
     {
       "code": "negative_savings",

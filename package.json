@@ -40,7 +40,7 @@
   },
   "bin": {
     "doc2toon": "dist/cli.js",
-    "toon-doc": "dist/cli.js"
+    "toon-doc": "dist/cli-toon-doc.js"
   },
   "files": [
     "dist",
