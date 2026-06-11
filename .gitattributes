@@ -1,0 +1,3 @@
+# Vitest writes snapshot files with LF regardless of platform. Pin them to LF so a test run
+# on Windows (autocrlf) never produces a line-ending-only working-tree diff.
+test/__snapshots__/*.snap text eol=lf
