@@ -1,0 +1,98 @@
+{
+  "$comment": "External honesty corpus — pinned sources. Bodies are NOT stored in this repo (see README.md intake contract, amendment 2026-06-11): scripts/benchmark-external.mjs fetches each file at its pinned SHA and stores measurements only. Pinned 2026-06-11, before any measurement.",
+  "gates": {
+    "min_stars": 100,
+    "license": "MIT, or explicit MIT for non-enterprise/non-restricted content; target file must sit outside any carveout subtree",
+    "active_since": "2026-04-01 (repo or target file)",
+    "pointer_rule": "Pointer-only files (e.g. a CLAUDE.md containing only @AGENTS.md) are fetched and recorded as evidence of agent-file linking behavior but are never counted as benchmark documents."
+  },
+  "sources": [
+    {
+      "repo": "github/spec-kit",
+      "branch": "main",
+      "pinned_sha": "5ae7ff53d003455e9a66429e9706d1bd4b638bd7",
+      "stars_at_pin": 111320,
+      "license_note": "MIT (SPDX: MIT)",
+      "repo_pushed_at": "2026-06-10",
+      "files": [{ "path": "AGENTS.md", "last_commit_date": "2026-06-04", "expect": "substantive" }]
+    },
+    {
+      "repo": "browser-use/browser-use",
+      "branch": "main",
+      "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
+      "stars_at_pin": 98256,
+      "license_note": "MIT (SPDX: MIT)",
+      "repo_pushed_at": "2026-06-11",
+      "files": [
+        { "path": "AGENTS.md", "last_commit_date": "2026-05-22", "expect": "substantive" },
+        { "path": "CLAUDE.md", "last_commit_date": "2025-08-31", "expect": "substantive" },
+        { "path": "skills/browser-use/SKILL.md", "last_commit_date": "2026-05-11", "expect": "substantive" }
+      ]
+    },
+    {
+      "repo": "langchain-ai/langchain",
+      "branch": "master",
+      "pinned_sha": "76c32db9b38dfc287c958dc2a914d4834f022c1c",
+      "stars_at_pin": 139035,
+      "license_note": "MIT (SPDX: MIT)",
+      "repo_pushed_at": "2026-06-11",
+      "files": [{ "path": "AGENTS.md", "last_commit_date": "2026-06-10", "expect": "substantive" }]
+    },
+    {
+      "repo": "langchain-ai/langchainjs",
+      "branch": "main",
+      "pinned_sha": "7f573630ccccd9c1377f7e6084a59c0a2ce35531",
+      "stars_at_pin": 17795,
+      "license_note": "MIT (SPDX: MIT)",
+      "repo_pushed_at": "2026-06-10",
+      "files": [{ "path": "AGENTS.md", "last_commit_date": "2026-04-02", "expect": "substantive" }]
+    },
+    {
+      "repo": "langflow-ai/langflow",
+      "branch": "main",
+      "pinned_sha": "3a8f48b86c4025dca5f6d60db01cc958e44d9c83",
+      "stars_at_pin": 149538,
+      "license_note": "MIT (SPDX: MIT)",
+      "repo_pushed_at": "2026-06-11",
+      "files": [{ "path": "AGENTS.md", "last_commit_date": "2026-06-03", "expect": "substantive" }]
+    },
+    {
+      "repo": "OpenHands/OpenHands",
+      "branch": "main",
+      "pinned_sha": "347bba27e588e591b6271a14aa757acb50106d96",
+      "stars_at_pin": 76453,
+      "license_note": "MIT for content outside enterprise/ per repo LICENSE (SPDX: NOASSERTION); AGENTS.md is at repo root, outside the carveout",
+      "repo_pushed_at": "2026-06-11",
+      "files": [{ "path": "AGENTS.md", "last_commit_date": "2026-05-22", "expect": "substantive" }]
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "branch": "main",
+      "pinned_sha": "343e453c2a7c5351459ac72761fad3e25145e78e",
+      "stars_at_pin": 50041,
+      "license_note": "MIT for content outside enterprise/ per repo LICENSE (SPDX: NOASSERTION); CLAUDE.md and AGENTS.md are at repo root, outside the carveout. Note: repo default branch is litellm_internal_staging; pinned to main deliberately.",
+      "repo_pushed_at": "2026-06-11",
+      "files": [
+        { "path": "CLAUDE.md", "last_commit_date": "2026-06-10", "expect": "substantive" },
+        { "path": "AGENTS.md", "last_commit_date": "2026-05-29", "expect": "pointer" }
+      ]
+    },
+    {
+      "repo": "astral-sh/uv",
+      "branch": "main",
+      "pinned_sha": "e0f3af7b90426351a552e664cc6c419ba1b7837b",
+      "stars_at_pin": 86268,
+      "license_note": "Dual-licensed Apache-2.0 OR MIT (LICENSE-MIT present at pin); corpus uses the MIT option",
+      "repo_pushed_at": "2026-06-11",
+      "files": [
+        { "path": "AGENTS.md", "last_commit_date": "2026-04-07", "expect": "substantive" },
+        { "path": "CLAUDE.md", "last_commit_date": "2026-04-07", "expect": "pointer" }
+      ]
+    }
+  ],
+  "watchlist_not_canonical": [
+    { "repo": "vercel/ai", "path": "AGENTS.md", "reason": "Apache-2.0 — outside the MIT gate; revisit only if the licensing gate is explicitly relaxed" },
+    { "repo": "mem0ai/mem0", "path": "CLAUDE.md", "reason": "Apache-2.0 — outside the MIT gate" },
+    { "repo": "lobehub/lobe-chat", "path": "AGENTS.md", "reason": "LobeHub Community License — not MIT" }
+  ]
+}

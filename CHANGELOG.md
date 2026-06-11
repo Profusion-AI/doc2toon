@@ -4,9 +4,9 @@ All notable changes to `doc2toon` will be documented in this file.
 
 This project follows practical release notes rather than strict format ceremony.
 
-## Unreleased — slated for 0.3.1
+## Unreleased
 
-- **External real-world corpus (in progress):** `fixtures/agent-context/external/` extends the honesty benchmark with third-party documents sourced from public repos (being identified now). The intake contract — verbatim files, license-verified, manifest with source/commit/EOL provenance, verdicts published as they fall, no threshold tuning on intake — is pre-registered in that directory's README, written before the documents were selected. The benchmark and the per-fixture snapshot suite glob `fixtures/` recursively, so the documents join both automatically at commit; the re-run, snapshot receipts, and updated published numbers land with the docs. Additive only: no engine or contract changes.
+- **External real-world corpus (repo-side only; measured 2026-06-11, doc2toon 0.3.0):** `fixtures/agent-context/external/` extends the honesty benchmark with agent docs from 8 public repos (100+ stars gate, MIT or MIT-with-carveout verified at the pin, active since 2026-04-01), pinned to exact commit SHAs in `manifest.json` before measurement. Storage posture amended pre-measurement from vendoring to **measurements-not-copies**: `scripts/benchmark-external.mjs` fetches each file at its pin and stores provenance + verdict JSON with `toon_candidate` stripped — no third-party bodies in the repo, in-house corpus and snapshots untouched. Result (`results.json`): **10 documents counted (2 pointer files recorded, not counted), 0 convert, 9 split_first, 1 keep_markdown**; measured deltas −10.5% to −86.4%; `safe_to_auto_apply` true on none. The out-of-sample run confirms the calibrated policy's behavior on real files. No engine, contract, or package changes — nothing here ships in the tarball or gates a release.
 
 ## 0.3.0 - 2026-06-10
 

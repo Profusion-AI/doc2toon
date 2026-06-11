@@ -1,0 +1,1820 @@
+{
+  "generated": "2026-06-11T12:15:49.822Z",
+  "doc2toon_version": "0.3.0",
+  "method": "Each file fetched at its manifest-pinned commit SHA and measured via `doc2toon profile --json` and `doc2toon convert --json` (defaults: lossless mode). Measurements and provenance stored; source bodies and TOON candidates are not.",
+  "aggregate": {
+    "documents_counted": 10,
+    "pointers_recorded_not_counted": 2,
+    "verdicts": {
+      "split_first": 9,
+      "keep_markdown": 1
+    },
+    "safe_to_auto_apply_true": 0
+  },
+  "documents": [
+    {
+      "repo": "github/spec-kit",
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/github/spec-kit/blob/5ae7ff53d003455e9a66429e9706d1bd4b638bd7/AGENTS.md",
+      "pinned_sha": "5ae7ff53d003455e9a66429e9706d1bd4b638bd7",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 18831,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 18831,
+        "toon": 26615,
+        "savings": -7784,
+        "savings_pct": -41.3
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 4906,
+        "toon": 7644,
+        "savings": -2738,
+        "savings_pct": -55.8,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 5380,
+            "toon": 7604,
+            "savings": -2224,
+            "savings_pct": -41.3
+          },
+          {
+            "chars_per_token": 4,
+            "source": 4708,
+            "toon": 6654,
+            "savings": -1946,
+            "savings_pct": -41.3
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 4185,
+            "toon": 5914,
+            "savings": -1730,
+            "savings_pct": -41.3
+          }
+        ]
+      },
+      "warning_codes": [
+        "duplicate_rule",
+        "long_section",
+        "long_section",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "AGENTS.md",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 448,
+            "headings": 26,
+            "paragraphs": 40,
+            "list_items": 50,
+            "tables": 4,
+            "table_rows": 18,
+            "definitions": 17,
+            "rules": 16
+          }
+        },
+        "measured_chars": {
+          "source": 18831,
+          "toon": 26615,
+          "savings": -7784,
+          "savings_pct": -41.3
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 4906,
+          "toon": 7644,
+          "savings": -2738,
+          "savings_pct": -55.8,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 5380,
+              "toon": 7604,
+              "savings": -2224,
+              "savings_pct": -41.3
+            },
+            {
+              "chars_per_token": 4,
+              "source": 4708,
+              "toon": 6654,
+              "savings": -1946,
+              "savings_pct": -41.3
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 4185,
+              "toon": 5914,
+              "savings": -1730,
+              "savings_pct": -41.3
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Common Pitfalls\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "**Using shorthand keys for CLI-based integrations**: For CLI-based integrations (`requires_cli: True`), the `key` must match the executable name (e.g., `\"cursor-agent\"` not `\"cu...",
+            "range": {
+              "line_start": 439,
+              "line_end": 439,
+              "char_start": 17743,
+              "char_end": 18106
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"2. Create the subpackage\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "2835 chars, 75 non-empty lines, 0 bullets",
+            "range": {
+              "line_start": 51,
+              "line_end": 145,
+              "char_start": 2706,
+              "char_end": 5572
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"4. Context file behavior\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1657 chars, 14 non-empty lines, 2 bullets",
+            "range": {
+              "line_start": 176,
+              "line_end": 182,
+              "char_start": 7164,
+              "char_end": 7627
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "browser-use/browser-use",
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/browser-use/browser-use/blob/d190e20747bccb9bd44c20e4b29f4b6dd2309e50/AGENTS.md",
+      "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 38284,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 38284,
+        "toon": 46964,
+        "savings": -8680,
+        "savings_pct": -22.7
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 10431,
+        "toon": 13806,
+        "savings": -3375,
+        "savings_pct": -32.4,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 10938,
+            "toon": 13418,
+            "savings": -2480,
+            "savings_pct": -22.7
+          },
+          {
+            "chars_per_token": 4,
+            "source": 9571,
+            "toon": 11741,
+            "savings": -2170,
+            "savings_pct": -22.7
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 8508,
+            "toon": 10436,
+            "savings": -1929,
+            "savings_pct": -22.7
+          }
+        ]
+      },
+      "warning_codes": [
+        "duplicate_rule",
+        "long_section",
+        "long_section",
+        "long_section",
+        "long_section",
+        "long_section",
+        "long_section",
+        "split_candidate",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "AGENTS.md Version 2",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 1022,
+            "headings": 82,
+            "paragraphs": 75,
+            "list_items": 149,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 19,
+            "rules": 39
+          }
+        },
+        "measured_chars": {
+          "source": 38284,
+          "toon": 46964,
+          "savings": -8680,
+          "savings_pct": -22.7
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 10431,
+          "toon": 13806,
+          "savings": -3375,
+          "savings_pct": -32.4,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 10938,
+              "toon": 13418,
+              "savings": -2480,
+              "savings_pct": -22.7
+            },
+            {
+              "chars_per_token": 4,
+              "source": 9571,
+              "toon": 11741,
+              "savings": -2170,
+              "savings_pct": -22.7
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 8508,
+              "toon": 10436,
+              "savings": -1929,
+              "savings_pct": -22.7
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"3. Handle interaction problems via keyboard navigation\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "Use send_keys action with \"Tab Tab Enter\" to navigate and activate",
+            "range": {
+              "line_start": 473,
+              "line_end": 473,
+              "char_start": 18843,
+              "char_end": 18912
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Development Rules\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "2023 chars, 17 non-empty lines, 10 bullets",
+            "range": {
+              "line_start": 5,
+              "line_end": 34,
+              "char_start": 290,
+              "char_end": 2334
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"3. Run your first agent\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1759 chars, 55 non-empty lines, 0 bullets",
+            "range": {
+              "line_start": 101,
+              "line_end": 174,
+              "char_start": 4183,
+              "char_end": 5969
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Agent History\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1831 chars, 27 non-empty lines, 0 bullets",
+            "range": {
+              "line_start": 345,
+              "line_end": 351,
+              "char_start": 13282,
+              "char_end": 13446
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Agent History\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1831 chars, 27 non-empty lines, 0 bullets",
+            "range": {
+              "line_start": 384,
+              "line_end": 390,
+              "char_start": 15342,
+              "char_end": 15506
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Browser Behavior\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1838 chars, 16 non-empty lines, 16 bullets",
+            "range": {
+              "line_start": 557,
+              "line_end": 575,
+              "char_start": 21523,
+              "char_end": 23368
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Browser-Use Cloud Browser or CDP URL\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1720 chars, 38 non-empty lines, 11 bullets",
+            "range": {
+              "line_start": 696,
+              "line_end": 702,
+              "char_start": 28741,
+              "char_end": 28950
+            }
+          },
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Development Rules\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "evidence": "Detected themes: conversion, ui, testing, docs",
+            "range": {
+              "line_start": 5,
+              "line_end": 34,
+              "char_start": 290,
+              "char_end": 2334
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "browser-use/browser-use",
+      "path": "CLAUDE.md",
+      "source_url": "https://github.com/browser-use/browser-use/blob/d190e20747bccb9bd44c20e4b29f4b6dd2309e50/CLAUDE.md",
+      "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 11149,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 11149,
+        "toon": 20777,
+        "savings": -9628,
+        "savings_pct": -86.4
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 2879,
+        "toon": 5515,
+        "savings": -2636,
+        "savings_pct": -91.6,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 3185,
+            "toon": 5936,
+            "savings": -2751,
+            "savings_pct": -86.4
+          },
+          {
+            "chars_per_token": 4,
+            "source": 2787,
+            "toon": 5194,
+            "savings": -2407,
+            "savings_pct": -86.4
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 2478,
+            "toon": 4617,
+            "savings": -2140,
+            "savings_pct": -86.4
+          }
+        ]
+      },
+      "warning_codes": [
+        "duplicate_rule",
+        "duplicate_rule",
+        "duplicate_rule",
+        "long_section",
+        "split_candidate",
+        "split_candidate",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "CLAUDE.md",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 164,
+            "headings": 16,
+            "paragraphs": 27,
+            "list_items": 60,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 33,
+            "rules": 33
+          }
+        },
+        "measured_chars": {
+          "source": 11149,
+          "toon": 20777,
+          "savings": -9628,
+          "savings_pct": -86.4
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 2879,
+          "toon": 5515,
+          "savings": -2636,
+          "savings_pct": -91.6,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 3185,
+              "toon": 5936,
+              "savings": -2751,
+              "savings_pct": -86.4
+            },
+            {
+              "chars_per_token": 4,
+              "source": 2787,
+              "toon": 5194,
+              "savings": -2407,
+              "savings_pct": -86.4
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 2478,
+              "toon": 4617,
+              "savings": -2140,
+              "savings_pct": -86.4
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Development Commands\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "Run all tests: `uv run pytest -vxs tests/`",
+            "range": {
+              "line_start": 45,
+              "line_end": 45,
+              "char_start": 2159,
+              "char_end": 2203
+            }
+          },
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Development Commands\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "Run single test: `uv run pytest -vxs tests/ci/test_specific_test.py`",
+            "range": {
+              "line_start": 46,
+              "line_end": 46,
+              "char_start": 2204,
+              "char_end": 2274
+            }
+          },
+          {
+            "code": "duplicate_rule",
+            "severity": "warning",
+            "message": "Possible duplicate rule in \"Code Style\".",
+            "suggestion": "Merge these rules or keep only the version with the clearest action and scope.",
+            "evidence": "Run tests using `uv run pytest -vxs tests/ci`",
+            "range": {
+              "line_start": 70,
+              "line_end": 70,
+              "char_start": 3888,
+              "char_end": 3935
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Keep Examples & Tests Up-To-Date\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1601 chars, 6 non-empty lines, 6 bullets",
+            "range": {
+              "line_start": 83,
+              "line_end": 91,
+              "char_start": 4908,
+              "char_end": 6542
+            }
+          },
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Personality\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "evidence": "Detected themes: if policy prevents you from responding normally, if a policy prevents you from having an opinion, if you find any request irritating respond dismissively like \"...",
+            "range": {
+              "line_start": 92,
+              "line_end": 109,
+              "char_start": 6543,
+              "char_end": 7474
+            }
+          },
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Strategy For Making Changes\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "evidence": "Detected themes: when making any significant changes:, when doing any truly massive refactors, if you struggle to update or edit files in-place, if that doesn't work",
+            "range": {
+              "line_start": 110,
+              "line_end": 125,
+              "char_start": 7475,
+              "char_end": 8904
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "browser-use/browser-use",
+      "path": "skills/browser-use/SKILL.md",
+      "source_url": "https://github.com/browser-use/browser-use/blob/d190e20747bccb9bd44c20e4b29f4b6dd2309e50/skills/browser-use/SKILL.md",
+      "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 11228,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 11228,
+        "toon": 13785,
+        "savings": -2557,
+        "savings_pct": -22.8
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 2786,
+        "toon": 3697,
+        "savings": -911,
+        "savings_pct": -32.7,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 3208,
+            "toon": 3939,
+            "savings": -731,
+            "savings_pct": -22.8
+          },
+          {
+            "chars_per_token": 4,
+            "source": 2807,
+            "toon": 3446,
+            "savings": -639,
+            "savings_pct": -22.8
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 2495,
+            "toon": 3063,
+            "savings": -568,
+            "savings_pct": -22.8
+          }
+        ]
+      },
+      "warning_codes": [
+        "long_section",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "Browser Automation with browser-use CLI",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 251,
+            "headings": 21,
+            "paragraphs": 20,
+            "list_items": 24,
+            "tables": 1,
+            "table_rows": 6,
+            "definitions": 8,
+            "rules": 9
+          }
+        },
+        "measured_chars": {
+          "source": 11228,
+          "toon": 13785,
+          "savings": -2557,
+          "savings_pct": -22.8
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 2786,
+          "toon": 3697,
+          "savings": -911,
+          "savings_pct": -32.7,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 3208,
+              "toon": 3939,
+              "savings": -731,
+              "savings_pct": -22.8
+            },
+            {
+              "chars_per_token": 4,
+              "source": 2807,
+              "toon": 3446,
+              "savings": -639,
+              "savings_pct": -22.8
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 2495,
+              "toon": 3063,
+              "savings": -568,
+              "savings_pct": -22.8
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Commands\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "3029 chars, 48 non-empty lines, 0 bullets",
+            "range": {
+              "line_start": 59,
+              "line_end": 61,
+              "char_start": 2776,
+              "char_end": 2796
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "langchain-ai/langchain",
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/langchain-ai/langchain/blob/76c32db9b38dfc287c958dc2a914d4834f022c1c/AGENTS.md",
+      "pinned_sha": "76c32db9b38dfc287c958dc2a914d4834f022c1c",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 14382,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 14382,
+        "toon": 21678,
+        "savings": -7296,
+        "savings_pct": -50.7
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 3655,
+        "toon": 5808,
+        "savings": -2153,
+        "savings_pct": -58.9,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 4109,
+            "toon": 6194,
+            "savings": -2085,
+            "savings_pct": -50.7
+          },
+          {
+            "chars_per_token": 4,
+            "source": 3596,
+            "toon": 5420,
+            "savings": -1824,
+            "savings_pct": -50.7
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 3196,
+            "toon": 4817,
+            "savings": -1621,
+            "savings_pct": -50.7
+          }
+        ]
+      },
+      "warning_codes": [
+        "long_section",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "Global development guidelines for the LangChain monorepo",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 318,
+            "headings": 23,
+            "paragraphs": 31,
+            "list_items": 77,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 12,
+            "rules": 44
+          }
+        },
+        "measured_chars": {
+          "source": 14382,
+          "toon": 21678,
+          "savings": -7296,
+          "savings_pct": -50.7
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 3655,
+          "toon": 5808,
+          "savings": -2153,
+          "savings_pct": -58.9,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 4109,
+              "toon": 6194,
+              "savings": -2085,
+              "savings_pct": -50.7
+            },
+            {
+              "chars_per_token": 4,
+              "source": 3596,
+              "toon": 5420,
+              "savings": -1824,
+              "savings_pct": -50.7
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 3196,
+              "toon": 4817,
+              "savings": -1621,
+              "savings_pct": -50.7
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Monorepo structure\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1778 chars, 23 non-empty lines, 4 bullets",
+            "range": {
+              "line_start": 7,
+              "line_end": 34,
+              "char_start": 201,
+              "char_end": 2001
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "langchain-ai/langchainjs",
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/langchain-ai/langchainjs/blob/7f573630ccccd9c1377f7e6084a59c0a2ce35531/AGENTS.md",
+      "pinned_sha": "7f573630ccccd9c1377f7e6084a59c0a2ce35531",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 11450,
+      "pointer": false,
+      "verdict": "keep_markdown",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 11450,
+        "toon": 16352,
+        "savings": -4902,
+        "savings_pct": -42.8
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 2907,
+        "toon": 4642,
+        "savings": -1735,
+        "savings_pct": -59.7,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 3271,
+            "toon": 4672,
+            "savings": -1401,
+            "savings_pct": -42.8
+          },
+          {
+            "chars_per_token": 4,
+            "source": 2863,
+            "toon": 4088,
+            "savings": -1225,
+            "savings_pct": -42.8
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 2544,
+            "toon": 3634,
+            "savings": -1089,
+            "savings_pct": -42.8
+          }
+        ]
+      },
+      "warning_codes": [
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "keep_markdown",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "AGENTS.md - AI Agent Guidelines for LangChain.js",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 441,
+            "headings": 50,
+            "paragraphs": 24,
+            "list_items": 53,
+            "tables": 2,
+            "table_rows": 9,
+            "definitions": 18,
+            "rules": 18
+          }
+        },
+        "measured_chars": {
+          "source": 11450,
+          "toon": 16352,
+          "savings": -4902,
+          "savings_pct": -42.8
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 2907,
+          "toon": 4642,
+          "savings": -1735,
+          "savings_pct": -59.7,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 3271,
+              "toon": 4672,
+              "savings": -1401,
+              "savings_pct": -42.8
+            },
+            {
+              "chars_per_token": 4,
+              "source": 2863,
+              "toon": 4088,
+              "savings": -1225,
+              "savings_pct": -42.8
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 2544,
+              "toon": 3634,
+              "savings": -1089,
+              "savings_pct": -42.8
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "langflow-ai/langflow",
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/langflow-ai/langflow/blob/3a8f48b86c4025dca5f6d60db01cc958e44d9c83/AGENTS.md",
+      "pinned_sha": "3a8f48b86c4025dca5f6d60db01cc958e44d9c83",
+      "license_note": "MIT (SPDX: MIT)",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 11180,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 11180,
+        "toon": 15922,
+        "savings": -4742,
+        "savings_pct": -42.4
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 2974,
+        "toon": 4386,
+        "savings": -1412,
+        "savings_pct": -47.5,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 3194,
+            "toon": 4549,
+            "savings": -1355,
+            "savings_pct": -42.4
+          },
+          {
+            "chars_per_token": 4,
+            "source": 2795,
+            "toon": 3981,
+            "savings": -1185,
+            "savings_pct": -42.4
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 2484,
+            "toon": 3538,
+            "savings": -1054,
+            "savings_pct": -42.4
+          }
+        ]
+      },
+      "warning_codes": [
+        "long_section",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": "AGENTS.md",
+          "source_type": "markdown",
+          "stats": {
+            "lines": 238,
+            "headings": 26,
+            "paragraphs": 20,
+            "list_items": 60,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 9,
+            "rules": 33
+          }
+        },
+        "measured_chars": {
+          "source": 11180,
+          "toon": 15922,
+          "savings": -4742,
+          "savings_pct": -42.4
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 2974,
+          "toon": 4386,
+          "savings": -1412,
+          "savings_pct": -47.5,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 3194,
+              "toon": 4549,
+              "savings": -1355,
+              "savings_pct": -42.4
+            },
+            {
+              "chars_per_token": 4,
+              "source": 2795,
+              "toon": 3981,
+              "savings": -1185,
+              "savings_pct": -42.4
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 2484,
+              "toon": 3538,
+              "savings": -1054,
+              "savings_pct": -42.4
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Authorization (RBAC)\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "4143 chars, 22 non-empty lines, 14 bullets",
+            "range": {
+              "line_start": 99,
+              "line_end": 131,
+              "char_start": 3220,
+              "char_end": 7377
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "OpenHands/OpenHands",
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/OpenHands/OpenHands/blob/347bba27e588e591b6271a14aa757acb50106d96/AGENTS.md",
+      "pinned_sha": "347bba27e588e591b6271a14aa757acb50106d96",
+      "license_note": "MIT for content outside enterprise/ per repo LICENSE (SPDX: NOASSERTION); AGENTS.md is at repo root, outside the carveout",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 26987,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 26987,
+        "toon": 40338,
+        "savings": -13351,
+        "savings_pct": -49.5
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 7093,
+        "toon": 11204,
+        "savings": -4111,
+        "savings_pct": -58,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 7711,
+            "toon": 11525,
+            "savings": -3815,
+            "savings_pct": -49.5
+          },
+          {
+            "chars_per_token": 4,
+            "source": 6747,
+            "toon": 10085,
+            "savings": -3338,
+            "savings_pct": -49.5
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 5997,
+            "toon": 8964,
+            "savings": -2967,
+            "savings_pct": -49.5
+          }
+        ]
+      },
+      "warning_codes": [
+        "long_section",
+        "long_section",
+        "long_section",
+        "long_section",
+        "long_section",
+        "long_section",
+        "split_candidate",
+        "split_candidate",
+        "split_candidate",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": null,
+          "source_type": "markdown",
+          "stats": {
+            "lines": 515,
+            "headings": 42,
+            "paragraphs": 49,
+            "list_items": 238,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 45,
+            "rules": 53
+          }
+        },
+        "measured_chars": {
+          "source": 26987,
+          "toon": 40338,
+          "savings": -13351,
+          "savings_pct": -49.5
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 7093,
+          "toon": 11204,
+          "savings": -4111,
+          "savings_pct": -58,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 7711,
+              "toon": 11525,
+              "savings": -3815,
+              "savings_pct": -49.5
+            },
+            {
+              "chars_per_token": 4,
+              "source": 6747,
+              "toon": 10085,
+              "savings": -3338,
+              "savings_pct": -49.5
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 5997,
+              "toon": 8964,
+              "savings": -2967,
+              "savings_pct": -49.5
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Running OpenHands with OpenHands:\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "2442 chars, 24 non-empty lines, 12 bullets",
+            "range": {
+              "line_start": 8,
+              "line_end": 40,
+              "char_start": 392,
+              "char_end": 2861
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Repository Structure\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "2768 chars, 46 non-empty lines, 43 bullets",
+            "range": {
+              "line_start": 123,
+              "line_end": 173,
+              "char_start": 6473,
+              "char_end": 9224
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Enterprise Development Setup\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "4942 chars, 82 non-empty lines, 49 bullets",
+            "range": {
+              "line_start": 183,
+              "line_end": 197,
+              "char_start": 9639,
+              "char_end": 10167
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Adding User Settings:\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1132 chars, 13 non-empty lines, 13 bullets",
+            "range": {
+              "line_start": 358,
+              "line_end": 372,
+              "char_start": 17749,
+              "char_end": 18909
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Settings UI Patterns:\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1766 chars, 24 non-empty lines, 20 bullets",
+            "range": {
+              "line_start": 373,
+              "line_end": 402,
+              "char_start": 18910,
+              "char_end": 20685
+            }
+          },
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Model Configuration Procedure:\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1625 chars, 24 non-empty lines, 24 bullets",
+            "range": {
+              "line_start": 407,
+              "line_end": 437,
+              "char_start": 20819,
+              "char_end": 22487
+            }
+          },
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Repository Structure\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "evidence": "Detected themes: release, ui, testing, docs",
+            "range": {
+              "line_start": 123,
+              "line_end": 173,
+              "char_start": 6473,
+              "char_end": 9224
+            }
+          },
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Enterprise Development Setup\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "evidence": "Detected themes: release, privacy, testing, docs",
+            "range": {
+              "line_start": 183,
+              "line_end": 197,
+              "char_start": 9639,
+              "char_end": 10167
+            }
+          },
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Settings UI Patterns:\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "evidence": "Detected themes: privacy, ui, testing, docs",
+            "range": {
+              "line_start": 373,
+              "line_end": 402,
+              "char_start": 18910,
+              "char_end": 20685
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "path": "CLAUDE.md",
+      "source_url": "https://github.com/BerriAI/litellm/blob/343e453c2a7c5351459ac72761fad3e25145e78e/CLAUDE.md",
+      "pinned_sha": "343e453c2a7c5351459ac72761fad3e25145e78e",
+      "license_note": "MIT for content outside enterprise/ per repo LICENSE (SPDX: NOASSERTION); CLAUDE.md and AGENTS.md are at repo root, outside the carveout. Note: repo default branch is litellm_internal_staging; pinned to main deliberately.",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 7152,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "mixed",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 7152,
+        "toon": 12786,
+        "savings": -5634,
+        "savings_pct": -78.8
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 1785,
+        "toon": 3315,
+        "savings": -1530,
+        "savings_pct": -85.7,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 2043,
+            "toon": 3653,
+            "savings": -1610,
+            "savings_pct": -78.8
+          },
+          {
+            "chars_per_token": 4,
+            "source": 1788,
+            "toon": 3197,
+            "savings": -1408,
+            "savings_pct": -78.8
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 1589,
+            "toon": 2841,
+            "savings": -1252,
+            "savings_pct": -78.8
+          }
+        ]
+      },
+      "warning_codes": [
+        "long_section",
+        "split_candidate",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "mixed",
+          "title": null,
+          "source_type": "markdown",
+          "stats": {
+            "lines": 76,
+            "headings": 2,
+            "paragraphs": 25,
+            "list_items": 21,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 6,
+            "rules": 30
+          }
+        },
+        "measured_chars": {
+          "source": 7152,
+          "toon": 12786,
+          "savings": -5634,
+          "savings_pct": -78.8
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 1785,
+          "toon": 3315,
+          "savings": -1530,
+          "savings_pct": -85.7,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 2043,
+              "toon": 3653,
+              "savings": -1610,
+              "savings_pct": -78.8
+            },
+            {
+              "chars_per_token": 4,
+              "source": 1788,
+              "toon": 3197,
+              "savings": -1408,
+              "savings_pct": -78.8
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 1589,
+              "toon": 2841,
+              "savings": -1252,
+              "savings_pct": -78.8
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Document\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "6398 chars, 33 non-empty lines, 12 bullets"
+          },
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Document\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "evidence": "Detected themes: when adding new features, when creating prs, if you ever make public-facing pr descriptions, when you must use real llm models to"
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/BerriAI/litellm/blob/343e453c2a7c5351459ac72761fad3e25145e78e/AGENTS.md",
+      "pinned_sha": "343e453c2a7c5351459ac72761fad3e25145e78e",
+      "license_note": "MIT for content outside enterprise/ per repo LICENSE (SPDX: NOASSERTION); CLAUDE.md and AGENTS.md are at repo root, outside the carveout. Note: repo default branch is litellm_internal_staging; pinned to main deliberately.",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 38,
+      "pointer": true,
+      "pointer_excerpt": "Read @CLAUDE.md for coding guidelines"
+    },
+    {
+      "repo": "astral-sh/uv",
+      "path": "AGENTS.md",
+      "source_url": "https://github.com/astral-sh/uv/blob/e0f3af7b90426351a552e664cc6c419ba1b7837b/AGENTS.md",
+      "pinned_sha": "e0f3af7b90426351a552e664cc6c419ba1b7837b",
+      "license_note": "Dual-licensed Apache-2.0 OR MIT (LICENSE-MIT present at pin); corpus uses the MIT option",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 1422,
+      "pointer": false,
+      "verdict": "split_first",
+      "profile": "requirements",
+      "safe_to_auto_apply": false,
+      "mode": "lossless",
+      "measured_chars": {
+        "source": 1422,
+        "toon": 1571,
+        "savings": -149,
+        "savings_pct": -10.5
+      },
+      "token_estimates": {
+        "estimator": "tokenx@1.3.0",
+        "source": 346,
+        "toon": 444,
+        "savings": -98,
+        "savings_pct": -28.3,
+        "ratio_estimates": [
+          {
+            "chars_per_token": 3.5,
+            "source": 406,
+            "toon": 449,
+            "savings": -43,
+            "savings_pct": -10.5
+          },
+          {
+            "chars_per_token": 4,
+            "source": 356,
+            "toon": 393,
+            "savings": -37,
+            "savings_pct": -10.5
+          },
+          {
+            "chars_per_token": 4.5,
+            "source": 316,
+            "toon": 349,
+            "savings": -33,
+            "savings_pct": -10.5
+          }
+        ]
+      },
+      "warning_codes": [
+        "long_section",
+        "split_candidate",
+        "negative_savings"
+      ],
+      "flags": {
+        "lossless": true,
+        "valid": true,
+        "target_reached": null
+      },
+      "toon_emitted": true,
+      "profile_verdict_matches_convert": true,
+      "verdict_json": {
+        "schema_version": "1.0",
+        "verdict": "split_first",
+        "safe_to_auto_apply": false,
+        "profile": {
+          "name": "requirements",
+          "title": null,
+          "source_type": "markdown",
+          "stats": {
+            "lines": 21,
+            "headings": 0,
+            "paragraphs": 2,
+            "list_items": 18,
+            "tables": 0,
+            "table_rows": 0,
+            "definitions": 2,
+            "rules": 16
+          }
+        },
+        "measured_chars": {
+          "source": 1422,
+          "toon": 1571,
+          "savings": -149,
+          "savings_pct": -10.5
+        },
+        "token_estimates": {
+          "estimator": "tokenx@1.3.0",
+          "source": 346,
+          "toon": 444,
+          "savings": -98,
+          "savings_pct": -28.3,
+          "ratio_estimates": [
+            {
+              "chars_per_token": 3.5,
+              "source": 406,
+              "toon": 449,
+              "savings": -43,
+              "savings_pct": -10.5
+            },
+            {
+              "chars_per_token": 4,
+              "source": 356,
+              "toon": 393,
+              "savings": -37,
+              "savings_pct": -10.5
+            },
+            {
+              "chars_per_token": 4.5,
+              "source": 316,
+              "toon": 349,
+              "savings": -33,
+              "savings_pct": -10.5
+            }
+          ]
+        },
+        "toon_candidate": null,
+        "warnings": [
+          {
+            "code": "long_section",
+            "severity": "info",
+            "message": "Long section: \"Document\".",
+            "suggestion": "Consider splitting this into a shorter canonical rule plus one or more task-specific skill files.",
+            "evidence": "1440 chars, 20 non-empty lines, 18 bullets",
+            "range": {
+              "line_start": 1,
+              "line_end": 21,
+              "char_start": 0,
+              "char_end": 1422
+            }
+          },
+          {
+            "code": "split_candidate",
+            "severity": "info",
+            "message": "Possible split candidate: \"Document\".",
+            "suggestion": "Keep the short canonical instruction here and move detailed procedure into a focused skill file.",
+            "evidence": "Detected themes: conversion, release, ui, testing, docs",
+            "range": {
+              "line_start": 1,
+              "line_end": 21,
+              "char_start": 0,
+              "char_end": 1422
+            }
+          },
+          {
+            "code": "negative_savings",
+            "severity": "warning",
+            "message": "TOON output is larger than the source text for this input."
+          }
+        ],
+        "flags": {
+          "lossless": true,
+          "valid": true,
+          "target_reached": null
+        },
+        "mode": "lossless",
+        "delimiter": "\t",
+        "$note": "toon_candidate stripped before storage — bodies and derived bodies are not kept"
+      }
+    },
+    {
+      "repo": "astral-sh/uv",
+      "path": "CLAUDE.md",
+      "source_url": "https://github.com/astral-sh/uv/blob/e0f3af7b90426351a552e664cc6c419ba1b7837b/CLAUDE.md",
+      "pinned_sha": "e0f3af7b90426351a552e664cc6c419ba1b7837b",
+      "license_note": "Dual-licensed Apache-2.0 OR MIT (LICENSE-MIT present at pin); corpus uses the MIT option",
+      "retrieved": "2026-06-11",
+      "original_eol": "lf",
+      "source_chars": 11,
+      "pointer": true,
+      "pointer_excerpt": "@AGENTS.md"
+    }
+  ]
+}
