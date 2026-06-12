@@ -158,6 +158,127 @@
     "delimiter": {
       "description": "TOON delimiter selected for the candidate. Null when no candidate encoding was selected (refused verdicts).",
       "enum": [",", "\t", "|", null]
+    },
+    "context_plan": {
+      "type": "object",
+      "description": "Per-section context plan (docs/context-plan-design.md). Present only on plan surfaces (doc2toon plan --json), which emit schema_version 1.1; profile and convert responses stay 1.0 and never carry it. Sections are the author's own heading-bounded source slices, each measured as a standalone document under the unchanged decision policy — zero new tunable constants. The plan adds a metric; it never restates or replaces the whole-document verdict fields.",
+      "additionalProperties": true,
+      "required": ["sections", "net", "recommend_hybrid", "reassembly_verified", "safe_to_auto_apply"],
+      "properties": {
+        "sections": {
+          "type": "array",
+          "description": "Every section in source order. The [char_start, char_end) ranges partition the source exactly: no gaps, no overlaps, byte-identical on reassembly.",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": ["heading", "kind", "range", "profile", "verdict", "action", "measured_chars", "warnings", "safe_to_auto_apply"],
+            "properties": {
+              "heading": {
+                "type": ["string", "null"],
+                "description": "Heading text; null for preamble and frontmatter sections."
+              },
+              "kind": {
+                "enum": ["section", "preamble", "frontmatter"]
+              },
+              "range": {
+                "type": "object",
+                "description": "Whole-document coordinates of the section's raw slice (1-based lines; [char_start, char_end) character offsets).",
+                "additionalProperties": true,
+                "required": ["line_start", "line_end", "char_start", "char_end"],
+                "properties": {
+                  "line_start": { "type": "integer", "minimum": 1 },
+                  "line_end": { "type": "integer", "minimum": 1 },
+                  "char_start": { "type": "integer", "minimum": 0 },
+                  "char_end": { "type": "integer", "minimum": 0 }
+                }
+              },
+              "profile": {
+                "description": "Standalone profile of the slice. Null only for frontmatter sections, which are metadata and never measured.",
+                "enum": ["raw_prose", "definitions", "requirements", "table", "mixed", null]
+              },
+              "verdict": {
+                "description": "The section's standalone verdict under the unchanged whole-document policy. Null only for frontmatter sections.",
+                "enum": ["convert", "keep_markdown", "split_first", "review", "refused", null]
+              },
+              "action": {
+                "description": "convert iff the standalone verdict is convert and the candidate decodes; keep otherwise. Frontmatter is always keep.",
+                "enum": ["convert", "keep"]
+              },
+              "measured_chars": {
+                "description": "The section's standalone measurement — carried by every measured section, keep actions included, so each plan row is auditable. Null only for frontmatter sections.",
+                "oneOf": [
+                  { "type": "null" },
+                  {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "required": ["source", "toon", "savings", "savings_pct"],
+                    "properties": {
+                      "source": { "type": "integer", "minimum": 0 },
+                      "toon": { "type": "integer", "minimum": 0 },
+                      "savings": { "type": "integer" },
+                      "savings_pct": { "type": "number" }
+                    }
+                  }
+                ]
+              },
+              "warnings": {
+                "type": "array",
+                "description": "Coded warnings from the section's standalone measurement — same open registry and severity rules as the top-level warnings array. Ranges are offset to whole-document coordinates; a consumer never sees slice-relative positions.",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "required": ["code", "severity", "message"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "severity": { "enum": ["info", "warning"] },
+                    "message": { "type": "string" },
+                    "suggestion": { "type": "string" },
+                    "evidence": { "type": "string" },
+                    "range": {
+                      "type": "object",
+                      "additionalProperties": true,
+                      "properties": {
+                        "line_start": { "type": "integer", "minimum": 1 },
+                        "line_end": { "type": "integer", "minimum": 1 },
+                        "char_start": { "type": "integer", "minimum": 0 },
+                        "char_end": { "type": "integer", "minimum": 0 }
+                      }
+                    }
+                  }
+                }
+              },
+              "safe_to_auto_apply": {
+                "type": "boolean",
+                "description": "Section-level safety under the existing whole-document formula, applied to the standalone measurement."
+              }
+            }
+          }
+        },
+        "net": {
+          "type": "object",
+          "description": "Aggregate hybrid measurement. hybrid is the exact character count of the assembled hybrid document, so splice overhead (kept headings, fence markers) is counted, never hidden.",
+          "additionalProperties": true,
+          "required": ["source", "hybrid", "savings", "savings_pct"],
+          "properties": {
+            "source": { "type": "integer", "minimum": 0 },
+            "hybrid": { "type": "integer", "minimum": 0 },
+            "savings": { "type": "integer", "description": "source - hybrid. Negative when the hybrid is larger than the source." },
+            "savings_pct": { "type": "number" }
+          }
+        },
+        "recommend_hybrid": {
+          "type": "boolean",
+          "description": "True when net savings clear the frozen MIN_CONVERT_SAVINGS_PCT band AND at least one section converts — the same 5% band the whole-document policy uses, reused at plan level."
+        },
+        "reassembly_verified": {
+          "type": "boolean",
+          "description": "Mechanical verification of the hybrid: kept sections byte-identical, converted candidates decode as embedded, section slices re-stitch to the full document."
+        },
+        "safe_to_auto_apply": {
+          "type": "boolean",
+          "description": "recommend_hybrid AND converted-section count > 0 AND every converted section individually safe AND reassembly_verified. Non-vacuous by definition: a plan that converts nothing is never safe to auto-apply."
+        }
+      }
     }
   }
 }

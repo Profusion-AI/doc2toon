@@ -121,6 +121,12 @@ Profile before converting:
 doc2toon profile examples/definitions.md
 ```
 
+Plan a per-section hybrid when the whole document doesn't convert (see [Context plans](#context-plans-plan)):
+
+```bash
+doc2toon plan fixtures/agent-context/realistic/CLAUDE.md
+```
+
 Convert a Markdown file:
 
 ```bash
@@ -183,6 +189,27 @@ The exit-code contract (normative in [docs/verdict-schema-v1.md](docs/verdict-sc
 # Fail the build when a doc should be split or reviewed, otherwise pass:
 doc2toon profile --json --fail-on split_first,review CLAUDE.md
 ```
+
+## Context plans (`plan`)
+
+Whole-document TOON wins are rare in real agent docs — the honest corpus numbers above say so. `plan` is what comes after `split_first`: it measures **every heading-bounded section of the document as if it were a standalone document, under the exact same frozen policy** (zero new thresholds), and recommends a hybrid only when the net savings — splice overhead included — clear the same 5% band:
+
+```bash
+doc2toon plan CLAUDE.md
+doc2toon plan --json CLAUDE.md | jq '{verdict, recommend: .context_plan.recommend_hybrid, net: .context_plan.net, convert: [.context_plan.sections[] | select(.action == "convert") | .heading]}'
+```
+
+Every plan row carries its evidence — `keep` sections included — so each line is auditable: the section's standalone verdict, measured chars, and warnings (ranges in whole-document coordinates). YAML frontmatter is sectioned, always kept, and never measured.
+
+`--out` writes the **hybrid document**: converted sections become fenced ` ```toon ` blocks in place (the section heading stays as Markdown; the fence content is exactly the measured candidate), everything else byte-identical:
+
+```bash
+doc2toon plan CLAUDE.md --out CLAUDE.hybrid.md
+```
+
+Honesty mechanics, same as everywhere else in this tool: the per-section unit changes, the policy does not. A small table that wins +20% standalone inside a document whose net hybrid saves 0.4% gets an honest "keep the whole document". Plan-level `safe_to_auto_apply` requires net savings over the band, at least one converted section, every converted section individually safe, and mechanical reassembly verification (kept bytes identical, converted blocks decode as embedded).
+
+`plan --json` is the one surface that emits `schema_version: "1.1"` (the additive `context_plan` field); `profile`/`convert` output stays `"1.0"` byte-for-byte. Exit-code contract is identical to `profile`, and `--fail-on` keys on the whole-document verdict — plans inform, the verdict gates.
 
 ## GitHub Action
 

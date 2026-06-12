@@ -16,6 +16,10 @@ export {
 } from "./token-estimator.js";
 export { estimateNodeTokenCount, NODE_TOKEN_ESTIMATOR_ID } from "./node-token-estimator.js";
 export { analyzeOptimizerWarnings } from "./optimizer.js";
+export { buildContextPlan, CONTEXT_PLAN_SCHEMA_VERSION } from "./plan.js";
+export type { BuildContextPlanOptions, ContextPlanResult, HybridSegment } from "./plan.js";
+export { splitPlanSections } from "./plan-sections.js";
+export type { PlanSectionSlice } from "./plan-sections.js";
 export { decodeToJson, encodeToToon, roundTrip, selectEncoding, targetReached } from "./toon.js";
 export {
   buildVerdict,
@@ -31,6 +35,9 @@ export type {
   CodedWarning,
   CodedWarningRange,
   CodedWarningSeverity,
+  ContextPlan,
+  ContextPlanNet,
+  ContextPlanSection,
   CoreBuildOptions,
   ConversionResult,
   ConversionStats,
@@ -43,6 +50,9 @@ export type {
   OptimizerWarningSeverity,
   OutputMode,
   ParseFlavor,
+  PlanSectionAction,
+  PlanSectionKind,
+  PlanSectionRange,
   SourceType,
   ToonValidationResult,
   VerdictDecision,

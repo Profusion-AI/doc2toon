@@ -4,6 +4,29 @@ All notable changes to `doc2toon` will be documented in this file.
 
 This project follows practical release notes rather than strict format ceremony.
 
+## Unreleased
+
+Context plans: section-level verdicts as the main workflow (`docs/context-plan-design.md`, QC-amended 2026-06-11). `split_first` stops being the end of the conversation — the plan measures every heading-bounded section of a document as a standalone document under the **unchanged frozen policy** (zero new tunable constants) and recommends a hybrid only when the net savings, splice overhead included, clear the same frozen 5% band.
+
+### Added (CLI)
+
+- `doc2toon plan [--json] [--out <hybrid.md>] <file>`: per-section context plan. Pretty mode prints the whole-document verdict plus a plan table (every section's standalone verdict and measured delta — `keep` rows included — net, `recommend_hybrid`, `reassembly_verified`, plan-level `safe_to_auto_apply`). `--out` writes the hybrid Markdown document: converted sections become fenced ` ```toon ` blocks in place (heading line kept as Markdown, fence content is exactly the measured candidate, fence length adapts past embedded backticks), everything else byte-identical. Exit-code contract identical to `profile`; `--fail-on` keys on the whole-document verdict — plans inform, the verdict gates.
+
+### Added (wire contract — Verdict 1.1, additive)
+
+- Optional `context_plan` field on the verdict object (`schemas/verdict.v1.json` + `openapi/cheapagent.v1.yaml` in lockstep; `/v1/plan` specified as planned). **Emission contract:** only the plan surface emits `schema_version: "1.1"`; `profile`/`convert` output stays `"1.0"` byte-for-byte — existing snapshots prove it. Every measured section carries `heading`, `kind` (`section`/`preamble`/`frontmatter`), source `range` (lines + `[char_start, char_end)`), standalone `profile`/`verdict`/`measured_chars`, offset-to-document warning ranges, and section-level `safe_to_auto_apply`; frontmatter is always `keep` and never measured (`null` measurement, honestly labeled). Plan-level `safe_to_auto_apply` is non-vacuous: `recommend_hybrid AND converted count > 0 AND all converted sections safe AND reassembly_verified`.
+
+### Added (engine)
+
+- `src/plan-sections.ts`: source-range-preserving section splitter — the author's own ATX headings, fence-aware exactly as the parser is, YAML frontmatter sectioned and kept. The slices partition the document byte-for-byte (asserted at runtime, re-proved per fixture by the reassembly property test).
+- `src/plan.ts`: `buildContextPlan(text, opts)` — per-section `runVerdict` composition, hybrid assembly, net math on the exact assembled string, and mechanical reassembly verification (kept bytes identical, converted candidates decode as embedded, full re-stitch). Browser-safe, exported from both entrypoints.
+
+### Added (repo)
+
+- Pre-registration trail completed before any plan code ran against the corpus: the internal 19 pinned by SHA-256 in `fixtures/agent-context/external/README.md` (the external lane-1 19 were already pinned by manifest SHA); the actionable-plan-rate metric definition was already pre-registered there.
+- **The pre-registered metric, measured on the pinned corpus** (`scripts/benchmark-plans.mjs` → `fixtures/agent-context/external/plan-results.json`; internal pins hash-verified before measuring): **internal 1/19, external lane-1 1/19, combined 2/38 plan-positive** — the "one-third" planning hypothesis is refuted and the measured rate is published as-is. The external winner is `langchain-ai/langchainjs:AGENTS.md`: whole-doc `split_first`, plan net **+6.8%** from two independently-converting table sections (+49.5%, +52.0%), plan-level `safe_to_auto_apply` true, reassembly verified — the first real-world corpus document with a positive, auto-applicable recommendation. Five other docs have a converting section that nets 0.2–0.9%, below the band: the plan's honest answer for them stays "keep the whole document". The whole-document honesty denominators are unchanged.
+- `test/plan.test.ts`: reassembly property over every fixture, policy-composition equivalence (a section converts iff `runVerdict` says `convert` standalone), the below-band mixed-fixture case (one table wins +21.6% standalone, net 0.4% → no hybrid recommended), non-vacuity, frontmatter, CRLF, fence-safety, and warning-offset coverage; plan snapshots per fixture; CLI plan coverage in `test/cli.test.ts`.
+
 ## 0.3.2 - 2026-06-11
 
 External honesty corpus round 2: the lane-1 denominator grows to **19 real-world documents — 0 convert, 16 split_first, 3 keep_markdown** (measured deltas −2.8% to −86.9%, `safe_to_auto_apply` on none). No engine or contract changes; the package change is this changelog plus a README line citing the result.

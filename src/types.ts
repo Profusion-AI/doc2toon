@@ -346,4 +346,61 @@ export interface VerdictV1 {
   flags: VerdictFlags;
   mode: OutputMode;
   delimiter: ToonDelimiter | null;
+  /**
+   * Present only on plan surfaces (`doc2toon plan --json`), which emit schema_version "1.1".
+   * profile/convert surfaces stay "1.0" and never carry it (docs/context-plan-design.md §3).
+   */
+  context_plan?: ContextPlan;
+}
+
+// --- Context plan (Verdict 1.1 additive field; docs/context-plan-design.md) ---
+
+export type PlanSectionKind = "section" | "preamble" | "frontmatter";
+
+export type PlanSectionAction = "convert" | "keep";
+
+/** Whole-document coordinates of a section's raw slice: [char_start, char_end), 1-based lines. */
+export interface PlanSectionRange {
+  line_start: number;
+  line_end: number;
+  char_start: number;
+  char_end: number;
+}
+
+export interface ContextPlanSection {
+  /** Heading text; null for preamble and frontmatter sections. */
+  heading: string | null;
+  kind: PlanSectionKind;
+  range: PlanSectionRange;
+  /** Standalone profile of the slice; null only for frontmatter (never measured). */
+  profile: ProfileName | null;
+  /** Standalone verdict under the unchanged whole-document policy; null only for frontmatter. */
+  verdict: VerdictDecision | null;
+  /** "convert" iff the standalone verdict is convert AND the candidate decodes. */
+  action: PlanSectionAction;
+  /** Standalone measurement — every measured section carries it, keep included; null only for frontmatter. */
+  measured_chars: VerdictMeasuredChars | null;
+  /** Coded warnings from the standalone measurement, ranges offset to whole-document coordinates. */
+  warnings: CodedWarning[];
+  /** Section-level safety under the existing whole-document formula. */
+  safe_to_auto_apply: boolean;
+}
+
+export interface ContextPlanNet {
+  source: number;
+  /** Exact character count of the assembled hybrid document — splice overhead included. */
+  hybrid: number;
+  savings: number;
+  savings_pct: number;
+}
+
+export interface ContextPlan {
+  sections: ContextPlanSection[];
+  net: ContextPlanNet;
+  /** Net savings clear the frozen MIN_CONVERT_SAVINGS_PCT band AND at least one section converts. */
+  recommend_hybrid: boolean;
+  /** Kept bytes identical + converted candidates decode as embedded + slices re-stitch to the full document. */
+  reassembly_verified: boolean;
+  /** recommend_hybrid AND converted count > 0 AND all converted sections safe AND reassembly_verified. */
+  safe_to_auto_apply: boolean;
 }

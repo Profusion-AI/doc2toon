@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import Ajv2020 from "ajv/dist/2020.js";
 import { beforeAll, describe, expect, it } from "vitest";
-import { runVerdict } from "../src/index.js";
+import { buildContextPlan, runVerdict } from "../src/index.js";
 import { estimateNodeTokenCount, NODE_TOKEN_ESTIMATOR_ID } from "../src/node-token-estimator.js";
 
 // Exercises the exit-code and output contract of decision 8 (docs/verdict-schema-v1.md) against
@@ -214,6 +214,106 @@ describe("convert --json", () => {
     expect(run.status).toBe(1);
     expect(run.stderr).toContain("Target cannot be reached losslessly");
     expect(existsSync(outPath)).toBe(false);
+  });
+});
+
+describe("plan --json (Verdict 1.1, docs/context-plan-design.md)", () => {
+  const fixture = "fixtures/agent-context/problematic/mixed-agent-context.md";
+
+  it("emits schema 1.1 with context_plan, candidate withheld, exit 0", () => {
+    const run = runCli(["plan", "--json", fixture]);
+
+    expect(run.status).toBe(0);
+    const verdict = parseVerdict(run);
+    expect(verdict.schema_version).toBe("1.1");
+    expect(verdict.toon_candidate).toBeNull();
+    const plan = verdict.context_plan as {
+      sections: Array<{ action: string }>;
+      recommend_hybrid: boolean;
+      reassembly_verified: boolean;
+      safe_to_auto_apply: boolean;
+    };
+    expect(plan.sections.length).toBeGreaterThan(1);
+    expect(plan.sections.some((section) => section.action === "convert")).toBe(true);
+    expect(plan.reassembly_verified).toBe(true);
+    // Below-band net on this fixture: one table wins standalone, the plan still says keep.
+    expect(plan.recommend_hybrid).toBe(false);
+    expect(plan.safe_to_auto_apply).toBe(false);
+  });
+
+  it("deep-equals the library's buildContextPlan for the same input (one builder everywhere)", () => {
+    const run = runCli(["plan", "--json", fixture]);
+    expect(run.status).toBe(0);
+
+    const text = readFileSync(join(root, fixture), "utf8");
+    const expected = buildContextPlan(text, {
+      sourceType: "markdown",
+      flavor: "markdown",
+      charsPerTokenRatios: [3.5, 4, 4.5],
+      estimateTokenCount: estimateNodeTokenCount,
+      estimator: NODE_TOKEN_ESTIMATOR_ID,
+    });
+
+    expect(JSON.parse(run.stdout)).toEqual(JSON.parse(JSON.stringify(expected.verdict)));
+  });
+
+  it("profile and convert stay schema 1.0 without context_plan (emission contract)", () => {
+    for (const command of [
+      ["profile", "--json", fixture],
+      ["convert", "--json", fixture],
+    ]) {
+      const run = runCli(command);
+      expect(run.status).toBe(0);
+      const verdict = JSON.parse(run.stdout) as Record<string, unknown>;
+      expect(verdict.schema_version).toBe("1.0");
+      expect("context_plan" in verdict).toBe(false);
+    }
+  });
+
+  it("--out writes the library's exact hybrid bytes with stdout staying pure JSON", () => {
+    const outPath = join(tmpDir, "mixed-hybrid.md");
+    const run = runCli(["plan", "--json", fixture, "--out", outPath]);
+
+    expect(run.status).toBe(0);
+    parseVerdict(run);
+    expect(run.stderr).toContain("Hybrid written");
+
+    const text = readFileSync(join(root, fixture), "utf8");
+    const expected = buildContextPlan(text, {
+      sourceType: "markdown",
+      flavor: "markdown",
+      charsPerTokenRatios: [3.5, 4, 4.5],
+      estimateTokenCount: estimateNodeTokenCount,
+      estimator: NODE_TOKEN_ESTIMATOR_ID,
+    });
+    expect(readFileSync(outPath, "utf8")).toBe(expected.hybrid);
+  });
+
+  it("pretty mode prints the plan table and exits 0", () => {
+    const run = runCli(["plan", fixture]);
+
+    expect(run.status).toBe(0);
+    expect(run.stdout).toContain("Verdict: split_first");
+    expect(run.stdout).toContain("Context plan");
+    expect(run.stdout).toContain("net (hybrid vs source, splice overhead included)");
+    expect(run.stdout).toContain("recommend hybrid: false");
+  });
+
+  it("--fail-on keys on the whole-document verdict (plans inform, the verdict gates)", () => {
+    const gated = runCli(["plan", "--json", "--fail-on", "split_first", fixture]);
+    expect(gated.status).toBe(1);
+    parseVerdict(gated); // the verdict JSON still prints; --fail-on only decides the exit code
+
+    const clean = runCli([
+      "plan",
+      "--json",
+      "--fail-on",
+      "warning",
+      "fixtures/agent-context/realistic/config-reference.md",
+    ]);
+    expect(clean.status).toBe(0);
+    const verdict = parseVerdict(clean);
+    expect((verdict.context_plan as { safe_to_auto_apply: boolean }).safe_to_auto_apply).toBe(true);
   });
 });
 

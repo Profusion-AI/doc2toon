@@ -300,8 +300,12 @@ function buildTokenEstimates(stats: ConversionStats, estimator: string | undefin
   };
 }
 
-/** Wire percentages carry one decimal; the raw integer counts stay exact (and are the decision inputs). */
-function roundPercent(value: number): number {
+/**
+ * Wire percentages carry one decimal; the raw integer counts stay exact (and are the decision
+ * inputs). Shared with the plan builder (src/plan.ts) so net and per-section percentages round
+ * identically.
+ */
+export function roundPercent(value: number): number {
   const rounded = Math.round(value * 10) / 10;
   return rounded === 0 ? 0 : rounded;
 }

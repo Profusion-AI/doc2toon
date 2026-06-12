@@ -8,9 +8,12 @@ import { inspect } from "node:util";
 import { BudgetRefusedError, convertTextToToon, decodeToJsonText, validateToonText } from "./core.js";
 import { estimateNodeTokenCount, NODE_TOKEN_ESTIMATOR_ID } from "./node-token-estimator.js";
 import { prettyJson } from "./normalize.js";
+import { buildContextPlan } from "./plan.js";
 import { buildVerdict, runVerdict, VERDICT_SCHEMA_VERSION } from "./verdict.js";
 import type {
   CodedWarning,
+  ContextPlan,
+  ContextPlanSection,
   ConversionResult,
   DelimiterOption,
   OutputMode,
@@ -22,10 +25,12 @@ import type {
 
 // Every subcommand builds its data object first (the VerdictV1 wire object where one applies),
 // then routes to the pretty renderer or JSON.stringify on --json. Exit-code contract
-// (docs/verdict-schema-v1.md, decision 8): profile/convert --json exit 0 for any representable
-// verdict, including refused and keep_markdown; exit 1 with a JSON {"error":{code,message}}
-// envelope on I/O, argument, and internal failures; validate --json keeps exit 1 on invalid TOON;
-// --fail-on lets CI fail builds deliberately, never accidentally.
+// (docs/verdict-schema-v1.md, decision 8): profile/convert/plan --json exit 0 for any
+// representable verdict, including refused and keep_markdown; exit 1 with a JSON
+// {"error":{code,message}} envelope on I/O, argument, and internal failures; validate --json
+// keeps exit 1 on invalid TOON; --fail-on lets CI fail builds deliberately, never accidentally.
+// plan is profile-shaped (toon_candidate withheld) and is the only surface that emits
+// schema_version "1.1" with context_plan (docs/context-plan-design.md §3).
 
 interface ConvertOptions {
   out?: string;
@@ -47,6 +52,15 @@ interface ProfileOptions {
   stdin?: boolean;
   type?: "markdown" | "md" | "text" | "txt";
   charsPerToken?: string;
+  json?: boolean;
+  failOn?: string;
+}
+
+interface PlanOptions {
+  stdin?: boolean;
+  type?: "markdown" | "md" | "text" | "txt";
+  charsPerToken?: string;
+  out?: string;
   json?: boolean;
   failOn?: string;
 }
@@ -149,6 +163,29 @@ program
   .action(async (input: string | undefined, options: ConvertOptions) => {
     try {
       await convertCommand(input, options);
+    } catch (error) {
+      fail(error, Boolean(options.json));
+    }
+  });
+
+program
+  .command("plan")
+  .argument("[input]", "Input .md or .txt file. Omit with --stdin or piped stdin.")
+  .option("--stdin", "Read pasted/piped input from stdin.")
+  .option("--type <type>", "Override parser type: markdown, md, text, txt.")
+  .option("--chars-per-token <ratios>", "Comma-separated token-estimate ratios.", "3.5,4,4.5")
+  .option("--out <path>", "Write the hybrid Markdown document (converted sections become fenced toon blocks; kept sections stay byte-identical).")
+  .option(
+    "--json",
+    "Emit the verdict (schema 1.1) with context_plan as JSON; the TOON candidate is withheld — the hybrid document is the artifact (--out).",
+  )
+  .option(
+    "--fail-on <list>",
+    'Comma-separated verdicts and/or severities that set exit code 1, keyed on the whole-document verdict, e.g. "split_first,review" or "warning". "info" fails on any warning.',
+  )
+  .action(async (input: string | undefined, options: PlanOptions) => {
+    try {
+      await planCommand(input, options);
     } catch (error) {
       fail(error, Boolean(options.json));
     }
@@ -315,6 +352,41 @@ async function convertCommand(input: string | undefined, options: ConvertOptions
       includeJsonStats: Boolean(options.stats),
     });
     console.log(`TOON written: ${outPath}`);
+  }
+  applyFailOn(verdict, failOn);
+}
+
+async function planCommand(input: string | undefined, options: PlanOptions): Promise<void> {
+  const failOn = parseFailOn(options.failOn);
+  const charsPerTokenRatios = parseCharsPerTokenRatios(options.charsPerToken);
+  // Flag validation before input is read, for the same streaming-stdin reason convert validates early.
+  const outPath = options.out ? resolve(options.out) : undefined;
+  const { text, sourceType, flavor } = await ingestInput(input, options);
+
+  const { verdict, plan, hybrid } = buildContextPlan(text, {
+    sourceType,
+    flavor,
+    charsPerTokenRatios,
+    estimateTokenCount: estimateNodeTokenCount,
+    estimator: NODE_TOKEN_ESTIMATOR_ID,
+  });
+
+  // The hybrid is written even when the plan recommends against it (recommend_hybrid false):
+  // the plan informs, the user decides. With zero converted sections it equals the source.
+  if (outPath) {
+    await writeOutput(outPath, hybrid);
+  }
+
+  if (options.json) {
+    console.log(JSON.stringify(verdict, null, 2));
+    if (outPath) {
+      console.error(`Hybrid written: ${outPath}`); // stderr keeps stdout pure JSON
+    }
+  } else {
+    printPlanReport(verdict, plan);
+    if (outPath) {
+      console.log(`Hybrid written: ${outPath}`);
+    }
   }
   applyFailOn(verdict, failOn);
 }
@@ -519,6 +591,44 @@ function printVerdictReport(verdict: VerdictV1): void {
   );
   console.log(`  ratio estimates: ${verdict.token_estimates.ratio_estimates.map(formatVerdictRatioEstimate).join("; ")}`);
   printCodedWarnings(verdict.warnings, "  ");
+}
+
+function printPlanReport(verdict: VerdictV1, plan: ContextPlan): void {
+  console.log(`Verdict: ${verdict.verdict}`);
+  console.log(`  safe to auto-apply: ${verdict.safe_to_auto_apply}`);
+  printCodedWarnings(verdict.warnings, "  ");
+
+  const converted = plan.sections.filter((section) => section.action === "convert").length;
+  console.log("Context plan (each section measured standalone under the unchanged policy):");
+  console.log(`  sections: ${plan.sections.length} (${converted} convert, ${plan.sections.length - converted} keep)`);
+  for (const section of plan.sections) {
+    console.log(`  - ${formatPlanSection(section)}`);
+  }
+  console.log(
+    `  net (hybrid vs source, splice overhead included): ${plan.net.source} -> ${plan.net.hybrid} chars (${plan.net.savings_pct.toFixed(1)}%)`,
+  );
+  console.log(`  recommend hybrid: ${plan.recommend_hybrid}`);
+  console.log(`  reassembly verified: ${plan.reassembly_verified}`);
+  console.log(`  plan safe to auto-apply: ${plan.safe_to_auto_apply}`);
+}
+
+function formatPlanSection(section: ContextPlanSection): string {
+  const label =
+    section.kind === "frontmatter"
+      ? "frontmatter"
+      : section.kind === "preamble"
+        ? "(preamble)"
+        : `"${section.heading}"`;
+  const lines = `lines ${section.range.line_start}-${section.range.line_end}`;
+  if (!section.measured_chars) {
+    return `[${section.action}] ${label} (${lines}): never measured`;
+  }
+  const measured = `${section.measured_chars.source} -> ${section.measured_chars.toon} chars (${section.measured_chars.savings_pct.toFixed(1)}%)`;
+  const warningSuffix =
+    section.warnings.length > 0
+      ? ` — ${section.warnings.length} warning${section.warnings.length === 1 ? "" : "s"}`
+      : "";
+  return `[${section.action}] ${label} (${lines}): ${measured}${warningSuffix}`;
 }
 
 function printConversionReport(

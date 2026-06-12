@@ -73,10 +73,14 @@ Tags: safety, scope
     expect(browserApi.analyzeOptimizerWarnings).toBeTypeOf("function");
     expect(browserApi.buildVerdict).toBeTypeOf("function");
     expect(browserApi.runVerdict).toBeTypeOf("function");
+    expect(browserApi.buildContextPlan).toBeTypeOf("function");
+    expect(browserApi.splitPlanSections).toBeTypeOf("function");
 
     const browserSource = await readFile(new URL("../src/browser.ts", import.meta.url), "utf8");
     const optimizerSource = await readFile(new URL("../src/optimizer.ts", import.meta.url), "utf8");
     const verdictSource = await readFile(new URL("../src/verdict.ts", import.meta.url), "utf8");
+    const planSource = await readFile(new URL("../src/plan.ts", import.meta.url), "utf8");
+    const planSectionsSource = await readFile(new URL("../src/plan-sections.ts", import.meta.url), "utf8");
     expect(browserSource).not.toContain("node:fs");
     expect(browserSource).not.toContain("node:path");
     expect(browserSource).not.toContain("node:buffer");
@@ -85,6 +89,10 @@ Tags: safety, scope
     expect(optimizerSource).not.toContain("tokenx");
     expect(verdictSource).not.toContain("node:");
     expect(verdictSource).not.toContain("tokenx");
+    expect(planSource).not.toContain("node:");
+    expect(planSource).not.toContain("tokenx");
+    expect(planSectionsSource).not.toContain("node:");
+    expect(planSectionsSource).not.toContain("tokenx");
   });
 
   it("refuses impossible budget conversion unless lossy output is allowed", () => {

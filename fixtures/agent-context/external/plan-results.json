@@ -1,0 +1,1017 @@
+{
+  "generated": "2026-06-11T19:05:35.232Z",
+  "doc2toon_version": "0.3.2",
+  "metric": "actionable_plan_rate — pre-registered 2026-06-11 in fixtures/agent-context/external/README.md and docs/context-plan-design.md §5, before any plan code existed. The whole-document honesty denominators are not restated or affected.",
+  "method": "Each pinned document measured via `doc2toon plan --json` (lossless-only v1 plans; sections are the author's own headings judged standalone under the unchanged frozen policy). Internal files verified against their pinned SHA-256 before measuring; external lane-1 files fetched at their exact manifest SHAs. Measurements and provenance stored; bodies and TOON candidates are not.",
+  "aggregate": {
+    "internal": {
+      "documents_counted": 19,
+      "plan_positive": 1,
+      "actionable_plan_rate": "1/19",
+      "median_net_savings_pct_plan_positive": 20.9,
+      "plan_safe_to_auto_apply_true": 1,
+      "reassembly_verified_all": true,
+      "docs_with_any_converted_section": 4
+    },
+    "external_lane1": {
+      "documents_counted": 19,
+      "plan_positive": 1,
+      "actionable_plan_rate": "1/19",
+      "median_net_savings_pct_plan_positive": 6.8,
+      "plan_safe_to_auto_apply_true": 1,
+      "reassembly_verified_all": true,
+      "docs_with_any_converted_section": 3
+    },
+    "combined": {
+      "documents_counted": 38,
+      "plan_positive": 2,
+      "actionable_plan_rate": "2/38",
+      "median_net_savings_pct_plan_positive": 13.85,
+      "plan_safe_to_auto_apply_true": 2,
+      "reassembly_verified_all": true,
+      "docs_with_any_converted_section": 7
+    },
+    "external_pointers_recorded_not_counted": 8
+  },
+  "documents": {
+    "internal": [
+      {
+        "path": "examples/definitions.md",
+        "sha256": "8c22723b0a4a10d18da9377d80aa5aa98f7f3aca47f2d65d7029f6ba61527866",
+        "source_chars": 931,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 5,
+          "converted_sections": [],
+          "net": {
+            "source": 931,
+            "hybrid": 931,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "examples/prose.md",
+        "sha256": "90fee577b01783081285d3fe9f0f5e64f180e17a9267186465dcf089e8979265",
+        "source_chars": 2030,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 3,
+          "converted_sections": [],
+          "net": {
+            "source": 2030,
+            "hybrid": 2030,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "examples/requirements.md",
+        "sha256": "831b28c4f16519fb7710846b1bfca6b37bb4faaa892f53fd3e12d4991f92923f",
+        "source_chars": 854,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 5,
+          "converted_sections": [],
+          "net": {
+            "source": 854,
+            "hybrid": 854,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "examples/table.md",
+        "sha256": "3175c2e2d96ef63898ba150d58214f296edd99f1da23f5ecd77a4c43422d4a8f",
+        "source_chars": 350,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 1,
+          "converted_sections": [],
+          "net": {
+            "source": 350,
+            "hybrid": 350,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/AGENTS.md",
+        "sha256": "ad324457121b6a92546d4c55f48174f9637dcc4396fb8f53d8e95a7596bcae4a",
+        "source_chars": 2414,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 9,
+          "converted_sections": [],
+          "net": {
+            "source": 2414,
+            "hybrid": 2414,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/CLAUDE.md",
+        "sha256": "21306dc2b6ed97fcdf7c9abe8e08552961dbff2866bf9ce61cfe9a8b9a3b8892",
+        "source_chars": 434,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 2,
+          "converted_sections": [],
+          "net": {
+            "source": 434,
+            "hybrid": 434,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/SKILL.md",
+        "sha256": "bf9a76e64385dcf2e2bb9b85d62064e9a132da388db6434ed046d93496095363",
+        "source_chars": 3039,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 11,
+          "converted_sections": [],
+          "net": {
+            "source": 3039,
+            "hybrid": 3039,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/problematic/duplicate-rules.md",
+        "sha256": "9ded6dd2e26e18bee44c48ce8821cb34804173ab21ba978d8594c9a6e92db3df",
+        "source_chars": 462,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 3,
+          "converted_sections": [],
+          "net": {
+            "source": 462,
+            "hybrid": 462,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/problematic/long-section.md",
+        "sha256": "39d6023847ffb26ec4f25bce9439338ee9e95d47e3268b69982063a16e4372b6",
+        "source_chars": 2352,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 3,
+          "converted_sections": [],
+          "net": {
+            "source": 2352,
+            "hybrid": 2352,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/problematic/mixed-agent-context.md",
+        "sha256": "47ae87542206d1877fdb2d8cf11208ae3e943e742a7fdadafaf634af12b125a4",
+        "source_chars": 2360,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 5,
+          "converted_sections": [
+            {
+              "heading": "Table",
+              "kind": "section",
+              "profile": "table",
+              "measured_chars": {
+                "source": 148,
+                "toon": 116,
+                "savings": 32,
+                "savings_pct": 21.6
+              },
+              "safe_to_auto_apply": true
+            }
+          ],
+          "net": {
+            "source": 2360,
+            "hybrid": 2350,
+            "savings": 10,
+            "savings_pct": 0.4
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/problematic/split-candidate.md",
+        "sha256": "cf28f81a593a1beb4df550ab3e8c0d063ce8e2e42eb7c085fc0d8c53958c4c88",
+        "source_chars": 790,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 3,
+          "converted_sections": [],
+          "net": {
+            "source": 790,
+            "hybrid": 790,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/problematic/vague-rules.md",
+        "sha256": "2a14655f0cdc58387e1f45f328b7cbd258cc52c778eedce1d32af877244f6a7e",
+        "source_chars": 346,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 3,
+          "converted_sections": [],
+          "net": {
+            "source": 346,
+            "hybrid": 346,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/realistic/AGENTS.md",
+        "sha256": "6d9209347511ecf2ede02ca31a0e7d1c60504e716df0da814f761cb6ab11e76d",
+        "source_chars": 19690,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 42,
+          "converted_sections": [
+            {
+              "heading": "Alerts that page",
+              "kind": "section",
+              "profile": "table",
+              "measured_chars": {
+                "source": 377,
+                "toon": 312,
+                "savings": 65,
+                "savings_pct": 17.2
+              },
+              "safe_to_auto_apply": true
+            }
+          ],
+          "net": {
+            "source": 19690,
+            "hybrid": 19660,
+            "savings": 30,
+            "savings_pct": 0.2
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/realistic/CLAUDE.md",
+        "sha256": "577f06aba0a9dd71822f603f30594f1ee8b11508dfcb641a35485cbc8168d770",
+        "source_chars": 20056,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 29,
+          "converted_sections": [],
+          "net": {
+            "source": 20056,
+            "hybrid": 20056,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/realistic/SKILL.md",
+        "sha256": "9d409a5d444acaeb9430b72d34c78adab1ef08dedeb3a4977d19661d20893745",
+        "source_chars": 19265,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 39,
+          "converted_sections": [
+            {
+              "heading": "Command reference",
+              "kind": "section",
+              "profile": "table",
+              "measured_chars": {
+                "source": 1025,
+                "toon": 936,
+                "savings": 89,
+                "savings_pct": 8.7
+              },
+              "safe_to_auto_apply": true
+            },
+            {
+              "heading": "Error handling",
+              "kind": "section",
+              "profile": "table",
+              "measured_chars": {
+                "source": 1292,
+                "toon": 1202,
+                "savings": 90,
+                "savings_pct": 7
+              },
+              "safe_to_auto_apply": true
+            }
+          ],
+          "net": {
+            "source": 19265,
+            "hybrid": 19153,
+            "savings": 112,
+            "savings_pct": 0.6
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/realistic/architecture-rfc.md",
+        "sha256": "3bddb9aa4f7882eaee9fa5d45bdbcb198f4de6421bf4307a5fd1e1617834c144",
+        "source_chars": 44790,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 65,
+          "converted_sections": [],
+          "net": {
+            "source": 44790,
+            "hybrid": 44790,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/agent-context/realistic/config-reference.md",
+        "sha256": "6de7e588c7361abbb9e47fade0fdcd42e33e0db2bee735766856f124daaa35f2",
+        "source_chars": 32319,
+        "plan": {
+          "verdict": "convert",
+          "schema_version": "1.1",
+          "sections": 1,
+          "converted_sections": [
+            {
+              "heading": "Stackmason Configuration Reference",
+              "kind": "section",
+              "profile": "table",
+              "measured_chars": {
+                "source": 32319,
+                "toon": 25508,
+                "savings": 6811,
+                "savings_pct": 21.1
+              },
+              "safe_to_auto_apply": true
+            }
+          ],
+          "net": {
+            "source": 32319,
+            "hybrid": 25558,
+            "savings": 6761,
+            "savings_pct": 20.9
+          },
+          "recommend_hybrid": true,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": true
+        }
+      },
+      {
+        "path": "fixtures/glossary.md",
+        "sha256": "82488a23500c7e99c3b688589d1eebd9eb2d6d61780063b23282f9c75efb615d",
+        "source_chars": 507,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 4,
+          "converted_sections": [],
+          "net": {
+            "source": 507,
+            "hybrid": 507,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "path": "fixtures/sample.md",
+        "sha256": "ae765b7db2af17cfd9d1a26eccb3f464796f36d00d1c18abfc31f6dab8564796",
+        "source_chars": 424,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 2,
+          "converted_sections": [],
+          "net": {
+            "source": 424,
+            "hybrid": 424,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      }
+    ],
+    "external_lane1": [
+      {
+        "repo": "github/spec-kit",
+        "path": "AGENTS.md",
+        "pinned_sha": "5ae7ff53d003455e9a66429e9706d1bd4b638bd7",
+        "source_url": "https://github.com/github/spec-kit/blob/5ae7ff53d003455e9a66429e9706d1bd4b638bd7/AGENTS.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 18831,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 26,
+          "converted_sections": [],
+          "net": {
+            "source": 18831,
+            "hybrid": 18831,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "browser-use/browser-use",
+        "path": "AGENTS.md",
+        "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
+        "source_url": "https://github.com/browser-use/browser-use/blob/d190e20747bccb9bd44c20e4b29f4b6dd2309e50/AGENTS.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 38284,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 82,
+          "converted_sections": [],
+          "net": {
+            "source": 38284,
+            "hybrid": 38284,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "browser-use/browser-use",
+        "path": "CLAUDE.md",
+        "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
+        "source_url": "https://github.com/browser-use/browser-use/blob/d190e20747bccb9bd44c20e4b29f4b6dd2309e50/CLAUDE.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 11149,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 16,
+          "converted_sections": [],
+          "net": {
+            "source": 11149,
+            "hybrid": 11149,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "browser-use/browser-use",
+        "path": "skills/browser-use/SKILL.md",
+        "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
+        "source_url": "https://github.com/browser-use/browser-use/blob/d190e20747bccb9bd44c20e4b29f4b6dd2309e50/skills/browser-use/SKILL.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 11228,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 23,
+          "converted_sections": [
+            {
+              "heading": "Global Options",
+              "kind": "section",
+              "profile": "table",
+              "measured_chars": {
+                "source": 395,
+                "toon": 342,
+                "savings": 53,
+                "savings_pct": 13.4
+              },
+              "safe_to_auto_apply": true
+            }
+          ],
+          "net": {
+            "source": 11228,
+            "hybrid": 11207,
+            "savings": 21,
+            "savings_pct": 0.2
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "langchain-ai/langchain",
+        "path": "AGENTS.md",
+        "pinned_sha": "76c32db9b38dfc287c958dc2a914d4834f022c1c",
+        "source_url": "https://github.com/langchain-ai/langchain/blob/76c32db9b38dfc287c958dc2a914d4834f022c1c/AGENTS.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 14382,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 23,
+          "converted_sections": [],
+          "net": {
+            "source": 14382,
+            "hybrid": 14382,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "langchain-ai/langchainjs",
+        "path": "AGENTS.md",
+        "pinned_sha": "7f573630ccccd9c1377f7e6084a59c0a2ce35531",
+        "source_url": "https://github.com/langchain-ai/langchainjs/blob/7f573630ccccd9c1377f7e6084a59c0a2ce35531/AGENTS.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 11450,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 50,
+          "converted_sections": [
+            {
+              "heading": "Key Packages",
+              "kind": "section",
+              "profile": "table",
+              "measured_chars": {
+                "source": 1123,
+                "toon": 567,
+                "savings": 556,
+                "savings_pct": 49.5
+              },
+              "safe_to_auto_apply": true
+            },
+            {
+              "heading": "Internal Packages",
+              "kind": "section",
+              "profile": "table",
+              "measured_chars": {
+                "source": 554,
+                "toon": 266,
+                "savings": 288,
+                "savings_pct": 52
+              },
+              "safe_to_auto_apply": true
+            }
+          ],
+          "net": {
+            "source": 11450,
+            "hybrid": 10673,
+            "savings": 777,
+            "savings_pct": 6.8
+          },
+          "recommend_hybrid": true,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": true
+        }
+      },
+      {
+        "repo": "langflow-ai/langflow",
+        "path": "AGENTS.md",
+        "pinned_sha": "3a8f48b86c4025dca5f6d60db01cc958e44d9c83",
+        "source_url": "https://github.com/langflow-ai/langflow/blob/3a8f48b86c4025dca5f6d60db01cc958e44d9c83/AGENTS.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 11180,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 26,
+          "converted_sections": [],
+          "net": {
+            "source": 11180,
+            "hybrid": 11180,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "OpenHands/OpenHands",
+        "path": "AGENTS.md",
+        "pinned_sha": "347bba27e588e591b6271a14aa757acb50106d96",
+        "source_url": "https://github.com/OpenHands/OpenHands/blob/347bba27e588e591b6271a14aa757acb50106d96/AGENTS.md",
+        "license_note": "MIT for content outside enterprise/ per repo LICENSE (SPDX: NOASSERTION); AGENTS.md is at repo root, outside the carveout",
+        "retrieved": "2026-06-11",
+        "source_chars": 26987,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 43,
+          "converted_sections": [],
+          "net": {
+            "source": 26987,
+            "hybrid": 26987,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "BerriAI/litellm",
+        "path": "CLAUDE.md",
+        "pinned_sha": "343e453c2a7c5351459ac72761fad3e25145e78e",
+        "source_url": "https://github.com/BerriAI/litellm/blob/343e453c2a7c5351459ac72761fad3e25145e78e/CLAUDE.md",
+        "license_note": "MIT for content outside enterprise/ per repo LICENSE (SPDX: NOASSERTION); CLAUDE.md and AGENTS.md are at repo root, outside the carveout. Note: repo default branch is litellm_internal_staging; pinned to main deliberately.",
+        "retrieved": "2026-06-11",
+        "source_chars": 7152,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 3,
+          "converted_sections": [],
+          "net": {
+            "source": 7152,
+            "hybrid": 7152,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "astral-sh/uv",
+        "path": "AGENTS.md",
+        "pinned_sha": "e0f3af7b90426351a552e664cc6c419ba1b7837b",
+        "source_url": "https://github.com/astral-sh/uv/blob/e0f3af7b90426351a552e664cc6c419ba1b7837b/AGENTS.md",
+        "license_note": "Dual-licensed Apache-2.0 OR MIT (LICENSE-MIT present at pin); corpus uses the MIT option",
+        "retrieved": "2026-06-11",
+        "source_chars": 1422,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 1,
+          "converted_sections": [],
+          "net": {
+            "source": 1422,
+            "hybrid": 1422,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "openai/openai-agents-python",
+        "path": "AGENTS.md",
+        "pinned_sha": "d8068d96a97dc3b42294a8c832072b16a5cb7f23",
+        "source_url": "https://github.com/openai/openai-agents-python/blob/d8068d96a97dc3b42294a8c832072b16a5cb7f23/AGENTS.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 14507,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 27,
+          "converted_sections": [],
+          "net": {
+            "source": 14507,
+            "hybrid": 14507,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "openai/openai-agents-js",
+        "path": "AGENTS.md",
+        "pinned_sha": "dfbc3b070aaad99753146ff1629755d474c7541a",
+        "source_url": "https://github.com/openai/openai-agents-js/blob/dfbc3b070aaad99753146ff1629755d474c7541a/AGENTS.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 15088,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 30,
+          "converted_sections": [],
+          "net": {
+            "source": 15088,
+            "hybrid": 15088,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "pydantic/pydantic-ai",
+        "path": "AGENTS.md",
+        "pinned_sha": "2b9d272a0a835991c2eb6b076a8035a63aff2eb0",
+        "source_url": "https://github.com/pydantic/pydantic-ai/blob/2b9d272a0a835991c2eb6b076a8035a63aff2eb0/AGENTS.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 12168,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 10,
+          "converted_sections": [],
+          "net": {
+            "source": 12168,
+            "hybrid": 12168,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "assistant-ui/assistant-ui",
+        "path": "AGENTS.md",
+        "pinned_sha": "59d252fa09c1511acd7e31c9d8178514c5a5cb77",
+        "source_url": "https://github.com/assistant-ui/assistant-ui/blob/59d252fa09c1511acd7e31c9d8178514c5a5cb77/AGENTS.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 2527,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 6,
+          "converted_sections": [],
+          "net": {
+            "source": 2527,
+            "hybrid": 2527,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "astral-sh/ruff",
+        "path": "AGENTS.md",
+        "pinned_sha": "7a91fa28474f9cc1d3fc16be59ada553de6dd61c",
+        "source_url": "https://github.com/astral-sh/ruff/blob/7a91fa28474f9cc1d3fc16be59ada553de6dd61c/AGENTS.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 7397,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 8,
+          "converted_sections": [],
+          "net": {
+            "source": 7397,
+            "hybrid": 7397,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "biomejs/biome",
+        "path": "AGENTS.md",
+        "pinned_sha": "263c7ccd12cd8c0d4527fdf4797c652a223df012",
+        "source_url": "https://github.com/biomejs/biome/blob/263c7ccd12cd8c0d4527fdf4797c652a223df012/AGENTS.md",
+        "license_note": "Dual Apache-2.0/MIT (LICENSE-MIT present at pin; SPDX shows Apache-2.0); corpus uses the MIT option",
+        "retrieved": "2026-06-11",
+        "source_chars": 13652,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 31,
+          "converted_sections": [],
+          "net": {
+            "source": 13652,
+            "hybrid": 13652,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "pydantic/logfire",
+        "path": "CLAUDE.md",
+        "pinned_sha": "577a00849a12967ab24dcef1d2bab1d96e2fee42",
+        "source_url": "https://github.com/pydantic/logfire/blob/577a00849a12967ab24dcef1d2bab1d96e2fee42/CLAUDE.md",
+        "license_note": "MIT (SPDX: MIT)",
+        "retrieved": "2026-06-11",
+        "source_chars": 4645,
+        "plan": {
+          "verdict": "keep_markdown",
+          "schema_version": "1.1",
+          "sections": 9,
+          "converted_sections": [],
+          "net": {
+            "source": 4645,
+            "hybrid": 4645,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "Infisical/agent-vault",
+        "path": "AGENTS.md",
+        "pinned_sha": "e01a9258109b9896e67a7f06c873ebb83e2e9b73",
+        "source_url": "https://github.com/Infisical/agent-vault/blob/e01a9258109b9896e67a7f06c873ebb83e2e9b73/AGENTS.md",
+        "license_note": "MIT for content outside ee/ per repo LICENSE (SPDX: NOASSERTION); both targets at repo root, outside the carveout",
+        "retrieved": "2026-06-11",
+        "source_chars": 5814,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 12,
+          "converted_sections": [
+            {
+              "heading": "Environment variables",
+              "kind": "section",
+              "profile": "table",
+              "measured_chars": {
+                "source": 371,
+                "toon": 311,
+                "savings": 60,
+                "savings_pct": 16.2
+              },
+              "safe_to_auto_apply": true
+            },
+            {
+              "heading": "Auth types",
+              "kind": "section",
+              "profile": "table",
+              "measured_chars": {
+                "source": 439,
+                "toon": 411,
+                "savings": 28,
+                "savings_pct": 6.4
+              },
+              "safe_to_auto_apply": true
+            },
+            {
+              "heading": "Error handling",
+              "kind": "section",
+              "profile": "table",
+              "measured_chars": {
+                "source": 345,
+                "toon": 281,
+                "savings": 64,
+                "savings_pct": 18.6
+              },
+              "safe_to_auto_apply": true
+            }
+          ],
+          "net": {
+            "source": 5814,
+            "hybrid": 5762,
+            "savings": 52,
+            "savings_pct": 0.9
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      },
+      {
+        "repo": "Infisical/agent-vault",
+        "path": "CLAUDE.md",
+        "pinned_sha": "e01a9258109b9896e67a7f06c873ebb83e2e9b73",
+        "source_url": "https://github.com/Infisical/agent-vault/blob/e01a9258109b9896e67a7f06c873ebb83e2e9b73/CLAUDE.md",
+        "license_note": "MIT for content outside ee/ per repo LICENSE (SPDX: NOASSERTION); both targets at repo root, outside the carveout",
+        "retrieved": "2026-06-11",
+        "source_chars": 6277,
+        "plan": {
+          "verdict": "split_first",
+          "schema_version": "1.1",
+          "sections": 6,
+          "converted_sections": [],
+          "net": {
+            "source": 6277,
+            "hybrid": 6277,
+            "savings": 0,
+            "savings_pct": 0
+          },
+          "recommend_hybrid": false,
+          "reassembly_verified": true,
+          "plan_safe_to_auto_apply": false
+        }
+      }
+    ]
+  }
+}

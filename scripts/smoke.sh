@@ -134,6 +134,29 @@ if [[ "$fail_on_status" -eq 0 ]]; then
 fi
 node "$ROOT/scripts/check-verdict-json.mjs" "$OUT_DIR/fail-on-verdict.json"
 
+# plan: pretty report carries the plan table; --json emits schema 1.1 with context_plan
+# (ajv-validated against the same schema file — context_plan is the optional 1.1 field);
+# profile/convert stay 1.0 (checked above by their own greps never seeing context_plan).
+node "$CLI" plan "$ROOT/fixtures/agent-context/problematic/mixed-agent-context.md" \
+  > "$OUT_DIR/mixed-plan.log"
+grep -q "Context plan" "$OUT_DIR/mixed-plan.log"
+grep -q "recommend hybrid: false" "$OUT_DIR/mixed-plan.log"
+grep -q "reassembly verified: true" "$OUT_DIR/mixed-plan.log"
+
+node "$CLI" plan --json --out "$OUT_DIR/mixed-hybrid.md" \
+  "$ROOT/fixtures/agent-context/problematic/mixed-agent-context.md" \
+  > "$OUT_DIR/mixed-plan.json"
+node "$ROOT/scripts/check-verdict-json.mjs" "$OUT_DIR/mixed-plan.json"
+grep -q '"schema_version": "1.1"' "$OUT_DIR/mixed-plan.json"
+grep -q '"context_plan"' "$OUT_DIR/mixed-plan.json"
+test -s "$OUT_DIR/mixed-hybrid.md"
+grep -q '```toon' "$OUT_DIR/mixed-hybrid.md"
+
+if grep -q '"context_plan"' "$OUT_DIR/agents-verdict.json"; then
+  echo "profile --json must not emit context_plan (1.0 surface)." >&2
+  exit 1
+fi
+
 # validate --json: ValidationResult shape on both outcomes; exit 1 preserved on invalid TOON.
 node "$CLI" validate --json "$OUT_DIR/definitions.toon" > "$OUT_DIR/validate-ok.json"
 grep -q '"valid": true' "$OUT_DIR/validate-ok.json"
