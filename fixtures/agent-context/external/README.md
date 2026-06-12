@@ -98,6 +98,50 @@ section-level context plans ship, the **same pinned corpus** (internal 19 + exte
 - This metric definition does not change after results exist; any revision is a new dated
   pre-registration.
 
+**Measured 2026-06-11** (plans implemented; runner `scripts/benchmark-plans.mjs`, results in
+`plan-results.json`, internal pins verified before measuring): **internal 1/19, external
+lane-1 1/19, combined 2/38 plan-positive.** The "one-third of documents" planning hypothesis
+is refuted; 1/19 is the published external rate. The external plan-positive document is
+`langchain-ai/langchainjs:AGENTS.md` — whole-doc `split_first`, plan net **+6.8%** with two
+table sections converting independently (+49.5%, +52.0%), plan-level `safe_to_auto_apply`
+true — the first real-world document in the corpus where the tool has a positive, auto-
+applicable recommendation. 7 of 38 docs have at least one converting section; the other five
+net 0.2–0.9%, below the frozen band, and the plan's honest answer for them stays "keep the
+whole document". Reassembly verified on all 38. The whole-document honesty denominators
+above are unchanged by any of this.
+
+## Amendment 2026-06-11 (internal corpus pinned for the actionable-plan-rate measurement)
+
+The actionable-plan-rate amendment above pins the external lane-1 docs by manifest SHA but
+left the internal 19 pinned only implicitly ("the repo files"). Locked here, still before any
+plan code exists: the internal corpus for that measurement is **these 19 files at these exact
+content hashes** (SHA-256 of the committed LF bytes, as of commit `1bfa494`; the corpus is
+LF-pinned by `.gitattributes`, so a working-tree hash on any platform matches
+`git show <commit>:<path>`). If a fixture must change before the measurement runs, that is a
+new dated amendment with new hashes — never a silent edit.
+
+| File | SHA-256 |
+| --- | --- |
+| `examples/definitions.md` | `8c22723b0a4a10d18da9377d80aa5aa98f7f3aca47f2d65d7029f6ba61527866` |
+| `examples/prose.md` | `90fee577b01783081285d3fe9f0f5e64f180e17a9267186465dcf089e8979265` |
+| `examples/requirements.md` | `831b28c4f16519fb7710846b1bfca6b37bb4faaa892f53fd3e12d4991f92923f` |
+| `examples/table.md` | `3175c2e2d96ef63898ba150d58214f296edd99f1da23f5ecd77a4c43422d4a8f` |
+| `fixtures/agent-context/AGENTS.md` | `ad324457121b6a92546d4c55f48174f9637dcc4396fb8f53d8e95a7596bcae4a` |
+| `fixtures/agent-context/CLAUDE.md` | `21306dc2b6ed97fcdf7c9abe8e08552961dbff2866bf9ce61cfe9a8b9a3b8892` |
+| `fixtures/agent-context/SKILL.md` | `bf9a76e64385dcf2e2bb9b85d62064e9a132da388db6434ed046d93496095363` |
+| `fixtures/agent-context/problematic/duplicate-rules.md` | `9ded6dd2e26e18bee44c48ce8821cb34804173ab21ba978d8594c9a6e92db3df` |
+| `fixtures/agent-context/problematic/long-section.md` | `39d6023847ffb26ec4f25bce9439338ee9e95d47e3268b69982063a16e4372b6` |
+| `fixtures/agent-context/problematic/mixed-agent-context.md` | `47ae87542206d1877fdb2d8cf11208ae3e943e742a7fdadafaf634af12b125a4` |
+| `fixtures/agent-context/problematic/split-candidate.md` | `cf28f81a593a1beb4df550ab3e8c0d063ce8e2e42eb7c085fc0d8c53958c4c88` |
+| `fixtures/agent-context/problematic/vague-rules.md` | `2a14655f0cdc58387e1f45f328b7cbd258cc52c778eedce1d32af877244f6a7e` |
+| `fixtures/agent-context/realistic/AGENTS.md` | `6d9209347511ecf2ede02ca31a0e7d1c60504e716df0da814f761cb6ab11e76d` |
+| `fixtures/agent-context/realistic/CLAUDE.md` | `577f06aba0a9dd71822f603f30594f1ee8b11508dfcb641a35485cbc8168d770` |
+| `fixtures/agent-context/realistic/SKILL.md` | `9d409a5d444acaeb9430b72d34c78adab1ef08dedeb3a4977d19661d20893745` |
+| `fixtures/agent-context/realistic/architecture-rfc.md` | `3bddb9aa4f7882eaee9fa5d45bdbcb198f4de6421bf4307a5fd1e1617834c144` |
+| `fixtures/agent-context/realistic/config-reference.md` | `6de7e588c7361abbb9e47fade0fdcd42e33e0db2bee735766856f124daaa35f2` |
+| `fixtures/glossary.md` | `82488a23500c7e99c3b688589d1eebd9eb2d6d61780063b23282f9c75efb615d` |
+| `fixtures/sample.md` | `ae765b7db2af17cfd9d1a26eccb3f464796f36d00d1c18abfc31f6dab8564796` |
+
 ## Watchlist (not canonical)
 
 Technically tempting sources outside the MIT gate are listed in `manifest.json` under
