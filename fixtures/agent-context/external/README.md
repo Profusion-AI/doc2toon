@@ -110,6 +110,11 @@ net 0.2–0.9%, below the frozen band, and the plan's honest answer for them sta
 whole document". Reassembly verified on all 38. The whole-document honesty denominators
 above are unchanged by any of this.
 
+**Re-verified 2026-06-12 at released `doc2toon@0.4.2`** (the original run used the 0.3.2
+dev tree the feature shipped from): every aggregate and per-document number identical;
+`plan-results.json` refreshed in place (only `generated`/`doc2toon_version`/`retrieved`
+metadata changed). This is the record the cheapagent.ai honesty page's plan section cites.
+
 ## Amendment 2026-06-11 (internal corpus pinned for the actionable-plan-rate measurement)
 
 The actionable-plan-rate amendment above pins the external lane-1 docs by manifest SHA but

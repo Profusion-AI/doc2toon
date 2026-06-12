@@ -1,6 +1,6 @@
 {
-  "generated": "2026-06-11T19:05:35.232Z",
-  "doc2toon_version": "0.3.2",
+  "generated": "2026-06-12T23:21:01.531Z",
+  "doc2toon_version": "0.4.2",
   "metric": "actionable_plan_rate — pre-registered 2026-06-11 in fixtures/agent-context/external/README.md and docs/context-plan-design.md §5, before any plan code existed. The whole-document honesty denominators are not restated or affected.",
   "method": "Each pinned document measured via `doc2toon plan --json` (lossless-only v1 plans; sections are the author's own headings judged standalone under the unchanged frozen policy). Internal files verified against their pinned SHA-256 before measuring; external lane-1 files fetched at their exact manifest SHAs. Measurements and provenance stored; bodies and TOON candidates are not.",
   "aggregate": {
@@ -487,7 +487,7 @@
         "pinned_sha": "5ae7ff53d003455e9a66429e9706d1bd4b638bd7",
         "source_url": "https://github.com/github/spec-kit/blob/5ae7ff53d003455e9a66429e9706d1bd4b638bd7/AGENTS.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 18831,
         "plan": {
           "verdict": "split_first",
@@ -511,7 +511,7 @@
         "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
         "source_url": "https://github.com/browser-use/browser-use/blob/d190e20747bccb9bd44c20e4b29f4b6dd2309e50/AGENTS.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 38284,
         "plan": {
           "verdict": "split_first",
@@ -535,7 +535,7 @@
         "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
         "source_url": "https://github.com/browser-use/browser-use/blob/d190e20747bccb9bd44c20e4b29f4b6dd2309e50/CLAUDE.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 11149,
         "plan": {
           "verdict": "split_first",
@@ -559,7 +559,7 @@
         "pinned_sha": "d190e20747bccb9bd44c20e4b29f4b6dd2309e50",
         "source_url": "https://github.com/browser-use/browser-use/blob/d190e20747bccb9bd44c20e4b29f4b6dd2309e50/skills/browser-use/SKILL.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 11228,
         "plan": {
           "verdict": "split_first",
@@ -596,7 +596,7 @@
         "pinned_sha": "76c32db9b38dfc287c958dc2a914d4834f022c1c",
         "source_url": "https://github.com/langchain-ai/langchain/blob/76c32db9b38dfc287c958dc2a914d4834f022c1c/AGENTS.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 14382,
         "plan": {
           "verdict": "split_first",
@@ -620,7 +620,7 @@
         "pinned_sha": "7f573630ccccd9c1377f7e6084a59c0a2ce35531",
         "source_url": "https://github.com/langchain-ai/langchainjs/blob/7f573630ccccd9c1377f7e6084a59c0a2ce35531/AGENTS.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 11450,
         "plan": {
           "verdict": "keep_markdown",
@@ -669,7 +669,7 @@
         "pinned_sha": "3a8f48b86c4025dca5f6d60db01cc958e44d9c83",
         "source_url": "https://github.com/langflow-ai/langflow/blob/3a8f48b86c4025dca5f6d60db01cc958e44d9c83/AGENTS.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 11180,
         "plan": {
           "verdict": "split_first",
@@ -693,7 +693,7 @@
         "pinned_sha": "347bba27e588e591b6271a14aa757acb50106d96",
         "source_url": "https://github.com/OpenHands/OpenHands/blob/347bba27e588e591b6271a14aa757acb50106d96/AGENTS.md",
         "license_note": "MIT for content outside enterprise/ per repo LICENSE (SPDX: NOASSERTION); AGENTS.md is at repo root, outside the carveout",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 26987,
         "plan": {
           "verdict": "split_first",
@@ -717,7 +717,7 @@
         "pinned_sha": "343e453c2a7c5351459ac72761fad3e25145e78e",
         "source_url": "https://github.com/BerriAI/litellm/blob/343e453c2a7c5351459ac72761fad3e25145e78e/CLAUDE.md",
         "license_note": "MIT for content outside enterprise/ per repo LICENSE (SPDX: NOASSERTION); CLAUDE.md and AGENTS.md are at repo root, outside the carveout. Note: repo default branch is litellm_internal_staging; pinned to main deliberately.",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 7152,
         "plan": {
           "verdict": "split_first",
@@ -741,7 +741,7 @@
         "pinned_sha": "e0f3af7b90426351a552e664cc6c419ba1b7837b",
         "source_url": "https://github.com/astral-sh/uv/blob/e0f3af7b90426351a552e664cc6c419ba1b7837b/AGENTS.md",
         "license_note": "Dual-licensed Apache-2.0 OR MIT (LICENSE-MIT present at pin); corpus uses the MIT option",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 1422,
         "plan": {
           "verdict": "split_first",
@@ -765,7 +765,7 @@
         "pinned_sha": "d8068d96a97dc3b42294a8c832072b16a5cb7f23",
         "source_url": "https://github.com/openai/openai-agents-python/blob/d8068d96a97dc3b42294a8c832072b16a5cb7f23/AGENTS.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 14507,
         "plan": {
           "verdict": "split_first",
@@ -789,7 +789,7 @@
         "pinned_sha": "dfbc3b070aaad99753146ff1629755d474c7541a",
         "source_url": "https://github.com/openai/openai-agents-js/blob/dfbc3b070aaad99753146ff1629755d474c7541a/AGENTS.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 15088,
         "plan": {
           "verdict": "split_first",
@@ -813,7 +813,7 @@
         "pinned_sha": "2b9d272a0a835991c2eb6b076a8035a63aff2eb0",
         "source_url": "https://github.com/pydantic/pydantic-ai/blob/2b9d272a0a835991c2eb6b076a8035a63aff2eb0/AGENTS.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 12168,
         "plan": {
           "verdict": "split_first",
@@ -837,7 +837,7 @@
         "pinned_sha": "59d252fa09c1511acd7e31c9d8178514c5a5cb77",
         "source_url": "https://github.com/assistant-ui/assistant-ui/blob/59d252fa09c1511acd7e31c9d8178514c5a5cb77/AGENTS.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 2527,
         "plan": {
           "verdict": "keep_markdown",
@@ -861,7 +861,7 @@
         "pinned_sha": "7a91fa28474f9cc1d3fc16be59ada553de6dd61c",
         "source_url": "https://github.com/astral-sh/ruff/blob/7a91fa28474f9cc1d3fc16be59ada553de6dd61c/AGENTS.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 7397,
         "plan": {
           "verdict": "split_first",
@@ -885,7 +885,7 @@
         "pinned_sha": "263c7ccd12cd8c0d4527fdf4797c652a223df012",
         "source_url": "https://github.com/biomejs/biome/blob/263c7ccd12cd8c0d4527fdf4797c652a223df012/AGENTS.md",
         "license_note": "Dual Apache-2.0/MIT (LICENSE-MIT present at pin; SPDX shows Apache-2.0); corpus uses the MIT option",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 13652,
         "plan": {
           "verdict": "split_first",
@@ -909,7 +909,7 @@
         "pinned_sha": "577a00849a12967ab24dcef1d2bab1d96e2fee42",
         "source_url": "https://github.com/pydantic/logfire/blob/577a00849a12967ab24dcef1d2bab1d96e2fee42/CLAUDE.md",
         "license_note": "MIT (SPDX: MIT)",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 4645,
         "plan": {
           "verdict": "keep_markdown",
@@ -933,7 +933,7 @@
         "pinned_sha": "e01a9258109b9896e67a7f06c873ebb83e2e9b73",
         "source_url": "https://github.com/Infisical/agent-vault/blob/e01a9258109b9896e67a7f06c873ebb83e2e9b73/AGENTS.md",
         "license_note": "MIT for content outside ee/ per repo LICENSE (SPDX: NOASSERTION); both targets at repo root, outside the carveout",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 5814,
         "plan": {
           "verdict": "split_first",
@@ -994,7 +994,7 @@
         "pinned_sha": "e01a9258109b9896e67a7f06c873ebb83e2e9b73",
         "source_url": "https://github.com/Infisical/agent-vault/blob/e01a9258109b9896e67a7f06c873ebb83e2e9b73/CLAUDE.md",
         "license_note": "MIT for content outside ee/ per repo LICENSE (SPDX: NOASSERTION); both targets at repo root, outside the carveout",
-        "retrieved": "2026-06-11",
+        "retrieved": "2026-06-12",
         "source_chars": 6277,
         "plan": {
           "verdict": "split_first",
