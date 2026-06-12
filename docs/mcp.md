@@ -28,18 +28,21 @@ The documented client-config form is the dedicated `doc2toon-mcp` bin (a single-
 avoids CLI-passthrough edge cases in client configs). `doc2toon mcp` runs the identical
 server if you prefer the subcommand.
 
+The npm package is `doc2toon`; `doc2toon-mcp` is a bin inside it, so npx needs the
+`-p doc2toon@0.4.x` package flag (there is no separate `doc2toon-mcp` package).
+
 ### Claude Code (macOS / Linux)
 
 ```bash
-claude mcp add doc2toon -- npx -y doc2toon-mcp@0.4.x
+claude mcp add doc2toon -- npx -y -p doc2toon@0.4.x doc2toon-mcp
 ```
 
-### Claude Code (Windows)
+### Claude Code (Windows — verified form)
 
 Windows client configs need the `cmd /c` wrapper for npx-launched servers:
 
 ```bash
-claude mcp add doc2toon -- cmd /c npx -y doc2toon-mcp@0.4.x
+claude mcp add doc2toon -- cmd /c npx -y -p doc2toon@0.4.x doc2toon-mcp
 ```
 
 ### Any MCP client (JSON config)
@@ -49,13 +52,14 @@ claude mcp add doc2toon -- cmd /c npx -y doc2toon-mcp@0.4.x
   "mcpServers": {
     "doc2toon": {
       "command": "npx",
-      "args": ["-y", "doc2toon-mcp@0.4.x"]
+      "args": ["-y", "-p", "doc2toon@0.4.x", "doc2toon-mcp"]
     }
   }
 }
 ```
 
-On Windows, use `"command": "cmd"` with `"args": ["/c", "npx", "-y", "doc2toon-mcp@0.4.x"]`.
+On Windows, use `"command": "cmd"` with
+`"args": ["/c", "npx", "-y", "-p", "doc2toon@0.4.x", "doc2toon-mcp"]`.
 
 With doc2toon installed globally (`npm i -g doc2toon`), replace the npx forms with plain
 `doc2toon-mcp`.
@@ -78,5 +82,5 @@ which sections independently earn conversion and what the net hybrid saves.
 
 ## Pinning
 
-Pin the published package line (`doc2toon-mcp@0.4.x`), never `latest`: the verdict schema is
+Pin the published package line (`-p doc2toon@0.4.x`), never `latest`: the verdict schema is
 frozen per 1.x versioning rules, but pinning keeps your tool behavior reproducible anyway.

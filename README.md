@@ -218,8 +218,8 @@ Agents can call doc2toon locally today — same engine, same frozen contract, do
 **MCP** (Claude Code, Cowork, any MCP client) — tools `profile`, `convert`, `plan`, `validate`, returning the Verdict object as structured tool results ([docs/mcp.md](docs/mcp.md) has Windows/macOS/Linux snippets):
 
 ```bash
-claude mcp add doc2toon -- npx -y doc2toon-mcp@0.4.x          # macOS / Linux
-claude mcp add doc2toon -- cmd /c npx -y doc2toon-mcp@0.4.x   # Windows
+claude mcp add doc2toon -- npx -y -p doc2toon@0.4.x doc2toon-mcp          # macOS / Linux
+claude mcp add doc2toon -- cmd /c npx -y -p doc2toon@0.4.x doc2toon-mcp   # Windows (verified)
 ```
 
 **HTTP on localhost** — the same `/v1` contract the OpenAPI spec describes ([openapi/cheapagent.v1.yaml](openapi/cheapagent.v1.yaml), also served from the running server at `GET /v1/openapi.yaml`):

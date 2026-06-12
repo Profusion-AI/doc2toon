@@ -4,6 +4,10 @@ All notable changes to `doc2toon` will be documented in this file.
 
 This project follows practical release notes rather than strict format ceremony.
 
+## 0.4.1 - 2026-06-12
+
+Docs-only patch, caught by dogfooding the install path against the published registry minutes after 0.4.0: the MCP install snippets used `npx -y doc2toon-mcp@0.4.x`, but `doc2toon-mcp` is a **bin inside the `doc2toon` package**, not a package — npx would 404. Corrected everywhere to `npx -y -p doc2toon@0.4.x doc2toon-mcp` and verified end-to-end on Windows by spawning the exact `cmd /c npx -y -p doc2toon@0.4.x doc2toon-mcp` client-config form from a neutral directory against the registry (tools listed, profile answered). No code changes; README/docs are in the tarball, hence the patch.
+
 ## 0.4.0 - 2026-06-12
 
 The agent-interface release (30-day plan, Phase 4) plus context plans (pulled forward from the post-gate block by explicit call). Agents can now call doc2toon three ways — MCP tools, localhost HTTP, and the CLI — and every surface emits the same frozen verdict object from the same engine. Document bodies never leave the machine on any of them.
