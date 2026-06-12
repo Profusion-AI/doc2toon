@@ -26,8 +26,16 @@ describe("OpenAPI <-> JSON Schema sync", () => {
 
   it("the spec exposes the v1 surface the schema doc promises", () => {
     const paths = Object.keys(openapi.paths ?? {});
-    for (const path of ["/v1/profile", "/v1/convert", "/v1/validate", "/v1/estimate", "/v1/batch"]) {
+    for (const path of ["/v1/profile", "/v1/convert", "/v1/validate", "/v1/plan", "/v1/estimate", "/v1/batch"]) {
       expect(paths).toContain(path);
+    }
+  });
+
+  it("spec-only routes are marked planned; implemented routes are not", () => {
+    expect(openapi.paths["/v1/estimate"].post["x-status"]).toBe("planned");
+    expect(openapi.paths["/v1/batch"].post["x-status"]).toBe("planned");
+    for (const path of ["/v1/profile", "/v1/convert", "/v1/validate", "/v1/plan"]) {
+      expect(openapi.paths[path].post["x-status"]).toBeUndefined();
     }
   });
 });
