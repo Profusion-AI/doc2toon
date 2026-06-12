@@ -93,6 +93,12 @@ Tags: safety, scope
     expect(planSource).not.toContain("tokenx");
     expect(planSectionsSource).not.toContain("node:");
     expect(planSectionsSource).not.toContain("tokenx");
+    // The agent-interface modules are Node-only by design; the browser entrypoint must not
+    // reference them (the MCP SDK's dependency tree alone would sink a browser bundle).
+    expect(browserSource).not.toContain("http-handlers");
+    expect(browserSource).not.toContain("./serve");
+    expect(browserSource).not.toContain("./mcp");
+    expect(browserSource).not.toContain("modelcontextprotocol");
   });
 
   it("refuses impossible budget conversion unless lossy output is allowed", () => {

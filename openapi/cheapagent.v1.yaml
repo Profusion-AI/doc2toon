@@ -121,18 +121,34 @@ paths:
   /v1/plan:
     post:
       operationId: planDocument
-      summary: Per-section context plan with the whole-document verdict (planned).
+      summary: Per-section context plan with the whole-document verdict.
       description: |
-        Planned HTTP binding of `doc2toon plan --json` (Verdict 1.1): the whole-document
-        verdict carrying the `context_plan` field — every section measured as a standalone
-        document under the unchanged decision policy, with the net hybrid measurement and
-        reassembly verification. `toon_candidate` is null (the hybrid document is the
-        artifact; over HTTP it is a follow-up concern, not part of the verdict payload).
-        Not implemented in v1 servers; all v1 servers answer 501.
-      x-status: planned
+        HTTP binding of `doc2toon plan --json` (Verdict 1.1): the whole-document verdict
+        carrying the `context_plan` field — every heading-bounded section measured as a
+        standalone document under the unchanged decision policy, with the net hybrid
+        measurement (splice overhead included) and reassembly verification. This is the one
+        endpoint that emits `schema_version: "1.1"`; profile and convert stay `"1.0"`.
+        `toon_candidate` is null (the hybrid document is the artifact, produced by the CLI's
+        `plan --out`; over HTTP it is a follow-up concern, not part of the verdict payload).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanRequest'
       responses:
-        '501':
-          $ref: '#/components/responses/NotImplemented'
+        '200':
+          description: Verdict for the document with `context_plan` present and `toon_candidate` null.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Verdict'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalError'
   /v1/estimate:
     post:
       operationId: estimateDocument
@@ -255,6 +271,28 @@ components:
             flavor:
               description: Parser flavor override. Defaults to markdown.
               enum: [markdown, text]
+    PlanRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          description: The document text to plan.
+        options:
+          type: object
+          additionalProperties: false
+          properties:
+            flavor:
+              description: Parser flavor override. Defaults to markdown.
+              enum: [markdown, text]
+            chars_per_token:
+              type: array
+              description: Chars-per-token ratios for the advisory ratio_estimates table.
+              items:
+                type: number
+                exclusiveMinimum: 0
     ValidateRequest:
       type: object
       additionalProperties: false

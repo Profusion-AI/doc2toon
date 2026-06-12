@@ -211,6 +211,34 @@ Honesty mechanics, same as everywhere else in this tool: the per-section unit ch
 
 `plan --json` is the one surface that emits `schema_version: "1.1"` (the additive `context_plan` field); `profile`/`convert` output stays `"1.0"` byte-for-byte. Exit-code contract is identical to `profile`, and `--fail-on` keys on the whole-document verdict — plans inform, the verdict gates.
 
+## Agent interface: MCP server and `doc2toon serve`
+
+Agents can call doc2toon locally today — same engine, same frozen contract, document bodies never leave the machine.
+
+**MCP** (Claude Code, Cowork, any MCP client) — tools `profile`, `convert`, `plan`, `validate`, returning the Verdict object as structured tool results ([docs/mcp.md](docs/mcp.md) has Windows/macOS/Linux snippets):
+
+```bash
+claude mcp add doc2toon -- npx -y doc2toon-mcp@0.4.x          # macOS / Linux
+claude mcp add doc2toon -- cmd /c npx -y doc2toon-mcp@0.4.x   # Windows
+```
+
+**HTTP on localhost** — the same `/v1` contract the OpenAPI spec describes ([openapi/cheapagent.v1.yaml](openapi/cheapagent.v1.yaml), also served from the running server at `GET /v1/openapi.yaml`):
+
+```bash
+npx doc2toon serve --port 8787
+```
+
+```bash
+curl -s -X POST http://127.0.0.1:8787/v1/profile \
+  -H "content-type: application/json" \
+  -d '{"content":"# AGENTS.md\n\n## Rules\n- Never commit directly to main.\n- Never push to main without review.\n"}' \
+  | jq '{verdict, savings_pct: .measured_chars.savings_pct, warnings: [.warnings[].code]}'
+```
+
+`serve` binds `127.0.0.1` by default (exposing requires an explicit `--host`), sends no CORS headers unless you pass `--cors <origin>`, caps bodies at 2 MB, and maps outcomes per the frozen contract: a budget refusal is HTTP `200` with `verdict: "refused"`, invalid TOON is `200` with `valid: false`, and `/v1/estimate`/`/v1/batch` answer `501` (spec-only in v1). `POST /v1/plan` is the one endpoint emitting schema `1.1` with `context_plan`.
+
+The hosted `api.cheapagent.ai` exposes the identical contract when demand justifies it — one contract, two transports; the local server is not a degraded preview, it is the product.
+
 ## GitHub Action
 
 Run the context check on every PR — a sticky comment with the verdict table, file-level

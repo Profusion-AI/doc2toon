@@ -192,6 +192,38 @@ program
   });
 
 program
+  .command("serve")
+  .description("Serve the /v1 contract on localhost (POST /v1/profile|convert|validate|plan, GET /v1/openapi.yaml). Document bodies never leave the machine.")
+  .option("--port <port>", "Port to listen on.", String(8787))
+  .option("--host <host>", "Bind host. Exposing beyond localhost requires an explicit host.", "127.0.0.1")
+  .option("--cors <origin>", "Enable CORS for exactly this origin. Off by default.")
+  .action(async (options: { port: string; host: string; cors?: string }) => {
+    try {
+      const port = parsePositiveInteger(options.port, "--port");
+      if (port === undefined || port > 65535) {
+        throw new CliError("bad_request", "--port must be an integer between 1 and 65535.");
+      }
+      const { runServe } = await import("./serve.js");
+      await runServe({ port, host: options.host, corsOrigin: options.cors });
+    } catch (error) {
+      fail(error);
+    }
+  });
+
+program
+  .command("mcp")
+  .description("Run the MCP server on stdio (tools: profile, convert, plan, validate). The dedicated doc2toon-mcp bin runs the same server and is the documented client-config form.")
+  .action(async () => {
+    try {
+      const { runMcpServer } = await import("./mcp.js");
+      // Resolves once connected; the open stdio transport keeps the process alive after that.
+      await runMcpServer();
+    } catch (error) {
+      fail(error);
+    }
+  });
+
+program
   .command("validate")
   .argument("<input>", "Input .toon file to decode with the official TOON decoder.")
   .option("--json", "Emit a ValidationResult JSON object. Invalid TOON still exits 1 (CI ergonomics).")

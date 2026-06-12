@@ -15,6 +15,16 @@ export {
   estimateTokensByChars,
 } from "./token-estimator.js";
 export { estimateNodeTokenCount, NODE_TOKEN_ESTIMATOR_ID } from "./node-token-estimator.js";
+export {
+  badRequest,
+  handleConvert,
+  handleNotImplemented,
+  handlePlan,
+  handleProfile,
+  handleValidate,
+  internalError,
+} from "./http-handlers.js";
+export type { HandlerResponse } from "./http-handlers.js";
 export { analyzeOptimizerWarnings } from "./optimizer.js";
 export { buildContextPlan, CONTEXT_PLAN_SCHEMA_VERSION } from "./plan.js";
 export type { BuildContextPlanOptions, ContextPlanResult, HybridSegment } from "./plan.js";

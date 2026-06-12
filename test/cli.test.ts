@@ -456,6 +456,17 @@ describe("commander-level argument errors (decision 8 envelope)", () => {
 
     expect(run.status).toBe(0);
     expect(run.stdout).toContain("Usage:");
+    // The agent-interface commands are registered (their long-running behavior is covered by
+    // test/serve.test.ts and test/mcp.test.ts; help is the cheap registration check).
+    expect(run.stdout).toContain("serve");
+    expect(run.stdout).toContain("mcp");
+  });
+
+  it("serve rejects a bad --port before binding anything", () => {
+    const run = runCli(["serve", "--port", "0"]);
+
+    expect(run.status).toBe(1);
+    expect(run.stderr).toContain("--port");
   });
 });
 

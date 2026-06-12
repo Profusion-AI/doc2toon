@@ -4,9 +4,24 @@ All notable changes to `doc2toon` will be documented in this file.
 
 This project follows practical release notes rather than strict format ceremony.
 
-## Unreleased
+## 0.4.0 - 2026-06-12
 
-Context plans: section-level verdicts as the main workflow (`docs/context-plan-design.md`, QC-amended 2026-06-11). `split_first` stops being the end of the conversation — the plan measures every heading-bounded section of a document as a standalone document under the **unchanged frozen policy** (zero new tunable constants) and recommends a hybrid only when the net savings, splice overhead included, clear the same frozen 5% band.
+The agent-interface release (30-day plan, Phase 4) plus context plans (pulled forward from the post-gate block by explicit call). Agents can now call doc2toon three ways — MCP tools, localhost HTTP, and the CLI — and every surface emits the same frozen verdict object from the same engine. Document bodies never leave the machine on any of them.
+
+### Added (MCP server)
+
+- `doc2toon-mcp` bin (the documented client-config form) and `doc2toon mcp` subcommand — an MCP stdio server with tools `profile`, `convert`, `plan`, `validate`. Tool results carry the verdict as `structuredContent` plus a JSON text block; tool inputs mirror the OpenAPI request components verbatim; a budget refusal or invalid TOON is a representable result (`verdict: "refused"` / `valid: false`), never a tool error — only malformed requests are `isError`, carrying the same `{"error":{code,message}}` envelope HTTP returns. Tools are read-only-annotated; output schemas are deliberately compact pointers at the canonical `schemas/verdict.v1.json` rather than ~12 kB of inline schema per tool (context efficiency, practiced). Install snippets incl. the verified Windows `cmd /c npx` form: `docs/mcp.md`. New runtime dependency: `@modelcontextprotocol/sdk` (Node surfaces only — the browser entrypoint pulls none of it, purity-test-enforced).
+- Test-enforced parity: an MCP tool's `structuredContent` deep-equals the HTTP body and the library output for the same input (`test/mcp.test.ts`, including a real-stdio spawn of the built bin).
+
+### Added (`doc2toon serve`)
+
+- `doc2toon serve [--port 8787] [--host 127.0.0.1] [--cors <origin>]` — the localhost HTTP transport of the frozen contract, zero new dependencies (`node:http`). `POST /v1/profile`, `/v1/convert`, `/v1/validate`, `/v1/plan`; `GET /v1/openapi.yaml` serves the packaged spec; `/v1/estimate` and `/v1/batch` answer 501 (spec-only in v1). Privacy posture is structural: binds `127.0.0.1` unless an explicit `--host` says otherwise; no CORS unless an explicit `--cors origin`; 2 MB body cap (413, with the remaining body drained so clients read the response instead of a connection reset). HTTP mapping per decision 8: representable verdicts are 200 — refusal included; envelopes for 400/404/405/413/500.
+- `src/http-handlers.ts` — transport-free `handleProfile/Convert/Validate/Plan(parsedBody) → {status, body}`, exported from the Node entrypoint. This is the piece a hosted function imports verbatim ("one contract, two transports" enforced in code). Request validation is strict per the spec: `additionalProperties: false`, canonical mode names only (CLI aliases stay CLI-only courtesies and are 400s on the wire).
+- `POST /v1/plan` flipped from `x-status: planned` to implemented in `openapi/cheapagent.v1.yaml` (new `PlanRequest` component; the one endpoint emitting `schema_version: "1.1"`). Sync tests extended: spec-only routes must carry `x-status: planned`, implemented routes must not.
+
+### Added (context plans — pulled forward, `docs/context-plan-design.md`)
+
+Context plans: section-level verdicts as the main workflow (QC-amended 2026-06-11). `split_first` stops being the end of the conversation — the plan measures every heading-bounded section of a document as a standalone document under the **unchanged frozen policy** (zero new tunable constants) and recommends a hybrid only when the net savings, splice overhead included, clear the same frozen 5% band.
 
 ### Added (CLI)
 
@@ -14,7 +29,7 @@ Context plans: section-level verdicts as the main workflow (`docs/context-plan-d
 
 ### Added (wire contract — Verdict 1.1, additive)
 
-- Optional `context_plan` field on the verdict object (`schemas/verdict.v1.json` + `openapi/cheapagent.v1.yaml` in lockstep; `/v1/plan` specified as planned). **Emission contract:** only the plan surface emits `schema_version: "1.1"`; `profile`/`convert` output stays `"1.0"` byte-for-byte — existing snapshots prove it. Every measured section carries `heading`, `kind` (`section`/`preamble`/`frontmatter`), source `range` (lines + `[char_start, char_end)`), standalone `profile`/`verdict`/`measured_chars`, offset-to-document warning ranges, and section-level `safe_to_auto_apply`; frontmatter is always `keep` and never measured (`null` measurement, honestly labeled). Plan-level `safe_to_auto_apply` is non-vacuous: `recommend_hybrid AND converted count > 0 AND all converted sections safe AND reassembly_verified`.
+- Optional `context_plan` field on the verdict object (`schemas/verdict.v1.json` + `openapi/cheapagent.v1.yaml` in lockstep; `/v1/plan` first specified as planned, then implemented by `serve` within this same release). **Emission contract:** only the plan surface emits `schema_version: "1.1"`; `profile`/`convert` output stays `"1.0"` byte-for-byte — existing snapshots prove it. Every measured section carries `heading`, `kind` (`section`/`preamble`/`frontmatter`), source `range` (lines + `[char_start, char_end)`), standalone `profile`/`verdict`/`measured_chars`, offset-to-document warning ranges, and section-level `safe_to_auto_apply`; frontmatter is always `keep` and never measured (`null` measurement, honestly labeled). Plan-level `safe_to_auto_apply` is non-vacuous: `recommend_hybrid AND converted count > 0 AND all converted sections safe AND reassembly_verified`.
 
 ### Added (engine)
 
