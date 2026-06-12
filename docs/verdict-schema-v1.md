@@ -228,10 +228,10 @@ Evaluated in priority order against deterministic inputs only:
 
 (Engine-true output for the realistic CLAUDE.md fixture — these exact values are pinned in `test/__snapshots__/verdict.test.ts.snap`, abridged here from six warnings to three. A mixed-profile agent doc usually measures *negative* — the verdict's advice is to split it into cleanly-typed blocks first, and `split_first` outranks `keep_markdown` precisely because splitting is the actionable fix. Note `long_section` is severity `info`: severities are data from the optimizer, and the decision policy keys on codes, not severities. The `chars-per-token:4` estimator identity is what browser surfaces report; CLI surfaces report `tokenx@1.3.0` with different advisory numbers and the identical verdict.)
 
-### curl against localhost (the v0.4.0 surface — illustrative until `serve` ships, days 13–18)
+### curl against localhost (the v0.4.x local `serve` surface)
 
 ```bash
-npx doc2toon serve --port 8787 &
+npx -y -p doc2toon-registry@npm:doc2toon@0.4.x doc2toon serve --port 8787 &
 
 curl -s -X POST http://127.0.0.1:8787/v1/profile \
   -H "content-type: application/json" \

@@ -218,14 +218,16 @@ Agents can call doc2toon locally today — same engine, same frozen contract, do
 **MCP** (Claude Code, Cowork, any MCP client) — tools `profile`, `convert`, `plan`, `validate`, returning the Verdict object as structured tool results ([docs/mcp.md](docs/mcp.md) has Windows/macOS/Linux snippets):
 
 ```bash
-claude mcp add doc2toon -- npx -y -p doc2toon@0.4.x doc2toon-mcp          # macOS / Linux
-claude mcp add doc2toon -- cmd /c npx -y -p doc2toon@0.4.x doc2toon-mcp   # Windows (verified)
+claude mcp add doc2toon -- npx -y -p doc2toon-registry@npm:doc2toon@0.4.x doc2toon-mcp          # macOS / Linux
+claude mcp add doc2toon -- cmd /c npx -y -p doc2toon-registry@npm:doc2toon@0.4.x doc2toon-mcp   # Windows (verified)
 ```
+
+The `doc2toon-registry@npm:doc2toon@0.4.x` alias forces npm to use the registry package even when the MCP client launches from inside a local `doc2toon` checkout.
 
 **HTTP on localhost** — the same `/v1` contract the OpenAPI spec describes ([openapi/cheapagent.v1.yaml](openapi/cheapagent.v1.yaml), also served from the running server at `GET /v1/openapi.yaml`):
 
 ```bash
-npx doc2toon serve --port 8787
+npx -y -p doc2toon-registry@npm:doc2toon@0.4.x doc2toon serve --port 8787
 ```
 
 ```bash

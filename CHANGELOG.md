@@ -4,6 +4,10 @@ All notable changes to `doc2toon` will be documented in this file.
 
 This project follows practical release notes rather than strict format ceremony.
 
+## 0.4.2 - 2026-06-12
+
+Docs-only patch, round two of dogfooding the install path — this time from **inside** a local checkout instead of a neutral directory. The 0.4.1 snippets (`npx -y -p doc2toon@0.4.x doc2toon-mcp`) resolve against a name-matching local workspace when the MCP client happens to launch from a `doc2toon` checkout, so the registered server fails exactly where development happens. All install snippets (README, `docs/mcp.md`, the schema doc's curl example) now use the npm alias form `npx -y -p doc2toon-registry@npm:doc2toon@0.4.x doc2toon-mcp`, which forces registry resolution from any cwd. Verified end-to-end on Windows: the exact `cmd /c npx` alias form spawned from the repo cwd via the MCP SDK (tools listed, `profile` answered `schema_version: "1.0"`), and registry `serve` from the repo cwd against `/v1/profile` and `/v1/openapi.yaml`. No code changes; README/docs ship in the tarball, hence the patch.
+
 ## 0.4.1 - 2026-06-12
 
 Docs-only patch, caught by dogfooding the install path against the published registry minutes after 0.4.0: the MCP install snippets used `npx -y doc2toon-mcp@0.4.x`, but `doc2toon-mcp` is a **bin inside the `doc2toon` package**, not a package — npx would 404. Corrected everywhere to `npx -y -p doc2toon@0.4.x doc2toon-mcp` and verified end-to-end on Windows by spawning the exact `cmd /c npx -y -p doc2toon@0.4.x doc2toon-mcp` client-config form from a neutral directory against the registry (tools listed, profile answered). No code changes; README/docs are in the tarball, hence the patch.
