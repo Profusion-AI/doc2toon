@@ -102,7 +102,7 @@ section-level context plans ship, the **same pinned corpus** (internal 19 + exte
 `plan-results.json`, internal pins verified before measuring): **internal 1/19, external
 lane-1 1/19, combined 2/38 plan-positive.** The "one-third of documents" planning hypothesis
 is refuted; 1/19 is the published external rate. The external plan-positive document is
-`langchain-ai/langchainjs:AGENTS.md` — whole-doc `split_first`, plan net **+6.8%** with two
+`langchain-ai/langchainjs:AGENTS.md` — whole-doc `keep_markdown`, plan net **+6.8%** with two
 table sections converting independently (+49.5%, +52.0%), plan-level `safe_to_auto_apply`
 true — the first real-world document in the corpus where the tool has a positive, auto-
 applicable recommendation. 7 of 38 docs have at least one converting section; the other five
